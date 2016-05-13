@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         initToolbar();
     }
 
-    /*private void initToolbar() {
+    private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity
         });
 
         toolbar.inflateMenu(R.menu.menu);
-    }*/
+    }
 
-    private void initToolbar()
+  /*  private void initToolbar()
     {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
 }
