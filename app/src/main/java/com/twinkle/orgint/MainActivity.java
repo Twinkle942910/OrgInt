@@ -1,48 +1,50 @@
 package com.twinkle.orgint;
 
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
     private static final int LAYOUT = R.layout.activity_main;
 
     private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        setTheme(R.style.AppDefault);
+       // setTheme(R.style.AppDefault);
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
 
         initToolbar();
+        initNavigationView();
     }
 
-    private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                return false;
-            }
-        });
-
-        toolbar.inflateMenu(R.menu.menu);
-    }
-
-  /*  private void initToolbar()
+    @Override
+    public void onBackPressed()
     {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer != null)
+        {
+            if (drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 
+    //Toolbar menu implementation
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -66,7 +68,62 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
+    //Navigation view menu
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
+        // Handle navigation view item clicks here.
+        //int id = item.getItemId();
 
+        switch(item.getItemId())
+        {
+            case R.id.nav_camera:
+                // Handle the camera action
+            case R.id.nav_gallery:
+
+            case R.id.nav_slideshow:
+
+            case R.id.nav_manage:
+
+            case R.id.nav_share:
+
+            case  R.id.nav_send:
+
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    //
+
+    private void showNotificationTab()
+    {
+
+    }
+
+    //init Toolbar
+    private void initToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    //init Navigation Drawer
+    private void initNavigationView()
+    {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        if (navigationView != null)
+        {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
+    }
 }

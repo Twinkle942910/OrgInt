@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">OrgInt</string>
     <string name="search_title">Search</string>
+    <string name="menu_item_notification">Notifications</string>
+    <string name="view_navigation_open">Open</string>
+    <string name="view_navigation_close">Close</string>
+    <string name="menu_item_settings">Settings</string>
 </resources>
