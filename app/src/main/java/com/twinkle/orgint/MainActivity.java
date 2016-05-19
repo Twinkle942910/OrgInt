@@ -59,12 +59,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       // int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.search)
+    /*    if (id == R.id.sort)
         {
             return true;
+        }
+
+        if (id == R.id.today)
+        {
+            return true;
+        }*/
+
+        switch(item.getItemId())
+        {
+            case R.id.sort:
+
+            case R.id.today:
         }
 
         return super.onOptionsItemSelected(item);
@@ -80,18 +92,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch(item.getItemId())
         {
-            case R.id.nav_camera:
+            case R.id.nav_home:
                 // Handle the camera action
-            case R.id.nav_gallery:
+            case R.id.nav_notifications:
 
-            case R.id.nav_slideshow:
-
-            case R.id.nav_manage:
-
-            case R.id.nav_share:
-
-            case  R.id.nav_send:
-
+            case R.id.nav_settings:
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-        <item android:id="@+id/search"
-            android:title="@string/search_title"
+        <item android:id="@+id/sort"
+            android:title="@string/menu_sort"
+            android:orderInCategory="2"
+            android:icon="@drawable/ic_sort"
+            app:showAsAction="ifRoom" />
+
+        <item android:id="@+id/today"
+            android:title="@string/menu_today"
             android:orderInCategory="1"
-            app:showAsAction="never" />
+            android:icon="@drawable/ic_today"
+            app:showAsAction="ifRoom" />
 
 </menu>
