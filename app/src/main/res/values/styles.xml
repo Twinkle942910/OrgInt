@@ -18,4 +18,31 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Tabs theme. -->
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="android:minHeight">@dimen/tab_max_height</item>
+        <item name="tabIndicatorColor">#FFFFFF</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/TabTextAppearanceStyle</item>
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <!-- Tabs text theme. -->
+    <style name="TabTextAppearanceStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <!-- Tabs icons theme. -->
+    <style name="TabIconStyle" >
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+
 </resources>

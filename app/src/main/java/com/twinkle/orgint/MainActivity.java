@@ -1,7 +1,9 @@
 package com.twinkle.orgint;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +11,22 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.twinkle.orgint.adapter.TabPagerFragmentAdapter;
+import com.twinkle.orgint.helpers.Constants;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
     private static final int LAYOUT = R.layout.activity_main;
+    public static String TAB_POSITION = "POSITION";
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,7 +37,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         initToolbar();
         initNavigationView();
+        initTabs();
+        initTabIcons();
     }
+
+    //get - select tab position (current page)
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putInt(TAB_POSITION, tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        viewPager.setCurrentItem(savedInstanceState.getInt(TAB_POSITION));
+    }
+    //
 
     @Override
     public void onBackPressed()
@@ -129,6 +157,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (navigationView != null)
         {
             navigationView.setNavigationItemSelectedListener(this);
+        }
+    }
+
+    private void initTabs()
+    {
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        TabPagerFragmentAdapter adapter = new TabPagerFragmentAdapter(getSupportFragmentManager(), MainActivity.this);
+        if (viewPager != null)
+        {
+            viewPager.setAdapter(adapter);
+        }
+
+        // Give the TabLayout the ViewPager
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        if (tabLayout != null)
+        {
+            tabLayout.setupWithViewPager(viewPager);
+        }
+    }
+
+    private void initTabIcons()
+    {
+        TabLayout.Tab tabShedules = null;
+        TabLayout.Tab tabLinks = null;
+        TabLayout.Tab tabPlanings = null;
+
+        tabShedules = tabLayout.getTabAt(Constants.TAB_ONE);
+        if (tabShedules != null)
+        {
+            tabShedules.setIcon(Constants.TAB_ONE_ICON);
+        }
+
+        tabLinks = tabLayout.getTabAt(Constants.TAB_TWO);
+        if (tabLinks != null)
+        {
+            tabLinks.setIcon(Constants.TAB_TWO_ICON);
+        }
+
+        tabPlanings = tabLayout.getTabAt(Constants.TAB_THREE);
+        if (tabPlanings != null)
+        {
+            tabPlanings.setIcon(Constants.TAB_THREE_ICON);
         }
     }
 }
