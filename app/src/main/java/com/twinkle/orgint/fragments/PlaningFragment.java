@@ -2,33 +2,30 @@ package com.twinkle.orgint.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.twinkle.orgint.R;
 
-public class ShedulesFragment extends AbstractTabFragment
+public class PlaningFragment extends AbstractTabFragment
 {
-    public static final String SHEDULES_PAGE = "SHEDULES_PAGE";
-    public static final int LAYOUT = R.layout.fragment_shedules;
+
+    public static final String PLANING_PAGE = "PLANING_PAGE";
+    public static final int LAYOUT = R.layout.fragment_planing;
 
     private int page;
 
-    public static ShedulesFragment newInstance(int page, Context context)
+    public static AbstractTabFragment newInstance(int page, Context context)
     {
         Bundle args = new Bundle();
-        args.putInt(SHEDULES_PAGE, page);
+        args.putInt(PLANING_PAGE, page);
 
-        ShedulesFragment fragment = new ShedulesFragment();
+        PlaningFragment fragment = new PlaningFragment();
         fragment.setArguments(args);
         fragment.setContext(context);
-        fragment.setTitle(context.getString(R.string.tab_shedules_name));
-
+        fragment.setTitle(context.getString(R.string.tab_planing_name));
         return fragment;
     }
 
@@ -36,8 +33,7 @@ public class ShedulesFragment extends AbstractTabFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt(SHEDULES_PAGE);
-
+        page = getArguments().getInt(PLANING_PAGE);
     }
 
     @Override
@@ -47,16 +43,9 @@ public class ShedulesFragment extends AbstractTabFragment
         return view;
     }
 
-
-    public void addShedule()
+    public void addPlan()
     {
-        Snackbar.make(view, "Shedule", Snackbar.LENGTH_LONG)
-                .setAction("Action 1", null).show();
+        Snackbar.make(view, "Plan", Snackbar.LENGTH_LONG)
+                .setAction("Action 3", null).show();
     }
-
-
-
-
-
 }
-

@@ -10,5 +10,7 @@
 
     <dimen name="tab_max_height">72dp</dimen>
 
+    <dimen name="fab_margin">16dp</dimen>
+
 
 </resources>
