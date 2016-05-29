@@ -73,45 +73,18 @@ public class ShedulesFragment extends AbstractTabFragment
     {
         Schedule_TabDAO dao = new Schedule_TabDAO(getContext());
 
-        Schedule_Tab schedules_tab_shedules = new Schedule_Tab();
-        Schedule_Tab schedules_tab_todo = new Schedule_Tab();
-        Schedule_Tab schedules_tab_work_tasks = new Schedule_Tab();
-        Schedule_Tab schedules_tab_birthdays = new Schedule_Tab();
-
         schedules = new ArrayList<>();
 
-        schedules_tab_shedules.setTitle("Schedule");
-        schedules_tab_shedules.setImage(R.drawable.schedules);
-        schedules_tab_shedules.setUrgent_important_count(3);
-        schedules_tab_shedules.setNot_urgent_important_count(2);
-        schedules_tab_shedules.setUrgent_not_important_count(1);
-        schedules_tab_shedules.setNot_urgent_not_important_count(1);
+        Schedule_Tab schedule_tab_birthday = new Schedule_Tab();
 
-        schedules_tab_todo.setTitle("ToDo");
-        schedules_tab_todo.setImage(R.drawable.todo);
-        schedules_tab_todo.setUrgent_important_count(3);
-        schedules_tab_todo.setNot_urgent_important_count(3);
-        schedules_tab_todo.setUrgent_not_important_count(2);
-        schedules_tab_todo.setNot_urgent_not_important_count(1);
+        schedule_tab_birthday.setSchedule_tab_ID(4);
+        schedule_tab_birthday.setTitle("Birthdays");
+        schedule_tab_birthday.setUrgent_important_count(3);
+        schedule_tab_birthday.setNot_urgent_important_count(3);
+        schedule_tab_birthday.setUrgent_not_important_count(3);
+        schedule_tab_birthday.setNot_urgent_not_important_count(3);
 
-        schedules_tab_work_tasks.setTitle("Work_Tasks");
-        schedules_tab_work_tasks.setImage(R.drawable.work_t);
-        schedules_tab_work_tasks.setUrgent_important_count(1);
-        schedules_tab_work_tasks.setNot_urgent_important_count(3);
-        schedules_tab_work_tasks.setUrgent_not_important_count(2);
-        schedules_tab_work_tasks.setNot_urgent_not_important_count(1);
-
-        schedules_tab_birthdays.setTitle("Birthdays");
-        schedules_tab_birthdays.setImage(R.drawable.birthdays);
-        schedules_tab_birthdays.setUrgent_important_count(1);
-        schedules_tab_birthdays.setNot_urgent_important_count(1);
-        schedules_tab_birthdays.setUrgent_not_important_count(3);
-        schedules_tab_birthdays.setNot_urgent_not_important_count(1);
-
-     /*  dao.insert(schedules_tab_shedules);
-       dao.insert(schedules_tab_todo);
-       dao.insert(schedules_tab_work_tasks);
-        dao.insert(schedules_tab_birthdays);*/
+        dao.update(schedule_tab_birthday);
 
         schedules = dao.getSchedule_TabList();
     }
