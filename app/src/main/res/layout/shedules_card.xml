@@ -53,17 +53,17 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/warning"
+                    android:id="@+id/delete"
                     android:paddingTop="@dimen/activity_vertical_margin"
-                    android:background="@drawable/ic_warning"
+                    android:background="@drawable/ic_delete"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/warning_count"
-                    android:layout_toStartOf="@+id/warning_count" />
+                    android:layout_toLeftOf="@+id/delete_count"
+                    android:layout_toStartOf="@+id/delete_count" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/warning_count"
+                    android:id="@+id/delete_count"
                     android:text="0"
                     android:textSize="14sp"
                     android:textColor="@color/colorNotificationText"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/delegate"
                     android:paddingTop="@dimen/activity_vertical_margin"
-                    android:background="@drawable/ic_delegate"
+                    android:background="@drawable/ic_delegate2"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/delegate_count"
                     android:layout_toStartOf="@+id/delegate_count" />
@@ -93,8 +93,58 @@
                     android:paddingStart="3dp"
                     android:textColor="@color/colorNotificationText"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/warning"
-                    android:layout_toStartOf="@+id/warning" />
+                    android:layout_toLeftOf="@+id/delete"
+                    android:layout_toStartOf="@+id/delete" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/schedule"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:background="@drawable/ic_shedule"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/schedule_count"
+                    android:layout_toStartOf="@+id/schedule_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/schedule_count"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="3dp"
+                    android:textColor="@color/colorNotificationText"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/delegate"
+                    android:layout_toStartOf="@+id/delegate" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/warning"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:background="@drawable/ic_warn"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/warning_count"
+                    android:layout_toStartOf="@+id/warning_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/warning_count"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="3dp"
+                    android:textColor="@color/colorNotificationText"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/schedule"
+                    android:layout_toStartOf="@+id/schedule" />
 
 
             </RelativeLayout>

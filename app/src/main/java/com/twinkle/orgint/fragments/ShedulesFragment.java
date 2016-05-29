@@ -1,25 +1,18 @@
 package com.twinkle.orgint.fragments;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.twinkle.orgint.R;
-import com.twinkle.orgint.TestCardData;
 import com.twinkle.orgint.adapter.ShedulesRecycleAdapter;
-import com.twinkle.orgint.database.DatabaseHelper;
+import com.twinkle.orgint.database.Schedule_Tab;
+import com.twinkle.orgint.database.Schedule_TabDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +24,7 @@ public class ShedulesFragment extends AbstractTabFragment
 
     private int page;
 
-    private List<TestCardData> schedules;
-
-    //DB
-/*    private DatabaseHelper mDatabaseHelper;
-    private SQLiteDatabase mSQLiteDatabase;*/
-    //
+    private List<Schedule_Tab> schedules;
 
     public static ShedulesFragment newInstance(int page, Context context)
     {
@@ -56,42 +44,6 @@ public class ShedulesFragment extends AbstractTabFragment
     {
         super.onCreate(savedInstanceState);
         page = getArguments().getInt(SHEDULES_PAGE);
-
-        //DB work (Adding data)
-       /* mDatabaseHelper = new DatabaseHelper(context.getApplicationContext(), "organizer.db", null, 1);
-                                      //отримує базу для запису (getReadable - створення та відкриття для читання)
-        mSQLiteDatabase = mDatabaseHelper.getReadableDatabase();*/
-
-    /*    Класс ContentValues используется для добавления новых строк в таблицу. Каждый
-        объект этого класса представляет собой одну строку таблицы и выглядит как
-        ассоциативный массив с именами столбцов и значениями, которые им соответствуют.*/
-       /* ContentValues values = new ContentValues();
-        // Задайте значения для каждого столбца
-        values.put(DatabaseHelper.TITLE_COLUMN, "ToDo");
-        values.put(DatabaseHelper.IMAGE_COLUMN, R.drawable.todo);
-        // Вставляем данные в таблицу
-        mSQLiteDatabase.insert("shedules", null, values);*/
-
-
-        //Adding data (sql query) 2 - way
- /*       String insertQuery = "INSERT INTO " +
-                DatabaseHelper.DATABASE_TABLE +
-                " (" + DatabaseHelper.TITLE_COLUMN + ", " + DatabaseHelper.IMAGE_COLUMN + ") VALUES ('Work_Tasks', " +  R.drawable.work_t + ")";
-        mSQLiteDatabase.execSQL(insertQuery);
-*/
-
-        //Updating column (changing value)
-      /*  ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.IMAGE_COLUMN, R.drawable.schedules);
-        mSQLiteDatabase.update(mDatabaseHelper.DATABASE_TABLE,
-                values,
-                mDatabaseHelper.IMAGE_COLUMN + "= ?", new String[]{ Integer.toString(R.drawable.todo) });*/
-
-        //Deleting column
-   /*     mSQLiteDatabase.delete(mDatabaseHelper.DATABASE_TABLE,
-                mDatabaseHelper._ID + "= ?", new String[]{ Integer.toString(3) });
-*/
-        //
     }
 
     @Override
@@ -111,7 +63,6 @@ public class ShedulesFragment extends AbstractTabFragment
         return view;
     }
 
-
     public void addShedule()
     {
         Snackbar.make(view, "Shedule", Snackbar.LENGTH_LONG)
@@ -120,65 +71,49 @@ public class ShedulesFragment extends AbstractTabFragment
 
     private void initializeData()
     {
+        Schedule_TabDAO dao = new Schedule_TabDAO(getContext());
+
+        Schedule_Tab schedules_tab_shedules = new Schedule_Tab();
+        Schedule_Tab schedules_tab_todo = new Schedule_Tab();
+        Schedule_Tab schedules_tab_work_tasks = new Schedule_Tab();
+        Schedule_Tab schedules_tab_birthdays = new Schedule_Tab();
+
         schedules = new ArrayList<>();
 
-        //DB Work (getting data)
-        //query()
-       /* Cursor cursor = mSQLiteDatabase.query("shedules", new String[] {DatabaseHelper.TITLE_COLUMN,
-                                                                   DatabaseHelper.IMAGE_COLUMN},
-                                                                           null, null,
-                                                                            null, null, null) ;
+        schedules_tab_shedules.setTitle("Schedule");
+        schedules_tab_shedules.setImage(R.drawable.schedules);
+        schedules_tab_shedules.setUrgent_important_count(3);
+        schedules_tab_shedules.setNot_urgent_important_count(2);
+        schedules_tab_shedules.setUrgent_not_important_count(1);
+        schedules_tab_shedules.setNot_urgent_not_important_count(1);
 
-        cursor.moveToFirst();
+        schedules_tab_todo.setTitle("ToDo");
+        schedules_tab_todo.setImage(R.drawable.todo);
+        schedules_tab_todo.setUrgent_important_count(3);
+        schedules_tab_todo.setNot_urgent_important_count(3);
+        schedules_tab_todo.setUrgent_not_important_count(2);
+        schedules_tab_todo.setNot_urgent_not_important_count(1);
 
-        String sheduleTitle = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
-        int sheduleImage = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.IMAGE_COLUMN));
+        schedules_tab_work_tasks.setTitle("Work_Tasks");
+        schedules_tab_work_tasks.setImage(R.drawable.work_t);
+        schedules_tab_work_tasks.setUrgent_important_count(1);
+        schedules_tab_work_tasks.setNot_urgent_important_count(3);
+        schedules_tab_work_tasks.setUrgent_not_important_count(2);
+        schedules_tab_work_tasks.setNot_urgent_not_important_count(1);
 
-        cursor.moveToNext();
+        schedules_tab_birthdays.setTitle("Birthdays");
+        schedules_tab_birthdays.setImage(R.drawable.birthdays);
+        schedules_tab_birthdays.setUrgent_important_count(1);
+        schedules_tab_birthdays.setNot_urgent_important_count(1);
+        schedules_tab_birthdays.setUrgent_not_important_count(3);
+        schedules_tab_birthdays.setNot_urgent_not_important_count(1);
 
-        String sheduleTitle2 = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
-        int sheduleImage2 = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.IMAGE_COLUMN));
+     /*  dao.insert(schedules_tab_shedules);
+       dao.insert(schedules_tab_todo);
+       dao.insert(schedules_tab_work_tasks);
+        dao.insert(schedules_tab_birthdays);*/
 
-        cursor.moveToNext();
-        cursor.moveToNext();
-
-        String sheduleTitle3 = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
-        int sheduleImage3 = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.IMAGE_COLUMN));*/
-
-      /*  TextView infoTextView = (TextView)view.findViewById(R.id.textView);
-        infoTextView.setText("Кот " + catName + " имеет телефон " + phoneNumber + " и ему " +
-                age + " лет");*/
-
-        // не забываем закрывать курсор
-       /// cursor.close();
-
-        schedules.add(new TestCardData("Schedules",  R.drawable.schedules));
-        schedules.add(new TestCardData("ToDo", R.drawable.todo));
-
-        //raw query()
-        // Абстрактный пример
-        // Метод 2: Сырой SQL-запрос
-   /*     String query = "SELECT " + DatabaseHelper.TITLE_COLUMN + ", "
-                + DatabaseHelper.IMAGE_COLUMN + " FROM " + DatabaseHelper.DATABASE_TABLE;
-        Cursor cursor2 = mSQLiteDatabase.rawQuery(query, null);
-        while (cursor2.moveToNext()) {
-            String sheduleTitle = cursor2.getString(cursor2
-                    .getColumnIndex(DatabaseHelper.TITLE_COLUMN));
-            int sheduleImage = cursor2.getInt(cursor2
-                    .getColumnIndex(DatabaseHelper.IMAGE_COLUMN));
-
-            schedules.add(new TestCardData(sheduleTitle, sheduleImage));
-
-        }
-        cursor2.close();*/
-
-        //DB viewing data
-     /*   schedules.add(new TestCardData(sheduleTitle, sheduleImage));
-        schedules.add(new TestCardData(sheduleTitle2, sheduleImage2));
-        schedules.add(new TestCardData(sheduleTitle3, sheduleImage3));*/
-        //
-
-        schedules.add(new TestCardData("Work Tasks", R.drawable.work_t));
+        schedules = dao.getSchedule_TabList();
     }
 
 
