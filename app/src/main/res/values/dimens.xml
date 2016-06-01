@@ -13,4 +13,9 @@
     <dimen name="fab_margin">16dp</dimen>
 
 
+    <dimen name="edit_text_floating_label_size">12sp</dimen>
+    <dimen name="edit_text_label_size">16sp</dimen>
+
+
+
 </resources>

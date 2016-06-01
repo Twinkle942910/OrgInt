@@ -3,6 +3,7 @@ package com.twinkle.orgint.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,8 +72,12 @@ public class ShedulesFragment extends AbstractTabFragment
         /*Snackbar.make(view, "Shedule", Snackbar.LENGTH_LONG)
                 .setAction("Action 1", null).show();*/
 
-        Intent intent = new Intent(getContext(), AddingActivity.class);
-        startActivity(intent);
+    /*    Intent intent = new Intent(getContext(), AddingActivity.class);
+        startActivity(intent);*/
+
+
+
+
     }
 
     private void initializeData()

@@ -45,4 +45,29 @@
         <item name="android:paddingTop">12dp</item>
     </style>
 
+    <!-- Text Input theme. -->
+    <style name="StyledTilEditTextFloatingLabel" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/edit_text_floating_label_size</item>
+    </style>
+
+    <style name="StyledTilEditTextLayout">
+        <item name="android:textColorHint">@color/colorGrey</item>
+    </style>
+
+    <style name="StyledTilEditTextTheme">
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:singleLine">true</item>
+        <item name="colorControlNormal">@color/colorGrey</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/edit_text_label_size</item>
+    </style>
+
+    <style name="StyledTilEditText">
+        <item name="android:textColor">@color/colorNotificationText</item>
+        <item name="android:theme">@style/StyledTilEditTextTheme</item>
+        <item name="android:paddingTop">4dp</item>
+    </style>
+
 </resources>

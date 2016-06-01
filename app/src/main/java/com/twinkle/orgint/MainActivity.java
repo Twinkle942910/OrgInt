@@ -2,6 +2,7 @@ package com.twinkle.orgint;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,15 +12,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
+import com.twinkle.orgint.adapter.AddingTaskBottomSheetAdapter;
 import com.twinkle.orgint.adapter.TabPagerFragmentAdapter;
 import com.twinkle.orgint.fragments.LinksFragment;
 import com.twinkle.orgint.fragments.PlaningFragment;
-import com.twinkle.orgint.fragments.ShedulesFragment;
 import com.twinkle.orgint.helpers.Constants;
+import com.twinkle.orgint.pages.AddingActivity;
 import com.twinkle.orgint.pages.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -37,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
 
+    private GridView bottomSheet;
+    private BottomSheetBehavior sheetBehavior;
+    private Integer[] bottomItems = {R.drawable.ic_playlist_add, R.drawable.ic_build, R.drawable.ic_today, R.drawable.ic_card_giftcard};
+    private ArrayAdapter<Integer> bottomSheetAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initFabs();
         initTabs();
         initTabIcons();
+        initBottomSheet();
     }
 
     //get - select tab position (current page)
@@ -79,6 +91,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 super.onBackPressed();
             }
+        }
+
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+        {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+        else
+        {
+            super.onBackPressed();
         }
     }
 
@@ -173,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //Initialize Tabs
     private void initTabs()
     {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -182,12 +204,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             viewPager.setAdapter(adapter);
 
-           fab.setOnClickListener(new View.OnClickListener()
+            fab.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    ((ShedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
+                  //  ((ShedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    fab.hide();
                 }
             });
 
@@ -233,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 fab2.show();
                                 fab3.hide();
 
+                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
                             break;
 
                         case Constants.TAB_THREE:
@@ -240,6 +266,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 fab.hide();
                                 fab2.hide();
                                 fab3.show();
+
+                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
                             break;
 
@@ -289,7 +317,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tabPlaning.setIcon(Constants.TAB_THREE_ICON);
         }
     }
+    //
 
+    //Initialize action buttons
     private void initFabs()
     {
         fab = (FloatingActionButton)findViewById(R.id.fab);
@@ -297,6 +327,75 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab3 = (FloatingActionButton)findViewById(R.id.fab3);
     }
 
+    //Initialize bottom sheet, add items and events
+    private void initBottomSheet()
+    {
+        //set bottom sheet(GridView) adapter
+        bottomSheetAdapter = new AddingTaskBottomSheetAdapter(this, R.layout.adding_item, bottomItems);
 
+        bottomSheet = (GridView) findViewById(R.id.bottom_sheet);
+        if (bottomSheet != null)
+        {
+            bottomSheet.setAdapter(bottomSheetAdapter);
+        }
+
+        bottomSheet.setTranslationY(getStatusBarHeight());
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback()
+        {
+            boolean first = true;
+
+            @Override
+            public void onStateChanged(View bottomSheet, int newState)
+            {
+                Log.d("MainActivity", "onStateChanged: " + newState);
+            }
+
+            @Override
+            public void onSlide(View bottomSheet, float slideOffset)
+            {
+                Log.d("MainActivity", "onSlide: ");
+                if (first)
+                {
+                    first = false;
+                    bottomSheet.setTranslationY(0);
+                }
+
+                if (slideOffset == 0)
+                {
+                    fab.show();
+                }
+
+
+            }
+        });
+
+
+        //bottom sheet item click event
+        bottomSheet.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id)
+            {
+                if (position == 0)
+                {
+                    Intent intent = new Intent(getApplicationContext(), AddingActivity.class);
+                    startActivity(intent);
+
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
+    }
+
+    private int getStatusBarHeight()
+    {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
 }
