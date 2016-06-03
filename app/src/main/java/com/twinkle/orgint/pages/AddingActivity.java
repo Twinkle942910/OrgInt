@@ -2,20 +2,23 @@ package com.twinkle.orgint.pages;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,10 +37,13 @@ public class AddingActivity extends AppCompatActivity
     private Toolbar toolbar;
     private Spinner spinner;
 
-    EditText txtDate, txtTime;
+    EditText txtDate, txtTime, subTask;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private FloatingActionButton fab_interest;
+
+    //subTasks container
+    private LinearLayout subTasksLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +57,7 @@ public class AddingActivity extends AppCompatActivity
         initFAB();
 
         initDateTimePicker();
+        initSubTask();
     }
 
     //init Toolbar
@@ -164,9 +171,11 @@ public class AddingActivity extends AppCompatActivity
                             String myFormatDate = "E, LLLL d yyyy";
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate, Locale.US);
 
-                            c.set(year, monthOfYear, dayOfMonth);
+                            c.set(Calendar.YEAR, year);
+                            c.set(Calendar.MONTH, monthOfYear);
+                            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                            txtDate.setText(sdf.format(c.get(Calendar.DATE)));
+                            txtDate.setText(sdf.format(c.getTime()));
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -185,10 +194,16 @@ public class AddingActivity extends AppCompatActivity
                     {
 
                         @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute)
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                         {
-                            txtTime.setText(hourOfDay + ":" + minute);
+                            String myFormatTime = "kk:mm";
+
+                            SimpleDateFormat stf = new SimpleDateFormat(myFormatTime, Locale.US);
+
+                            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            c.set(Calendar.MINUTE, minute);
+
+                            txtTime.setText(stf.format(c.getTime()));
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -209,5 +224,54 @@ public class AddingActivity extends AppCompatActivity
         });
     }
 
+    int counter = 1;
+
+    public void initSubTask()
+    {
+
+    }
+
+    public  void addSubTask(View view)
+    {
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View addView = layoutInflater.inflate(R.layout.sub_task, null);
+
+        subTask = (EditText)addView.findViewById(R.id.sub_task);
+        subTask.setText(Integer.toString(counter++) + ". ");
+
+        subTasksLayout = (LinearLayout)findViewById(R.id.subTaskContainer);
+
+        subTasksLayout.addView(addView);
+
+        ImageView buttonRemove = (ImageView) addView.findViewById(R.id.sub_task_remove);
+
+        final View.OnClickListener thisListener = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)addView.getParent()).removeView(addView);
+                counter--;
+
+            }
+        };
+
+        buttonRemove.setOnClickListener(thisListener);
+
+    }
+
+
+    public void getAllTasks(View view)
+    {
+        int childCount = subTasksLayout.getChildCount();
+
+        for(int i=0; i<childCount; i++)
+        {
+            View thisChild = subTasksLayout.getChildAt(i);
+
+            EditText childTextView = (EditText) thisChild.findViewById(R.id.sub_task);
+
+            //This is text of subTask
+            String childTextViewValue = childTextView.getText().toString();
+        }
+    }
 
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:layout_width="@dimen/edit_text_line_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_task"
+        android:inputType="textNoSuggestions"
+        style="@style/StyledTilEditText"
+        android:text="1. "
+        android:textColor="@color/colorDateTime" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_remove_circle"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/sub_task_remove"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

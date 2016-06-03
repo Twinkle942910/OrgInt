@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="edit_text_line_width">300dp</dimen>
+
+</resources>

@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="date_margin">16dp</dimen>
+    <dimen name="comment_margin">16dp</dimen>
+</resources>
