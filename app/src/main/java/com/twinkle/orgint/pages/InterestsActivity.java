@@ -159,7 +159,7 @@ public class InterestsActivity extends AppCompatActivity
 
         initializeData();
 
-        adapter = new  InterestsRecycleAdapter(interests, getApplicationContext());
+        adapter = new  InterestsRecycleAdapter(interests, this);
         recyclerView.setAdapter(adapter);
     }
 

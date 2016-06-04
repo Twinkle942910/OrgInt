@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.interests:
                 Intent intent = new Intent(this, InterestsActivity.class);
+                intent.putExtra("red_code", "From main activity");
                 startActivity(intent);
                 return true;
         }

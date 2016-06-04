@@ -3,6 +3,7 @@ package com.twinkle.orgint.pages;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.twinkle.orgint.R;
+import com.twinkle.orgint.helpers.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +38,7 @@ public class AddingActivity extends AppCompatActivity
     private Toolbar toolbar;
     private Spinner spinner;
 
-    EditText txtDate, txtTime, subTask;
+    EditText txtDate, txtTime, subTask, interest;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private FloatingActionButton fab_interest;
@@ -57,6 +59,7 @@ public class AddingActivity extends AppCompatActivity
 
         initDateTimePicker();
         initSubTask();
+        initInterest();
     }
 
     //init Toolbar
@@ -220,9 +223,38 @@ public class AddingActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(),"Lol, interest!", Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(getApplicationContext(), InterestsActivity.class);
+
+                //Added recently
+                intent.putExtra("red_code", "From adding activity");
+
+                startActivityForResult(intent, Constants.REQUEST_CODE_INTEREST);
+
+
             }
         });
+    }
+
+    private void initInterest()
+    {
+        interest=(EditText)findViewById(R.id.interest);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == Constants.REQUEST_CODE_INTEREST)
+            {
+                String interest_title = data.getStringExtra("interest_title");
+                interest.setText(interest_title);
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Error! Different result codes", Toast.LENGTH_SHORT).show();
+        }
     }
 
     int counter = 1;

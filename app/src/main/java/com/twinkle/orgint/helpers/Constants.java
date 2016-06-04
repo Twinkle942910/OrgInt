@@ -14,4 +14,7 @@ public class Constants
     public static final int TAB_TWO_ICON = R.drawable.selector_links;
     public static final int TAB_THREE_ICON = R.drawable.selector_planing;
 
+    //Request from interests
+    public static final int REQUEST_CODE_INTEREST = 3;
+
 }
