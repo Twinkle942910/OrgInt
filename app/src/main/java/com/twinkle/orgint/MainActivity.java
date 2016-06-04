@@ -26,6 +26,7 @@ import com.twinkle.orgint.fragments.LinksFragment;
 import com.twinkle.orgint.fragments.PlaningFragment;
 import com.twinkle.orgint.helpers.Constants;
 import com.twinkle.orgint.pages.AddingActivity;
+import com.twinkle.orgint.pages.InterestsActivity;
 import com.twinkle.orgint.pages.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -136,6 +137,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.sort:
 
             case R.id.today:
+
+            case R.id.interests:
+                Intent intent = new Intent(this, InterestsActivity.class);
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -165,11 +171,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
     //
-
-    private void showNotificationTab()
-    {
-
-    }
 
     //init Toolbar
     private void initToolbar()

@@ -2,6 +2,7 @@
     <string name="app_name">OrgInt</string>
     <string name="menu_sort">Sort</string>
     <string name="menu_today">Today</string>
+    <string name="menu_interests">Interests</string>
     <string name="menu_item_notification">Notifications</string>
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
@@ -57,5 +58,11 @@
     </string-array>
 
     <string name="title_comment">Comment</string>
+
+    <!-- Strings related to Interests page -->
+
+    <string name="title_activity_interests">Interests</string>
+    <string name="interest_importance">Important</string>
+    <string name="add_title_interest">Interest title</string>
 
 </resources>

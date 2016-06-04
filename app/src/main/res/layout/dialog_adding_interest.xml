@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+     android:paddingStart="@dimen/activity_vertical_margin"
+     android:paddingEnd="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/StyledTilEditTextLayout"
+        app:hintTextAppearance="@style/StyledTilEditTextFloatingLabel"
+
+        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+
+        <EditText
+            android:id="@+id/interest_title"
+            android:layout_width="@dimen/edit_text_line_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_title_interest"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="29sp"
+            style="@style/StyledTilEditText"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+  <android.support.v7.widget.SwitchCompat
+      android:id="@+id/importance"
+      android:paddingLeft="10dp"
+      android:paddingStart="10dp"
+      android:paddingEnd="10dp"
+
+      android:text="@string/interest_importance"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:textSize="18sp"
+      android:theme="@style/MySwitch"
+      android:textColor="@color/colorGrey" />
+
+</LinearLayout>

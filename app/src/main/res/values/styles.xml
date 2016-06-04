@@ -80,4 +80,25 @@
         <item name="android:windowBackground">@drawable/date_dialog_background</item>
     </style>
 
+    <!-- Dialog theme. -->
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorGrey</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <!-- Switch theme. -->
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/colorSwitchActivated</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/colorGrey</item>
+
+        <item name="android:textColor">@color/colorGrey</item>
+    </style>
+
 </resources>

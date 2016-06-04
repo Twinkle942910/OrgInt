@@ -8,7 +8,11 @@
     <color name="colorNotificationText">#5d6469</color>
     <color name="colorBlack">#000000</color>
     <color name="colorIconTabDeselected">#b3e0e5</color>
-    <color name="colorInteres">#4fd475</color>
+
+    <color name="colorInterestImportant">#da2540</color>
+    <color name="colorInterestNotImportant">#25da9b</color>
+
+    <color name="colorSwitchActivated">#80d3d4</color>
 
     <color name="colorDateTime">#4b4b4b</color>
 

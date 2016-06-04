@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
     {
         switch(item.getItemId())
         {
-            case R.id.home:
+            case android.R.id.home:
 
                 this.finish();
                 return true;

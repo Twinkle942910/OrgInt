@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -96,12 +95,14 @@ public class AddingActivity extends AppCompatActivity
 
         switch(item.getItemId())
         {
-            case R.id.save:
 
             case android.R.id.home:
 
                 this.finish();
                 return true;
+
+            case R.id.save:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
