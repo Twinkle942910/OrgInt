@@ -1,10 +1,7 @@
 package com.twinkle.orgint.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +12,6 @@ import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.ShedulesRecycleAdapter;
 import com.twinkle.orgint.database.Schedule_Tab;
 import com.twinkle.orgint.database.Schedule_TabDAO;
-import com.twinkle.orgint.pages.AddingActivity;
-import com.twinkle.orgint.pages.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +56,7 @@ public class ShedulesFragment extends AbstractTabFragment
 
         initializeData();
 
-        ShedulesRecycleAdapter adapter = new  ShedulesRecycleAdapter(schedules);
+        ShedulesRecycleAdapter adapter = new  ShedulesRecycleAdapter(schedules, getContext());
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -88,7 +83,7 @@ public class ShedulesFragment extends AbstractTabFragment
 
         Schedule_Tab schedule_tab_birthday = new Schedule_Tab();
 
-        schedule_tab_birthday.setSchedule_tab_ID(4);
+     /*   schedule_tab_birthday.setSchedule_tab_ID(4);
         schedule_tab_birthday.setTitle("Birthdays");
         schedule_tab_birthday.setImage(R.drawable.birthdays);
         schedule_tab_birthday.setUrgent_important_count(3);
@@ -96,7 +91,7 @@ public class ShedulesFragment extends AbstractTabFragment
         schedule_tab_birthday.setUrgent_not_important_count(3);
         schedule_tab_birthday.setNot_urgent_not_important_count(3);
 
-        dao.update(schedule_tab_birthday);
+        dao.update(schedule_tab_birthday);*/
 
         schedules = dao.getSchedule_TabList();
     }

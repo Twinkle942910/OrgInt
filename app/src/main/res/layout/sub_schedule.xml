@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/schedule_card_sub_task_time"
+            android:text="9:00 am"
+            android:textSize="16sp"
+            android:textColor="@color/colorNotificationText"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/schedule_card_sub_task_task"
+            android:text="Lab work"
+            android:textSize="16sp"
+            android:textColor="@color/colorNotificationText"
+            android:layout_marginLeft="90dp"
+            android:layout_marginStart="90dp"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sub_schedule_icon"
+            android:background="@drawable/ic_shedule"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>

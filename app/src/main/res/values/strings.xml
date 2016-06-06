@@ -65,4 +65,8 @@
     <string name="interest_importance">Important</string>
     <string name="add_title_interest">Interest title</string>
 
+    <!-- Strings related to Schedule page -->
+
+    <string name="title_activity_schedule">Schedule</string>
+
 </resources>

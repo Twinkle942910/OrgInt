@@ -4,7 +4,7 @@ package com.twinkle.orgint.database;
 public class Interest
 {
     // Labels table name
-    public static final String TABLE = "Schedules_Tab";
+    public static final String TABLE = "Interest";
 
     // Labels Table Columns names
     public static final String ID = "id";

@@ -1,5 +1,7 @@
 package com.twinkle.orgint.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,16 +12,20 @@ import android.widget.TextView;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.database.Schedule_Tab;
+import com.twinkle.orgint.pages.InterestsActivity;
+import com.twinkle.orgint.pages.SheduleActivity;
 
 import java.util.List;
 
 public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycleAdapter.SchedulesViewHolder>
 {
     List<Schedule_Tab> schedules;
+    Context context;
 
-    public ShedulesRecycleAdapter(List<Schedule_Tab> schedules)
+    public ShedulesRecycleAdapter(List<Schedule_Tab> schedules, Context context)
     {
         this.schedules = schedules;
+        this.context = context;
     }
 
     @Override
@@ -27,6 +33,7 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shedules_card, parent, false);
         SchedulesViewHolder svh = new SchedulesViewHolder(view);
+        svh.setContext(context);
         return svh;
     }
 
@@ -54,7 +61,7 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public static class SchedulesViewHolder extends RecyclerView.ViewHolder
+    public static class SchedulesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         CardView cardView;
         TextView cardTitle;
@@ -65,9 +72,12 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
         TextView cardUNIcount;
         TextView cardNUNIcount;
 
+        Context context;
+
         public SchedulesViewHolder(View itemView)
         {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             cardView = (CardView)itemView.findViewById(R.id.cardView);
 
@@ -78,6 +88,18 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
             cardNUIcount = (TextView)itemView.findViewById(R.id.schedule_count);
             cardUNIcount = (TextView)itemView.findViewById(R.id.delegate_count);
             cardNUNIcount = (TextView)itemView.findViewById(R.id.delete_count);
+        }
+
+        public void setContext(Context context)
+        {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Intent intent = new Intent(context, SheduleActivity.class);
+            context.startActivity(intent);
         }
     }
 }

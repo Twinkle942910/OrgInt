@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.database.Interest;
-import com.twinkle.orgint.pages.AddingActivity;
 import com.twinkle.orgint.pages.InterestsActivity;
 
 import java.util.List;
