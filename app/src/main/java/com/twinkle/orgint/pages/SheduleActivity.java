@@ -90,7 +90,7 @@ public class SheduleActivity extends AppCompatActivity
 
         ss.setTask("Lab work aaaa");
         ss.setTime("19:00 am");
-        ss.setType("Schedule1");
+        ss.setType("Schedule");
 
         Sub_schedule ss1 = new Sub_schedule();
 
@@ -110,15 +110,29 @@ public class SheduleActivity extends AppCompatActivity
         ss4.setTime("20:00 pm");
         ss4.setType("Birthday");
 
+        Sub_schedule ss5 = new Sub_schedule();
+
+        ss5.setTask("Congradulate someone");
+        ss5.setTime("21:00 pm");
+        ss5.setType("Birthday");
+
+        Sub_schedule ss6 = new Sub_schedule();
+
+        ss6.setTask("Finish work");
+        ss6.setTime("17:30 pm");
+        ss6.setType("Work Task");
+
         List<Sub_schedule> ssList = new ArrayList<>();
 
         ssList.add(ss);
         ssList.add(ss1);
         ssList.add(ss3);
         ssList.add(ss4);
+        ssList.add(ss5);
+        ssList.add(ss6);
 
         Schedule s1 = new Schedule(ssList);
-        s1.setDay("LolDay");
+        s1.setDay("MonDay");
         s1.setType("Schedule3");
         s1.setDate("June 9, 2016");
 
@@ -146,15 +160,29 @@ public class SheduleActivity extends AppCompatActivity
         ssn4.setTime("21:00 pm");
         ssn4.setType("Birthday");
 
+        Sub_schedule ssn5 = new Sub_schedule();
+
+        ssn5.setTask("History");
+        ssn5.setTime("11:20 pm");
+        ssn5.setType("Schedule");
+
+        Sub_schedule ssn6 = new Sub_schedule();
+
+        ssn6.setTask("Go with friends");
+        ssn6.setTime("14:20 am");
+        ssn6.setType("ToDo");
+
         List<Sub_schedule> ssnList = new ArrayList<>();
 
         ssnList.add(ssn1);
         ssnList.add(ssn2);
         ssnList.add(ssn3);
         ssnList.add(ssn4);
+        ssnList.add(ssn5);
+        ssnList.add(ssn6);
 
         Schedule s2 = new Schedule(ssnList);
-        s2.setDay("SuckDay");
+        s2.setDay("SunDay");
         s2.setType("Schedule");
         s2.setDate("June 07, 2016");
 

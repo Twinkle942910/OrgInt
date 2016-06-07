@@ -10,7 +10,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/schedule_card_sub_task_time"
-            android:text="9:00 am"
+            android:text="0:00 am"
             android:textSize="16sp"
             android:textColor="@color/colorNotificationText"
             android:layout_centerVertical="true"/>
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/schedule_card_sub_task_task"
-            android:text="Lab work"
+            android:text="null"
             android:textSize="16sp"
             android:textColor="@color/colorNotificationText"
             android:layout_marginLeft="90dp"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sub_schedule_icon"
-            android:background="@drawable/ic_shedule"
+            android:background="@drawable/ic_delete"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
 

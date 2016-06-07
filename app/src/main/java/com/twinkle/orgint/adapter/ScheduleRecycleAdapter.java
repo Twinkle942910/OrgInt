@@ -37,41 +37,79 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     }
 
     @Override
-    public void onBindViewHolder( ScheduleViewHolder holder, int position)
+    public void onBindViewHolder(ScheduleViewHolder holder, int position)
     {
         holder.schedule_day.setText(schedules.get(position).getDay());
         holder.schedule_type.setText(schedules.get(position).getType());
         holder.schedule_date.setText(schedules.get(position).getDate());
 
+        int sub_schedules_count = 0;
+        int sub_todo_count = 0;
+        int sub_work_tasks_count = 0;
+        int sub_birthdays_count = 0;
+
         for (int i=0; i < schedules.get(position).getSubSchedulesCount(); i++)
         {
-            holder.addSubSchedule();
+            String sub_taskType = schedules.get(position).getSub_schedule(i).getType();
 
-            View thisChild = holder.subScheduleLayout.getChildAt(i);
+            View thisChild = null;
 
-            TextView child_sub_schedule_time = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_time);
-            TextView child_sub_schedule_task = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_task);
-            ImageView child_sub_schedule_image = (ImageView) thisChild.findViewById(R.id.sub_schedule_icon);
+            TextView child_sub_schedule_time = null;
+            TextView child_sub_schedule_task = null;
+            ImageView child_sub_schedule_image = null;
+
+            int sub_task_image = R.drawable.ic_shedule;
+
+            holder.addSubSchedule(sub_taskType);
 
 
-            child_sub_schedule_time.setText(schedules.get(position).getSub_schedule(i).getTime());
-            child_sub_schedule_task.setText(schedules.get(position).getSub_schedule(i).getTask());
-
-            if("Schedule".equals(schedules.get(position).getSub_schedule(i).getType()))
+            switch (sub_taskType)
             {
-                child_sub_schedule_image.setBackgroundResource(R.drawable.ic_shedule);
+                case "Schedule":
+                    thisChild = holder.scheduleLayout.getChildAt(sub_schedules_count);
+                    sub_task_image = R.drawable.ic_shedule;
+                    sub_schedules_count++;
+                    break;
+
+                case "ToDo":
+                    thisChild = holder.todoLayout.getChildAt(sub_todo_count);
+                    sub_task_image = R.drawable.ic_todo;
+                    sub_todo_count++;
+                    break;
+
+                case "Work Task":
+                    thisChild = holder.work_tasksLayout.getChildAt(sub_work_tasks_count);
+                    sub_task_image = R.drawable.ic_work_task;
+                    sub_work_tasks_count++;
+                    break;
+
+                case "Birthday":
+                    thisChild = holder.bithdaysLayout.getChildAt(sub_birthdays_count);
+                    sub_task_image = R.drawable.ic_birthday;
+                    sub_birthdays_count++;
+                    break;
             }
-            else if("ToDo".equals(schedules.get(position).getSub_schedule(i).getType()))
+
+            if (thisChild != null)
             {
-                child_sub_schedule_image.setBackgroundResource(R.drawable.ic_todo);
+                child_sub_schedule_time = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_time);
+                child_sub_schedule_task = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_task);
+                child_sub_schedule_image = (ImageView) thisChild.findViewById(R.id.sub_schedule_icon);
             }
-            else if("Work Task".equals(schedules.get(position).getSub_schedule(i).getType()))
+
+            if (child_sub_schedule_time != null)
             {
-                child_sub_schedule_image.setBackgroundResource(R.drawable.ic_work_task);
+                child_sub_schedule_time.setText(schedules.get(position).getSub_schedule(i).getTime());
             }
-            else if("Birthday".equals(schedules.get(position).getSub_schedule(i).getType()))
+
+            if (child_sub_schedule_task != null)
             {
-                child_sub_schedule_image.setBackgroundResource(R.drawable.ic_birthday);
+                child_sub_schedule_task.setText(schedules.get(position).getSub_schedule(i).getTask());
+            }
+
+            if (child_sub_schedule_image != null)
+            {
+                child_sub_schedule_image.setBackgroundResource(sub_task_image);
             }
         }
     }
@@ -102,7 +140,12 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         TextView sub_schedule_task;
         ImageView sub_schedule_image;
 
-        LinearLayout subScheduleLayout;
+      //  LinearLayout subScheduleLayout;
+
+        LinearLayout scheduleLayout;
+        LinearLayout todoLayout;
+        LinearLayout work_tasksLayout;
+        LinearLayout bithdaysLayout;
 
         SheduleActivity activity;
 
@@ -126,19 +169,45 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
 
         }
 
-        public  void addSubSchedule()
+        public  void addSubSchedule(String type)
         {
             LayoutInflater layoutInflater = (LayoutInflater) activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
+           // View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
             //View view3 = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_schedule, parent, false);
+
+            View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
 
             sub_schedule_time = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_time);
             sub_schedule_task = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_task);
             sub_schedule_image = (ImageView) subScheduleView.findViewById(R.id.sub_schedule_icon);
 
-            subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
+           // subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
 
-            subScheduleLayout.addView(subScheduleView);
+            scheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_schedule_layout);
+            todoLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_todo_layout);
+            work_tasksLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_work_task_layout);
+            bithdaysLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_birthday_layout);
+
+            switch (type)
+            {
+                case "Schedule":
+                scheduleLayout.addView(subScheduleView);
+                    break;
+
+                case "ToDo":
+                todoLayout.addView(subScheduleView);
+                    break;
+
+                case "Work Task":
+                work_tasksLayout.addView(subScheduleView);
+                    break;
+
+                case "Birthday":
+                bithdaysLayout.addView(subScheduleView);
+                    break;
+            }
+
+           //subScheduleLayout.addView(subScheduleView);
         }
 
         public void setActivity(SheduleActivity activity)
