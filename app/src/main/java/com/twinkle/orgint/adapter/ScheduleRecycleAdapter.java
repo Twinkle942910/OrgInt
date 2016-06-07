@@ -6,8 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twinkle.orgint.R;
@@ -140,7 +143,8 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         TextView sub_schedule_task;
         ImageView sub_schedule_image;
 
-      //  LinearLayout subScheduleLayout;
+        LinearLayout subScheduleLayout;
+        RelativeLayout subScheduleCountLayout;
 
         LinearLayout scheduleLayout;
         LinearLayout todoLayout;
@@ -160,13 +164,23 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             schedule_type = (TextView)itemView.findViewById(R.id.schedule_card_type);
             schedule_date = (TextView)itemView.findViewById(R.id.schedule_card_date);
 
-           // subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.subTaskContainer);
+            subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
+            subScheduleCountLayout = (RelativeLayout)itemView.findViewById(R.id.sub_tasks_counter_lay);
         }
+
+        boolean flag = false;
 
         @Override
         public void onClick(View v)
         {
-
+            if (!flag) {
+                expand(cardView);
+                flag = true;
+            }
+            else{
+                collapse(cardView);
+                flag = false;
+            }
         }
 
         public  void addSubSchedule(String type)
@@ -180,8 +194,6 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             sub_schedule_time = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_time);
             sub_schedule_task = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_task);
             sub_schedule_image = (ImageView) subScheduleView.findViewById(R.id.sub_schedule_icon);
-
-           // subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
 
             scheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_schedule_layout);
             todoLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_todo_layout);
@@ -213,6 +225,78 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         public void setActivity(SheduleActivity activity)
         {
             this.activity = activity;
+        }
+
+        public void expand(final View v)
+        {
+            v.measure(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+            subScheduleLayout.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            subScheduleCountLayout.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            final int currentHeight = v.getMeasuredHeight();
+            final int targetHeight = subScheduleLayout.getMeasuredHeight() - subScheduleCountLayout.getMeasuredHeight();
+
+            Animation a = new Animation()
+            {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t)
+                {
+
+                    subScheduleCountLayout.setVisibility(View.GONE);
+
+                    v.getLayoutParams().height = currentHeight + (int) (targetHeight * interpolatedTime);
+                    v.requestLayout();
+
+                    subScheduleLayout.setVisibility(View.VISIBLE);
+
+                }
+
+                @Override
+                public boolean willChangeBounds() {
+                    return true;
+                }
+            };
+
+            // 1dp/ms
+            a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density) * 2);
+            v.startAnimation(a);
+        }
+
+        public void collapse(final View v)
+        {
+           // v.measure(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+            subScheduleLayout.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            subScheduleCountLayout.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            final int initialHeight = v.getMeasuredHeight();
+            final int targetHeight = subScheduleLayout.getMeasuredHeight() - subScheduleCountLayout.getMeasuredHeight();
+
+            Animation a = new Animation()
+            {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t)
+                {
+                    if(v.getLayoutParams().height == (initialHeight -targetHeight))
+                    {
+                        subScheduleLayout.setVisibility(View.GONE);
+
+                        subScheduleCountLayout.setVisibility(View.VISIBLE);
+                    }
+
+                        v.getLayoutParams().height = initialHeight - (int)(targetHeight * interpolatedTime);
+                        v.requestLayout();
+
+                }
+
+                @Override
+                public boolean willChangeBounds() {
+                    return true;
+                }
+            };
+
+            // 1dp/ms
+            a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+            v.startAnimation(a);
         }
     }
 }
