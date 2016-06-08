@@ -1,5 +1,6 @@
 package com.twinkle.orgint.pages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.twinkle.orgint.R;
-import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
 import com.twinkle.orgint.adapter.ToDoRecycleAdapter;
 import com.twinkle.orgint.database.Sub_task;
 import com.twinkle.orgint.database.ToDo;
@@ -25,6 +25,14 @@ public class ToDoActivity extends AppCompatActivity
 
     private ToDoRecycleAdapter adapter;
     private List<ToDo> todos;
+
+    String category;
+    String title;
+    String date;
+    String time;
+    String[] sub_tasks;
+    String comment;
+    String interest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,15 +81,23 @@ public class ToDoActivity extends AppCompatActivity
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.todo_list);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
 
-        recyclerView.setLayoutManager(llm);
+        if (recyclerView != null)
+        {
+            recyclerView.setLayoutManager(llm);
+        }
 
         initializeData();
 
         adapter = new ToDoRecycleAdapter(todos, this);
-        recyclerView.setAdapter(adapter);
+
+        if (recyclerView != null)
+        {
+            recyclerView.setAdapter(adapter);
+        }
     }
 
-    private void initializeData()
+    //init mock data
+    private void initializeMockData()
     {
         todos = new ArrayList<>();
 
@@ -116,5 +132,63 @@ public class ToDoActivity extends AppCompatActivity
         td1.setComment("Blow the dust");
 
         todos.add(td1);
+    }
+
+    private void initializeData()
+    {
+        Intent callAct = this.getIntent();
+        String called_from = callAct.getStringExtra("calling");
+
+        if ("From Adding Activity".equals(called_from))
+        {
+            getDataFromAddingActivity();
+            addToDoData();
+        }
+        else if ("From Main Activity".equals(called_from))
+        {
+            initializeMockData();
+        }
+    }
+
+    private void addToDoData()
+    {
+        todos = new ArrayList<>();
+
+        List<Sub_task> lst1 = new ArrayList<>();
+
+        ToDo td1 = new ToDo(lst1);
+
+        td1.setTask(title);
+        td1.setType("ToDo");
+        td1.setDate(date);
+        td1.setTime(time);
+
+        td1.setComment(comment);
+
+        for (String sub_task1 : sub_tasks)
+        {
+            Sub_task sub_task = new Sub_task();
+
+            sub_task.setContent(sub_task1);
+            sub_task.setDone(false);
+
+            td1.getSub_tasks().add(sub_task);
+        }
+
+        todos.add(td1);
+    }
+
+    public void getDataFromAddingActivity()
+    {
+        Intent dataFormAdding = this.getIntent();
+
+        category = dataFormAdding.getStringExtra("category");
+        title = dataFormAdding.getStringExtra("title");
+        date = dataFormAdding.getStringExtra("date");
+        time = dataFormAdding.getStringExtra("time");
+
+        sub_tasks = dataFormAdding.getStringArrayExtra("sub_tasks");
+        comment = dataFormAdding.getStringExtra("comment");
+        interest = dataFormAdding.getStringExtra("interest");
     }
 }

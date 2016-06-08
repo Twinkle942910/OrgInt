@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/todo_task"
-                android:text="Buy stuff"
+                android:text="@string/todo_card_mock_title"
                 android:textSize="30sp"
                 android:textColor="@color/colorNotificationText"/>
 
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/todo_type"
-                android:text="ToDo"
+                android:text="@string/todo_card_mock_type"
                 android:textSize="18sp"
                 android:textColor="@color/colorToDoType"/>
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/todo_date"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="June 9, 10:23 am"
+                android:text="@string/todo_card_mock_date_time"
                 android:textSize="18sp"
                 android:textColor="@color/colorGrey"/>
 
@@ -93,7 +93,7 @@
                 android:layout_marginLeft="27dp"
                 android:layout_alignLeft="@+id/comment_icon"
                 android:layout_alignStart="@+id/comment_icon"
-                android:text ="0"/>
+                android:text ="@string/todo_card_comment_count_mock"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                 android:layout_marginLeft="27dp"
                 android:layout_alignLeft="@+id/sub_tasks_icon"
                 android:layout_alignStart="@+id/sub_tasks_icon"
-                android:text ="0/3"/>
+                android:text ="@string/todo_card_mock_sub_tasks_count"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text ="Sub Tasks"/>
+                    android:text ="@string/todo_card_mock_sub_tasks_title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text ="Coment"/>
+                        android:text ="@string/todo_card_mock_comment_title"/>
 
                     <TextView
                         android:id="@+id/coment"
@@ -185,7 +185,7 @@
                         android:paddingTop="10dp"
                         android:textSize="14sp"
                         android:textColor="@color/colorGrey"
-                        android:text ="Looooooooooooooool"/>
+                        android:text ="@string/todo_card_mock_comment_contain"/>
 
 
                     </LinearLayout>

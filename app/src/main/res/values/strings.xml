@@ -59,6 +59,13 @@
 
     <string name="title_comment">Comment</string>
 
+    <string name="adding_page_date_title">Date</string>
+    <string name="adding_page_time_title">Time</string>
+    <string name="adding_page_interest_title">Interest</string>
+    <string name="adding_page_interest_mock">Study</string>
+    <string name="adding_page_sub_tasks_title">Sub Tasks</string>
+    <string name="adding_page_add_sub_task_title">Add sub task</string>
+
     <!-- Strings related to Interests page -->
 
     <string name="title_activity_interests">Interests</string>
@@ -73,4 +80,14 @@
     <!-- Strings related to ToDo page -->
 
     <string name="title_activity_todo">ToDo</string>
+    <string name="sub_task_content">null</string>
+    <string name="todo_card_mock_title">Buy stuff</string>
+    <string name="todo_card_mock_type">ToDo</string>
+    <string name="todo_card_mock_date_time">June 9, 10:23 am</string>
+    <string name="todo_card_mock_sub_tasks_count">0/3</string>
+    <string name="todo_card_mock_sub_tasks_title">Sub Tasks</string>
+    <string name="todo_card_mock_comment_title">Comment</string>
+    <string name="todo_card_mock_comment_contain">Looooooooooooooool</string>
+    <string name="todo_card_comment_count_mock">0</string>
+
 </resources>

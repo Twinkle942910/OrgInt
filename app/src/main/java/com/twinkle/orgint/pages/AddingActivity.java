@@ -27,7 +27,9 @@ import com.twinkle.orgint.R;
 import com.twinkle.orgint.helpers.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -36,9 +38,30 @@ public class AddingActivity extends AppCompatActivity
     private static final int LAYOUT = R.layout.activity_adding;
 
     private Toolbar toolbar;
-    private Spinner spinner;
 
-    EditText txtDate, txtTime, subTask, interest;
+    //Task category
+    private Spinner spinner_category;
+    private String category;
+
+    //task name
+    EditText task_title;
+
+    //Task date
+    EditText task_date;
+
+    //Task time
+    EditText task_time;
+
+    //Sub Task
+    EditText subTask;
+    List<String> sub_tasks;
+
+    //Task interest
+    EditText interest;
+
+    //Task coment
+    EditText comment;
+
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private FloatingActionButton fab_interest;
@@ -58,7 +81,7 @@ public class AddingActivity extends AppCompatActivity
         initFAB();
 
         initDateTimePicker();
-        initSubTask();
+        initTitleAndComment();
         initInterest();
     }
 
@@ -105,34 +128,63 @@ public class AddingActivity extends AppCompatActivity
                 return true;
 
             case R.id.save:
+                sendingData();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void sendingData()
+    {
+        Intent intent = new Intent(getApplicationContext(), ToDoActivity.class);
+        intent.putExtra("calling", "From Adding Activity");
+
+        //Added data
+        intent.putExtra("category", category);
+        intent.putExtra("title", task_title.getText().toString());
+        intent.putExtra("date", task_date.getText().toString());
+        intent.putExtra("time", task_time.getText().toString());
+
+        getAllSubTasks();
+        String[] subTasks_array = new String[sub_tasks.size()];
+        for (int i = 0 ; i< subTasks_array.length; i++)
+        {
+            subTasks_array[i] = sub_tasks.get(i);
+        }
+
+        intent.putExtra("sub_tasks", subTasks_array);
+        intent.putExtra("comment", comment.getText().toString());
+        intent.putExtra("interest", interest.getText().toString());
+
+        startActivity(intent);
+        this.finish();
+    }
+
     private void initSpinner()
     {
-        spinner = (Spinner) findViewById(R.id.categories_spinner);
+        spinner_category = (Spinner) findViewById(R.id.categories_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories_array, R.layout.spinner_category_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_category_drop_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        spinner_category.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
 
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                    category = spinner_category.getSelectedItem().toString();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                category = spinner_category.getSelectedItem().toString();
             }
         }
         );
@@ -140,8 +192,8 @@ public class AddingActivity extends AppCompatActivity
 
     private void initDateTimePicker()
     {
-        txtDate=(EditText)findViewById(R.id.in_date);
-        txtTime=(EditText)findViewById(R.id.in_time);
+        task_date =(EditText)findViewById(R.id.in_date);
+        task_time =(EditText)findViewById(R.id.in_time);
 
         String myFormatDate = "E, LLLL d yyyy";
         String myFormatTime = "kk:mm";
@@ -151,13 +203,13 @@ public class AddingActivity extends AppCompatActivity
 
         final Calendar c = Calendar.getInstance();
 
-        txtDate.setText(sdf.format(c.getTime()));
-        txtTime.setText(stf.format(c.getTime()));
+        task_date.setText(sdf.format(c.getTime()));
+        task_time.setText(stf.format(c.getTime()));
     }
 
     public void pick(View v)
     {
-        if (v == txtDate)
+        if (v == task_date)
         {
             // Get Current Date
             final Calendar c = Calendar.getInstance();
@@ -179,12 +231,12 @@ public class AddingActivity extends AppCompatActivity
                             c.set(Calendar.MONTH, monthOfYear);
                             c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                            txtDate.setText(sdf.format(c.getTime()));
+                            task_date.setText(sdf.format(c.getTime()));
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if (v == txtTime)
+        if (v == task_time)
         {
 
             // Get Current Time
@@ -207,7 +259,7 @@ public class AddingActivity extends AppCompatActivity
                             c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                             c.set(Calendar.MINUTE, minute);
 
-                            txtTime.setText(stf.format(c.getTime()));
+                            task_time.setText(stf.format(c.getTime()));
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -259,9 +311,10 @@ public class AddingActivity extends AppCompatActivity
 
     int counter = 1;
 
-    public void initSubTask()
+    public void initTitleAndComment()
     {
-
+        task_title = (EditText) findViewById(R.id.task_name);
+        comment = (EditText) findViewById(R.id.comment);
     }
 
     public  void addSubTask(View view)
@@ -274,7 +327,10 @@ public class AddingActivity extends AppCompatActivity
 
         subTasksLayout = (LinearLayout)findViewById(R.id.subTaskContainer);
 
-        subTasksLayout.addView(addView);
+        if (subTasksLayout != null)
+        {
+            subTasksLayout.addView(addView);
+        }
 
         ImageView buttonRemove = (ImageView) addView.findViewById(R.id.sub_task_remove);
 
@@ -291,10 +347,10 @@ public class AddingActivity extends AppCompatActivity
 
     }
 
-
-    public void getAllTasks(View view)
+    private void getAllSubTasks()
     {
         int childCount = subTasksLayout.getChildCount();
+        sub_tasks = new ArrayList<>();
 
         for(int i=0; i<childCount; i++)
         {
@@ -302,8 +358,7 @@ public class AddingActivity extends AppCompatActivity
 
             EditText childTextView = (EditText) thisChild.findViewById(R.id.sub_task);
 
-            //This is text of subTask
-            String childTextViewValue = childTextView.getText().toString();
+            sub_tasks.add(childTextView.getText().toString());
         }
     }
 

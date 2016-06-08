@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -158,12 +157,19 @@ public class InterestsActivity extends AppCompatActivity
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         //2 rows
        // StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
+        if (recyclerView != null)
+        {
+            recyclerView.setLayoutManager(llm);
+        }
 
         initializeData();
 
         adapter = new  InterestsRecycleAdapter(interests, this);
-        recyclerView.setAdapter(adapter);
+
+        if (recyclerView != null)
+        {
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private void initializeData()

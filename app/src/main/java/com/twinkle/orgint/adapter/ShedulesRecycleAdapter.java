@@ -17,6 +17,7 @@ import com.twinkle.orgint.pages.SheduleActivity;
 import com.twinkle.orgint.pages.ToDoActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycleAdapter.SchedulesViewHolder>
 {
@@ -44,10 +45,10 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
         holder.cardTitle.setText(schedules.get(position).getTitle());
        holder.cardImage.setBackgroundResource(schedules.get(position).getImage());
 
-       holder.cardUIcount.setText(Integer.toString(schedules.get(position).getUrgent_important_count()));
-       holder.cardNUIcount.setText(Integer.toString(schedules.get(position).getNot_urgent_important_count()));
-       holder.cardUNIcount.setText(Integer.toString(schedules.get(position).getUrgent_not_important_count()));
-       holder.cardNUNIcount.setText(Integer.toString(schedules.get(position).getNot_urgent_not_important_count()));
+       holder.cardUIcount.setText(String.format(Locale.US, "%d", schedules.get(position).getUrgent_important_count()));
+       holder.cardNUIcount.setText(String.format(Locale.US, "%d", schedules.get(position).getNot_urgent_important_count()));
+       holder.cardUNIcount.setText(String.format(Locale.US, "%d", schedules.get(position).getUrgent_not_important_count()));
+       holder.cardNUNIcount.setText(String.format(Locale.US, "%d", schedules.get(position).getNot_urgent_not_important_count()));
 
 
     }
@@ -111,14 +112,15 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
             else if("ToDo".equals(cardTitle.getText().toString()))
             {
                 intent = new Intent(context, ToDoActivity.class);
+                intent.putExtra("calling", "From Main Activity");
                 context.startActivity(intent);
             }
             else if("Work Tasks".equals(cardTitle.getText().toString()))
             {
-
+               //ToDo: Add listener
             } else if("Birthdays".equals(cardTitle.getText().toString()))
             {
-
+                //ToDo: Add listener
             }
         }
     }
