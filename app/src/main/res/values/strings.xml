@@ -69,4 +69,8 @@
 
     <string name="title_activity_schedule">Schedule</string>
 
+
+    <!-- Strings related to ToDo page -->
+
+    <string name="title_activity_todo">ToDo</string>
 </resources>

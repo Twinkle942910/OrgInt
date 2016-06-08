@@ -101,4 +101,10 @@
         <item name="android:textColor">@color/colorGrey</item>
     </style>
 
+    <!-- CheckBox theme. -->
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorGrey</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 </resources>

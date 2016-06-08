@@ -14,6 +14,7 @@ import com.twinkle.orgint.R;
 import com.twinkle.orgint.database.Schedule_Tab;
 import com.twinkle.orgint.pages.InterestsActivity;
 import com.twinkle.orgint.pages.SheduleActivity;
+import com.twinkle.orgint.pages.ToDoActivity;
 
 import java.util.List;
 
@@ -41,12 +42,14 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
     public void onBindViewHolder(SchedulesViewHolder holder, int position)
     {
         holder.cardTitle.setText(schedules.get(position).getTitle());
-       holder.cardImage.setImageResource(schedules.get(position).getImage());
+       holder.cardImage.setBackgroundResource(schedules.get(position).getImage());
 
        holder.cardUIcount.setText(Integer.toString(schedules.get(position).getUrgent_important_count()));
        holder.cardNUIcount.setText(Integer.toString(schedules.get(position).getNot_urgent_important_count()));
        holder.cardUNIcount.setText(Integer.toString(schedules.get(position).getUrgent_not_important_count()));
        holder.cardNUNIcount.setText(Integer.toString(schedules.get(position).getNot_urgent_not_important_count()));
+
+
     }
 
     @Override
@@ -98,8 +101,25 @@ public class ShedulesRecycleAdapter extends RecyclerView.Adapter<ShedulesRecycle
         @Override
         public void onClick(View v)
         {
-            Intent intent = new Intent(context, SheduleActivity.class);
-            context.startActivity(intent);
+            Intent intent;
+
+            if("Schedule".equals(cardTitle.getText().toString()))
+            {
+                intent =  new Intent(context, SheduleActivity.class);
+                context.startActivity(intent);
+            }
+            else if("ToDo".equals(cardTitle.getText().toString()))
+            {
+                intent = new Intent(context, ToDoActivity.class);
+                context.startActivity(intent);
+            }
+            else if("Work Tasks".equals(cardTitle.getText().toString()))
+            {
+
+            } else if("Birthdays".equals(cardTitle.getText().toString()))
+            {
+
+            }
         }
     }
 }

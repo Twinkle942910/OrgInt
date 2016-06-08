@@ -115,6 +115,12 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
                 child_sub_schedule_image.setBackgroundResource(sub_task_image);
             }
         }
+
+        //Sub tasks counters init
+        holder.sub_schedules_count_txt.setText(Integer.toString(sub_schedules_count));
+        holder.sub_todo_count_txt.setText(Integer.toString(sub_todo_count));
+        holder.sub_work_task_count_txt.setText(Integer.toString(sub_work_tasks_count));
+        holder.sub_birthday_count_txt.setText(Integer.toString(sub_birthdays_count));
     }
 
     @Override
@@ -151,6 +157,12 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         LinearLayout work_tasksLayout;
         LinearLayout bithdaysLayout;
 
+        //Sub_Tasks counters
+        TextView sub_schedules_count_txt;
+        TextView sub_todo_count_txt;
+        TextView sub_work_task_count_txt;
+        TextView sub_birthday_count_txt;
+
         SheduleActivity activity;
 
         public  ScheduleViewHolder(View itemView)
@@ -160,12 +172,20 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
 
             cardView = (CardView)itemView.findViewById(R.id.cardView);
 
+            //Schedule (top)
             schedule_day = (TextView)itemView.findViewById(R.id.schedule_card_day);
             schedule_type = (TextView)itemView.findViewById(R.id.schedule_card_type);
             schedule_date = (TextView)itemView.findViewById(R.id.schedule_card_date);
 
+            //containers
             subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
             subScheduleCountLayout = (RelativeLayout)itemView.findViewById(R.id.sub_tasks_counter_lay);
+
+            //sub tasks counters
+            sub_schedules_count_txt = (TextView)itemView.findViewById(R.id.sub_schedules_count_txt);
+            sub_todo_count_txt = (TextView)itemView.findViewById(R.id.sub_todo_count_txt);
+            sub_work_task_count_txt = (TextView)itemView.findViewById(R.id.sub_work_task_count_txt);
+            sub_birthday_count_txt = (TextView)itemView.findViewById(R.id.sub_birthday_count_txt);
         }
 
         boolean flag = false;

@@ -20,5 +20,6 @@
     <color name="colorGrey">#bdbdbd</color>
 
     <color name="colorScheduleType">#3a99f7</color>
+    <color name="colorToDoType">#f55656</color>
 
 </resources>

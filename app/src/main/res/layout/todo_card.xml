@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_vertical_margin">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        android:id="@+id/cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:id="@+id/day_name_and_type_lay"
+
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_task"
+                android:text="Buy stuff"
+                android:textSize="30sp"
+                android:textColor="@color/colorNotificationText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_type"
+                android:text="ToDo"
+                android:textSize="18sp"
+                android:textColor="@color/colorToDoType"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_date"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="June 9, 10:23 am"
+                android:textSize="18sp"
+                android:textColor="@color/colorGrey"/>
+
+        </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:id="@+id/sub_tasks_counter_lay"
+
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+
+           >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/comment_icon"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="27dp"
+                android:layout_alignLeft="@+id/comment_icon"
+                android:layout_alignStart="@+id/comment_icon"
+                android:text ="0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sub_tasks_icon"
+                android:background="@drawable/ic_sub_tasks_empty"
+              android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_alignLeft="@+id/comment_count"
+                android:layout_alignStart="@+id/comment_count" />
+
+            <TextView
+                android:id="@+id/sub_tasks_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="27dp"
+                android:layout_alignLeft="@+id/sub_tasks_icon"
+                android:layout_alignStart="@+id/sub_tasks_icon"
+                android:text ="0/3"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sub_tasks_expand"
+                android:background="@drawable/ic_expand"
+                android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:id="@+id/sub_tasks_and_coments_lay"
+
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+
+               android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/sub_tasks_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text ="Sub Tasks"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    android:id="@+id/sub_tasks_layout">
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    android:id="@+id/coments_layout">
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorGrey" />
+
+                    <TextView
+                        android:id="@+id/coments_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text ="Coment"/>
+
+                    <TextView
+                        android:id="@+id/coment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorGrey"
+                        android:text ="Looooooooooooooool"/>
+
+
+                    </LinearLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sub_tasks_collaps"
+                    android:background="@drawable/ic_collapse"
+                    android:layout_alignParentRight="true" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

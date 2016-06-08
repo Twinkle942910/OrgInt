@@ -18,12 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".pages.SettingsActivity"
             android:label="@string/title_activity_settings" />
-
-
-
         <activity
             android:name=".pages.AddingActivity"
             android:label="@string/title_activity_adding"
@@ -37,18 +36,21 @@
         </activity>
 
 
-        <activity android:name=".pages.InterestsActivity"
+        <activity
+            android:name=".pages.InterestsActivity"
             android:label="@string/title_activity_interests"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
-        <!-- Parent activity meta-data to support 4.0 and lower -->
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".pages.SheduleActivity"
+
+        <activity
+            android:name=".pages.SheduleActivity"
             android:label="@string/title_activity_schedule"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -60,6 +62,16 @@
         </activity>
 
 
+        <activity android:name=".pages.ToDoActivity"
+            android:label="@string/title_activity_todo"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>
