@@ -162,6 +162,8 @@ public class ToDoFragment extends EventFragment
             td1.getSub_tasks().add(sub_task);
         }
 
+        td1.setInterest(interest);
+
         todoList.add(td1);
     }
 }

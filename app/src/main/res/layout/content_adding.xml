@@ -71,6 +71,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="29sp"
+                android:maxLength="38"
                 style="@style/StyledTilEditText"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -255,9 +256,7 @@
                 android:id="@+id/subTaskContainer"
                 android:orientation="vertical"
                 android:layout_below="@+id/sub_task_title"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_toLeftOf="@+id/sub_task_add"
-                android:layout_toStartOf="@+id/sub_task_add">
+                android:layout_marginTop="@dimen/activity_vertical_margin">
 
 
 

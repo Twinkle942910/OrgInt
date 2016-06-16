@@ -20,8 +20,10 @@
         android:src="@drawable/ic_remove_circle"
         android:layout_gravity="center_horizontal"
         android:id="@+id/sub_task_remove"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/sub_task"
+        android:layout_toEndOf="@+id/sub_task"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp" />
 
 </RelativeLayout>

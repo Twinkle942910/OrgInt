@@ -14,8 +14,6 @@ import com.twinkle.orgint.helpers.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class TabPagerFragmentAdapter extends FragmentPagerAdapter
 {
     private List<AbstractTabFragment> tabs;

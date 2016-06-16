@@ -69,6 +69,9 @@ public class AddingActivity extends AppCompatActivity
     //subTasks container
     private LinearLayout subTasksLayout;
 
+    //Sub_tasks validation
+    private boolean[] isValid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -128,11 +131,101 @@ public class AddingActivity extends AppCompatActivity
                 return true;
 
             case R.id.save:
-                sendingData();
-                break;
+                return checkValidation();
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkValidation()
+    {
+        if(validateInput())
+        {
+            sendingData();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private boolean validateInput()
+    {
+        final String title = task_title.getText().toString();
+        boolean choice = true;
+
+        validateAllSubTasks();
+
+        if(isValid != null)
+        {
+            for (boolean anIsValid : isValid)
+            {
+                if (!anIsValid)
+                {
+                    choice = false;
+                    break;
+                }
+                else
+                {
+                    choice = true;
+                }
+            }
+        }
+
+        if (!isValidTitle(title))
+        {
+            task_title.setError("Title can't be empty!");
+            choice = false;
+        }
+        return choice;
+    }
+
+    private void validateAllSubTasks()
+    {
+        int childCount = subTasksLayout.getChildCount();
+        isValid = new boolean[childCount];
+
+        for(int i=0; i<childCount; i++)
+        {
+            View thisChild = subTasksLayout.getChildAt(i);
+
+            EditText childTextView = (EditText) thisChild.findViewById(R.id.sub_task);
+
+            String content = childTextView.getText().toString();
+            isValid[i] = validateInputSubTask(content, childTextView);
+        }
+    }
+
+    private boolean validateInputSubTask(String sub_task, EditText sub_task_textField)
+    {
+        if (!isValidSubTask(sub_task))
+        {
+            sub_task_textField.setError("Sub task can't be empty!");
+            return false;
+        }
+        return true;
+    }
+
+    // validating title
+    private boolean isValidTitle(String title)
+    {
+        if (title != null && title.length() > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // validating sub_task
+    private boolean isValidSubTask(String sub_task)
+    {
+        if (sub_task != null && sub_task.length() > 3)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void sendingData()
@@ -146,11 +239,19 @@ public class AddingActivity extends AppCompatActivity
         intent.putExtra("date", task_date.getText().toString());
         intent.putExtra("time", task_time.getText().toString());
 
-        getAllSubTasks();
-        String[] subTasks_array = new String[sub_tasks.size()];
-        for (int i = 0 ; i< subTasks_array.length; i++)
+        String[] subTasks_array;
+
+        if(checkForSubTasks())
         {
-            subTasks_array[i] = sub_tasks.get(i);
+            getAllSubTasks();
+            subTasks_array = new String[sub_tasks.size()];
+            for (int i = 0; i < subTasks_array.length; i++) {
+                subTasks_array[i] = sub_tasks.get(i);
+            }
+        }
+        else
+        {
+            subTasks_array = new String[0];
         }
 
         intent.putExtra("sub_tasks", subTasks_array);
@@ -291,7 +392,7 @@ public class AddingActivity extends AppCompatActivity
 
     private void initInterest()
     {
-        interest=(EditText)findViewById(R.id.interest);
+        interest = (EditText) findViewById(R.id.interest);
     }
 
     @Override
@@ -349,6 +450,15 @@ public class AddingActivity extends AppCompatActivity
 
     }
 
+    private boolean checkForSubTasks()
+    {
+        if (subTasksLayout != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void getAllSubTasks()
     {
         int childCount = subTasksLayout.getChildCount();
@@ -360,7 +470,8 @@ public class AddingActivity extends AppCompatActivity
 
             EditText childTextView = (EditText) thisChild.findViewById(R.id.sub_task);
 
-            sub_tasks.add(childTextView.getText().toString());
+            String content = childTextView.getText().toString();
+            sub_tasks.add(content);
         }
     }
 
