@@ -10,17 +10,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:showIn="@layout/app_bar_todo"
+    tools:showIn="@layout/app_bar_event"
 
-    tools:context=".pages.ToDoActivity"
+    tools:context=".pages.EventActivity"
 
     android:background="@color/colorMainBackground"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/todo_list" />
+    <FrameLayout
+        android:id="@+id/event_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

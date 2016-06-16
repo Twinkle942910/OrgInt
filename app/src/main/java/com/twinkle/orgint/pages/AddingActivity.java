@@ -137,7 +137,7 @@ public class AddingActivity extends AppCompatActivity
 
     private void sendingData()
     {
-        Intent intent = new Intent(getApplicationContext(), ToDoActivity.class);
+        Intent intent = new Intent(getApplicationContext(), EventActivity.class);
         intent.putExtra("calling", "From Adding Activity");
 
         //Added data
@@ -156,6 +156,8 @@ public class AddingActivity extends AppCompatActivity
         intent.putExtra("sub_tasks", subTasks_array);
         intent.putExtra("comment", comment.getText().toString());
         intent.putExtra("interest", interest.getText().toString());
+
+        intent.putExtra("type", "ToDo");
 
         startActivity(intent);
         this.finish();

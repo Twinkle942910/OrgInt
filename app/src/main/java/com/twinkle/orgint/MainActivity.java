@@ -26,6 +26,7 @@ import com.twinkle.orgint.fragments.LinksFragment;
 import com.twinkle.orgint.fragments.PlaningFragment;
 import com.twinkle.orgint.helpers.Constants;
 import com.twinkle.orgint.pages.AddingActivity;
+import com.twinkle.orgint.pages.EventActivity;
 import com.twinkle.orgint.pages.InterestsActivity;
 import com.twinkle.orgint.pages.SettingsActivity;
 
@@ -164,6 +165,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.todo_page:
+                intent = new Intent(this, EventActivity.class);
+                intent.putExtra("calling", "From Main Activity");
+                intent.putExtra("type", "ToDo");
+                startActivity(intent);
+                return true;
+
+            case R.id.work_tasks_page:
+                intent = new Intent(this, EventActivity.class);
+                intent.putExtra("calling", "From Main Activity");
+                intent.putExtra("type", "Work Task");
+                startActivity(intent);
+                return true;
+
+            case R.id.birthday_page:
+                intent = new Intent(this, EventActivity.class);
+                intent.putExtra("calling", "From Main Activity");
+                intent.putExtra("type", "Birthday");
                 startActivity(intent);
                 return true;
         }

@@ -9,14 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.twinkle.orgint.R;
-import com.twinkle.orgint.adapter.InterestsRecycleAdapter;
 import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
-import com.twinkle.orgint.database.Interest;
 import com.twinkle.orgint.database.Schedule;
-import com.twinkle.orgint.database.Sub_schedule;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class SheduleActivity extends AppCompatActivity
 {
@@ -86,107 +86,79 @@ public class SheduleActivity extends AppCompatActivity
     {
        schedules = new ArrayList<>();
 
-        Sub_schedule ss = new Sub_schedule();
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
 
-        ss.setTask("Lab work aaaa");
-        ss.setTime("19:00 am");
-        ss.setType("Schedule");
+        int mYear = c.get(Calendar.YEAR);
+        int  mMonth = c.get(Calendar.MONTH);
+        int mDayoM = c.get(Calendar.DAY_OF_MONTH);
 
-        Sub_schedule ss1 = new Sub_schedule();
+        int day = c.get(Calendar.DAY_OF_WEEK);
 
-        ss1.setTask("Buy stuff1");
-        ss1.setTime("10:23 am");
-        ss1.setType("ToDo");
+        String myFormatDate = "LLLL d, yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate, Locale.US);
 
-        Sub_schedule ss3 = new Sub_schedule();
+        int dayMonday = 0;
 
-        ss3.setTask("Finish DB1");
-        ss3.setTime("13:30 pm");
-        ss3.setType("Work Task");
+        switch (day)
+        {
+            // Current day is Monday
+            case Calendar.MONDAY:
+                dayMonday = mDayoM;
+                break;
 
-        Sub_schedule ss4 = new Sub_schedule();
+            // Current day is Tuesday
+            case Calendar.TUESDAY:
+                dayMonday =  - 1;
+                break;
 
-        ss4.setTask("Congradulate someone");
-        ss4.setTime("20:00 pm");
-        ss4.setType("Birthday");
+            // Current day is Wednesday
+            case Calendar.WEDNESDAY:
+                dayMonday =  - 2;
+                break;
 
-        Sub_schedule ss5 = new Sub_schedule();
+            // Current day is Thursday
+            case Calendar.THURSDAY:
+                dayMonday =  - 3;
+                break;
 
-        ss5.setTask("Congradulate someone");
-        ss5.setTime("21:00 pm");
-        ss5.setType("Birthday");
+            // Current day is Friday
+            case Calendar.FRIDAY:
+                dayMonday =  - 4;
+                break;
 
-        Sub_schedule ss6 = new Sub_schedule();
+            // Current day is Saturday
+            case Calendar.SATURDAY:
+                dayMonday =  - 5;
+                break;
 
-        ss6.setTask("Finish work");
-        ss6.setTime("17:30 pm");
-        ss6.setType("Work Task");
+            // Current day is Sunday
+            case Calendar.SUNDAY:
+                dayMonday =  - 6;
+                break;
+        }
 
-        List<Sub_schedule> ssList = new ArrayList<>();
+        c.set(Calendar.YEAR, mYear);
+        c.set(Calendar.MONTH, mMonth);
 
-        ssList.add(ss);
-        ssList.add(ss1);
-        ssList.add(ss3);
-        ssList.add(ss4);
-        ssList.add(ss5);
-        ssList.add(ss6);
+        for(int i = 0; i < 7; i++)
+        {
+            if(i == 0)
+            {
+                c.add(Calendar.DAY_OF_MONTH, dayMonday);
+            }
+            else
+            {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+            }
 
-        Schedule s1 = new Schedule(ssList);
-        s1.setDay("MonDay");
-        s1.setType("Schedule3");
-        s1.setDate("June 9, 2016");
+            Schedule scheduleDay = new Schedule();
 
-        Sub_schedule ssn1 = new Sub_schedule();
+            scheduleDay.setDay(c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+            scheduleDay.setType("Schedule");
+            scheduleDay.setDate(sdf.format(c.getTime()));
 
-        ssn1.setTask("Math");
-        ssn1.setTime("8:30 am");
-        ssn1.setType("Schedule");
-
-        Sub_schedule ssn2 = new Sub_schedule();
-
-        ssn2.setTask("Check vk");
-        ssn2.setTime("10:20 am");
-        ssn2.setType("ToDo");
-
-        Sub_schedule ssn3 = new Sub_schedule();
-
-        ssn3.setTask("Edit essay");
-        ssn3.setTime("15:00 pm");
-        ssn3.setType("Work Task");
-
-        Sub_schedule ssn4 = new Sub_schedule();
-
-        ssn4.setTask("Taras b-day");
-        ssn4.setTime("21:00 pm");
-        ssn4.setType("Birthday");
-
-        Sub_schedule ssn5 = new Sub_schedule();
-
-        ssn5.setTask("History");
-        ssn5.setTime("11:20 pm");
-        ssn5.setType("Schedule");
-
-        Sub_schedule ssn6 = new Sub_schedule();
-
-        ssn6.setTask("Go with friends");
-        ssn6.setTime("14:20 am");
-        ssn6.setType("ToDo");
-
-        List<Sub_schedule> ssnList = new ArrayList<>();
-
-        ssnList.add(ssn1);
-        ssnList.add(ssn2);
-        ssnList.add(ssn3);
-        ssnList.add(ssn4);
-        ssnList.add(ssn5);
-        ssnList.add(ssn6);
-
-        Schedule s2 = new Schedule(ssnList);
-        s2.setDay("SunDay");
-        s2.setType("Schedule");
-        s2.setDate("June 07, 2016");
-
-        schedules.add(s1);
-        schedules.add(s2);
+            schedules.add(scheduleDay);
+        }
     }
 }

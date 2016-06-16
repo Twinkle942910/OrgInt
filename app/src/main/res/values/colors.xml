@@ -21,5 +21,7 @@
 
     <color name="colorScheduleType">#3a99f7</color>
     <color name="colorToDoType">#f55656</color>
+    <color name="colorWorkTaskType">#61bfea</color>
+    <color name="colorBirthdayType">#49ca70</color>
 
 </resources>

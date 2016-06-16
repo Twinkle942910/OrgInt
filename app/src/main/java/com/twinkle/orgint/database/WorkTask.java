@@ -3,10 +3,10 @@ package com.twinkle.orgint.database;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToDo
+public class WorkTask
 {
     // Labels table name
-    public static final String TABLE = "ToDo";
+    public static final String TABLE = "WorkTask";
 
     // Labels Table Columns names
     public static final String ID = "id";
@@ -29,12 +29,12 @@ public class ToDo
 
     private List<Sub_task> sub_tasks;
 
-    public ToDo(List<Sub_task> sub_tasks) {
+    public WorkTask(List<Sub_task> sub_tasks) {
         this.sub_tasks = new ArrayList<>();
         this.sub_tasks = sub_tasks;
     }
 
-    public ToDo()
+    public WorkTask()
     {
         this.sub_tasks = new ArrayList<>();
     }

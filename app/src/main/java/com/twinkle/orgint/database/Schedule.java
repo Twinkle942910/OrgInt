@@ -28,6 +28,12 @@ public class Schedule
         this.sub_schedules = sub_schedules;
     }
 
+    public Schedule()
+    {
+        this.sub_schedules = new ArrayList<>();
+    }
+
+
     public int getSchedule_ID() {
         return schedule_ID;
     }

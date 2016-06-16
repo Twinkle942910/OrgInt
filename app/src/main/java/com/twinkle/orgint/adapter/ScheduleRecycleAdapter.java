@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.database.Schedule;
-import com.twinkle.orgint.pages.SheduleActivity;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shedule_card, parent, false);
         ScheduleViewHolder svh = new  ScheduleViewHolder(view);
-        svh.setActivity((SheduleActivity)context);
+        svh.setActivity((MainActivity) context);
         return svh;
     }
 
@@ -163,7 +163,9 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         TextView sub_work_task_count_txt;
         TextView sub_birthday_count_txt;
 
-        SheduleActivity activity;
+        Context context;
+
+        MainActivity activity;
 
         public  ScheduleViewHolder(View itemView)
         {
@@ -242,9 +244,14 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
            //subScheduleLayout.addView(subScheduleView);
         }
 
-        public void setActivity(SheduleActivity activity)
+        public void setActivity(MainActivity activity)
         {
             this.activity = activity;
+        }
+
+        public void setContext(Context context)
+        {
+            this.context = context;
         }
 
         public void expand(final View v)

@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.twinkle.orgint.R;
-import com.twinkle.orgint.adapter.ShedulesRecycleAdapter;
-import com.twinkle.orgint.database.Schedule_Tab;
-import com.twinkle.orgint.database.Schedule_TabDAO;
+import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
+import com.twinkle.orgint.database.Schedule;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ShedulesFragment extends AbstractTabFragment
 {
@@ -23,7 +25,10 @@ public class ShedulesFragment extends AbstractTabFragment
 
     private int page;
 
-    private List<Schedule_Tab> schedules;
+    private ScheduleRecycleAdapter adapter;
+    private List<Schedule> schedules;
+
+
 
     public static ShedulesFragment newInstance(int page, Context context)
     {
@@ -50,13 +55,14 @@ public class ShedulesFragment extends AbstractTabFragment
     {
         view = inflater.inflate(LAYOUT, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
         LinearLayoutManager llm = new LinearLayoutManager(context);
+
         recyclerView.setLayoutManager(llm);
 
         initializeData();
 
-        ShedulesRecycleAdapter adapter = new  ShedulesRecycleAdapter(schedules, getContext());
+        adapter = new ScheduleRecycleAdapter(schedules, context);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -69,31 +75,86 @@ public class ShedulesFragment extends AbstractTabFragment
 
     /*    Intent intent = new Intent(getContext(), AddingActivity.class);
         startActivity(intent);*/
-
-
-
-
     }
 
     private void initializeData()
     {
-        Schedule_TabDAO dao = new Schedule_TabDAO(getContext());
-
         schedules = new ArrayList<>();
 
-        Schedule_Tab schedule_tab_birthday = new Schedule_Tab();
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
 
-     /*   schedule_tab_birthday.setSchedule_tab_ID(4);
-        schedule_tab_birthday.setTitle("Birthdays");
-        schedule_tab_birthday.setImage(R.drawable.birthdays);
-        schedule_tab_birthday.setUrgent_important_count(3);
-        schedule_tab_birthday.setNot_urgent_important_count(3);
-        schedule_tab_birthday.setUrgent_not_important_count(3);
-        schedule_tab_birthday.setNot_urgent_not_important_count(3);
+        int mYear = c.get(Calendar.YEAR);
+        int  mMonth = c.get(Calendar.MONTH);
+        int mDayoM = c.get(Calendar.DAY_OF_MONTH);
 
-        dao.update(schedule_tab_birthday);*/
+        int day = c.get(Calendar.DAY_OF_WEEK);
 
-        schedules = dao.getSchedule_TabList();
+        String myFormatDate = "LLLL d, yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate, Locale.US);
+
+        int dayMonday = 0;
+
+        switch (day)
+        {
+            // Current day is Monday
+            case Calendar.MONDAY:
+                dayMonday = mDayoM;
+                break;
+
+            // Current day is Tuesday
+            case Calendar.TUESDAY:
+                dayMonday =  - 1;
+                break;
+
+            // Current day is Wednesday
+            case Calendar.WEDNESDAY:
+                dayMonday =  - 2;
+                break;
+
+            // Current day is Thursday
+            case Calendar.THURSDAY:
+                dayMonday =  - 3;
+                break;
+
+            // Current day is Friday
+            case Calendar.FRIDAY:
+                dayMonday =  - 4;
+                break;
+
+            // Current day is Saturday
+            case Calendar.SATURDAY:
+                dayMonday =  - 5;
+                break;
+
+            // Current day is Sunday
+            case Calendar.SUNDAY:
+                dayMonday =  - 6;
+                break;
+        }
+
+        c.set(Calendar.YEAR, mYear);
+        c.set(Calendar.MONTH, mMonth);
+
+        for(int i = 0; i < 7; i++)
+        {
+            if(i == 0)
+            {
+                c.add(Calendar.DAY_OF_MONTH, dayMonday);
+            }
+            else
+            {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
+            Schedule scheduleDay = new Schedule();
+
+            scheduleDay.setDay(c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+            scheduleDay.setType("Schedule");
+            scheduleDay.setDate(sdf.format(c.getTime()));
+
+            schedules.add(scheduleDay);
+        }
     }
 
 

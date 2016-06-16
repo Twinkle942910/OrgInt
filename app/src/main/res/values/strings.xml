@@ -12,6 +12,9 @@
     <string name="settings">Settings</string>
     <string name="organizer">Organizer</string>
 
+    <string name="menu_events">Events</string>
+    <string name="drawer_menu_submenu_title">Events</string>
+
     <!-- Tab names -->
     <string name="tab_shedules_name">Shedules</string>
     <string name="tab_links_name">Links</string>
@@ -77,10 +80,13 @@
     <string name="title_activity_schedule">Schedule</string>
 
 
-    <!-- Strings related to ToDo page -->
+    <!-- Strings related to Event page -->
 
-    <string name="title_activity_todo">ToDo</string>
+    <string name="title_activity_event">Event</string>
+
     <string name="sub_task_content">null</string>
+
+    <!-- ToDo card -->
     <string name="todo_card_mock_title">Buy stuff</string>
     <string name="todo_card_mock_type">ToDo</string>
     <string name="todo_card_mock_date_time">June 9, 10:23 am</string>
@@ -89,5 +95,33 @@
     <string name="todo_card_mock_comment_title">Comment</string>
     <string name="todo_card_mock_comment_contain">Looooooooooooooool</string>
     <string name="todo_card_comment_count_mock">0</string>
+    <string name="todo_card_mock_interest_title">Interest</string>
+    <string name="todo_card_mock_interest_contain">Study</string>
+
+    <!-- Work task card -->
+    <string name="work_card_mock_type">Work Task</string>
+
+    <string name="work_task_card_mock_title">Make Database</string>
+    <string name="work_task_card_mock_type">Work Task</string>
+    <string name="work_task_card_mock_date_time">June 16, 10:30 am</string>
+    <string name="work_task_card_comment_count_mock">0</string>
+    <string name="work_task_card_mock_sub_tasks_count">0/3</string>
+    <string name="work_task_card_mock_sub_tasks_title">Sub tasks</string>
+    <string name="work_task_card_mock_comment_title">Comment</string>
+    <string name="work_task_card_mock_comment_contain">Loool</string>
+    <string name="work_task_card_mock_interest_title">Interest</string>
+    <string name="work_task_card_mock_interest_contain">Study</string>
+
+    <!-- Birthday card -->
+    <string name="birthday_card_mock_title">Congratulate someone</string>
+    <string name="birthday_card_mock_type">Birthday</string>
+    <string name="birthday_card_mock_date_time">June 19, 19:30 pm</string>
+    <string name="birthday_card_comment_count_mock">0</string>
+    <string name="birthday_card_mock_sub_tasks_count">0/3</string>
+    <string name="birthday_card_mock_sub_tasks_title">Sub tasks</string>
+    <string name="birthday_card_mock_comment_title">Comment</string>
+    <string name="birthday_card_mock_comment_contain">Loool</string>
+    <string name="birthday_card_mock_interest_title">Interest</string>
+    <string name="birthday_card_mock_interest_contain">Friends</string>
 
 </resources>

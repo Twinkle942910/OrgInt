@@ -33,25 +33,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/todo_task"
-                android:text="@string/todo_card_mock_title"
+                android:id="@+id/work_task_task"
+                android:text="@string/work_task_card_mock_title"
                 android:textSize="30sp"
                 android:textColor="@color/colorNotificationText"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/todo_type"
-                android:text="@string/todo_card_mock_type"
+                android:id="@+id/work_task_type"
+                android:text="@string/work_task_card_mock_type"
                 android:textSize="18sp"
-                android:textColor="@color/colorToDoType"/>
+                android:textColor="@color/colorWorkTaskType"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/todo_date"
+                android:id="@+id/work_task_date"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/todo_card_mock_date_time"
+                android:text="@string/work_task_card_mock_date_time"
                 android:textSize="18sp"
                 android:textColor="@color/colorGrey"/>
 
@@ -91,7 +91,7 @@
                 android:layout_marginLeft="27dp"
                 android:layout_alignLeft="@+id/comment_icon"
                 android:layout_alignStart="@+id/comment_icon"
-                android:text ="@string/todo_card_comment_count_mock"/>
+                android:text ="@string/work_task_card_comment_count_mock"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                 android:layout_marginLeft="27dp"
                 android:layout_alignLeft="@+id/sub_tasks_icon"
                 android:layout_alignStart="@+id/sub_tasks_icon"
-                android:text ="@string/todo_card_mock_sub_tasks_count"/>
+                android:text ="@string/work_task_card_mock_sub_tasks_count"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text ="@string/todo_card_mock_sub_tasks_title"/>
+                    android:text ="@string/work_task_card_mock_sub_tasks_title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text ="@string/todo_card_mock_comment_title"/>
+                        android:text ="@string/work_task_card_mock_comment_title"/>
 
                     <TextView
                         android:id="@+id/coment"
@@ -193,7 +193,7 @@
                         android:paddingTop="10dp"
                         android:textSize="14sp"
                         android:textColor="@color/colorGrey"
-                        android:text ="@string/todo_card_mock_comment_contain"/>
+                        android:text ="@string/work_task_card_mock_comment_contain"/>
 
 
                     </LinearLayout>
@@ -218,7 +218,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text ="@string/todo_card_mock_interest_title"/>
+                        android:text ="@string/work_task_card_mock_interest_title"/>
 
                     <TextView
                         android:id="@+id/interest"
@@ -227,7 +227,7 @@
                         android:paddingTop="10dp"
                         android:textSize="14sp"
                         android:textColor="@color/colorGrey"
-                        android:text ="@string/todo_card_mock_interest_contain"/>
+                        android:text ="@string/work_task_card_mock_interest_contain"/>
 
 
                 </LinearLayout>

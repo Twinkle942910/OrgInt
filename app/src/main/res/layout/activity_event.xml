@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
 
+    android:fitsSystemWindows="true"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.twinkle.orgint.pages.ToDoActivity">
+    tools:context=".pages.EventActivity">
 
     <include
-        layout="@layout/app_bar_todo"
+        layout="@layout/app_bar_event"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

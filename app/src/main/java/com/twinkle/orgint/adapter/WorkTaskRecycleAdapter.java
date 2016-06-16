@@ -16,52 +16,52 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twinkle.orgint.R;
-import com.twinkle.orgint.database.ToDo;
+import com.twinkle.orgint.database.WorkTask;
 import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.List;
 
-public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.ToDoViewHolder> implements View.OnClickListener
+public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycleAdapter.WorkTaskViewHolder> implements View.OnClickListener
 {
-    ToDoViewHolder toDoViewHolder;
-    List<ToDo> toDoList;
+    WorkTaskViewHolder workTaskViewHolder;
+    List<WorkTask> workTaskList;
     Context context;
 
     private int todo_item_position;
     private int sub_task_item_position;
     private int checked_sub_tasks_count;
 
-    public ToDoRecycleAdapter( List<ToDo> toDoList, Context context)
+    public WorkTaskRecycleAdapter(List<WorkTask> workTaskList, Context context)
     {
-        this.toDoList = toDoList;
+        this.workTaskList = workTaskList;
         this.context = context;
     }
 
     @Override
-    public ToDoViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public WorkTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_card, parent, false);
-        toDoViewHolder = new ToDoViewHolder(view);
-        toDoViewHolder.setActivity((EventActivity)context);
-        return toDoViewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.work_task_card, parent, false);
+        workTaskViewHolder = new WorkTaskViewHolder(view);
+        workTaskViewHolder.setActivity((EventActivity)context);
+        return workTaskViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ToDoViewHolder holder, int position)
+    public void onBindViewHolder(WorkTaskViewHolder holder, int position)
     {
         //Sub tasks isDone / All counter
         final TextView sub_tasks_count_text = holder.sub_tasks_count;
         //Sub task image;
         final ImageView sub_tasks_image = holder.sub_tasks_icon;
 
-        //Set top ToDo text
+        //Set top Work task text
         setToDoTopText(holder);
 
         //Set listeners to expand and collapse buttons
         holder.expand_button.setOnClickListener(this);
         holder.collapse_button.setOnClickListener(this);
 
-        //Get position of todo item
+        //Get position of work task item
         todo_item_position = holder.getAdapterPosition();
 
         //If there's no sub tasks and comments
@@ -95,7 +95,7 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             {
                 holder.divider.setVisibility(View.GONE);
             }
-            holder.coment.setText(toDoList.get(position).getComment());
+            holder.coment.setText(workTaskList.get(position).getComment());
             holder.comment_count.setText(Integer.toString(1));
         }
 
@@ -112,7 +112,7 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             {
                 holder.divider_com_int.setVisibility(View.GONE);
             }
-            holder.interest.setText(toDoList.get(position).getInterest());
+            holder.interest.setText(workTaskList.get(position).getInterest());
         }
 
 
@@ -120,25 +120,25 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         setSubTasksCompleteOrNot(sub_tasks_image);
 
         //Sub tasks counters init(setting)
-        sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(position).getSubTasksCount()));
+        sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(workTaskList.get(position).getSubTasksCount()));
     }
 
     //Checks if there is comment
     private boolean isComment()
     {
-        return "".equals(toDoList.get(todo_item_position).getComment());
+        return "".equals(workTaskList.get(todo_item_position).getComment());
     }
 
     //Checks if there are syb tasks
     private boolean isSubTasks()
     {
-        return toDoList.get(todo_item_position).getSub_tasks().isEmpty();
+        return workTaskList.get(todo_item_position).getSub_tasks().isEmpty();
     }
 
     //Checks if there is interest
     private boolean isInterest()
     {
-        return "".equals(toDoList.get(todo_item_position).getInterest());
+        return "".equals(workTaskList.get(todo_item_position).getInterest());
     }
 
     //Checks if sub tasks and comment are empty
@@ -154,18 +154,18 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
     }
 
     //ToDo top text setting
-    private void setToDoTopText(ToDoViewHolder holder)
+    private void setToDoTopText(WorkTaskViewHolder holder)
     {
-        holder.todo_task.setText(toDoList.get(todo_item_position).getTask());
-        holder.todo_type.setText(toDoList.get(todo_item_position).getType());
-        holder.todo_date.setText(toDoList.get(todo_item_position).getDate() + " " + toDoList.get(todo_item_position).getTime());
+        holder.work_task_task.setText(workTaskList.get(todo_item_position).getTask());
+        holder.work_task_type.setText(workTaskList.get(todo_item_position).getType());
+        holder.work_task_date.setText(workTaskList.get(todo_item_position).getDate() + " " + workTaskList.get(todo_item_position).getTime());
     }
 
     //Adding sub tasks and setting values
-    private void addSubTask(ToDoViewHolder holder, final TextView sub_tasks_count_text, final ImageView sub_tasks_image)
+    private void addSubTask(WorkTaskViewHolder holder, final TextView sub_tasks_count_text, final ImageView sub_tasks_image)
     {
         //Adding sub tasks
-        for (int i = 0; i < toDoList.get(todo_item_position).getSubTasksCount(); i++)
+        for (int i = 0; i < workTaskList.get(todo_item_position).getSubTasksCount(); i++)
         {
             //get position of sub_task
             sub_task_item_position = i;
@@ -181,22 +181,22 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             CheckBox child_sub_task_isdone = (CheckBox) thisChild.findViewById(R.id.sub_task_checkBox);
 
             //Setting sub_task views
-            child_sub_task_task.setText(toDoList.get(todo_item_position).getSub_task(i).getContent());
+            child_sub_task_task.setText(workTaskList.get(todo_item_position).getSub_task(i).getContent());
 
             //in some cases, it will prevent unwanted situations
             child_sub_task_isdone.setOnCheckedChangeListener(null);
-            child_sub_task_isdone.setChecked(toDoList.get(todo_item_position).getSub_task(i).isDone());
+            child_sub_task_isdone.setChecked(workTaskList.get(todo_item_position).getSub_task(i).isDone());
             child_sub_task_isdone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    toDoList.get(todo_item_position).getSub_task(sub_task_item_position).setDone(isChecked);
+                    workTaskList.get(todo_item_position).getSub_task(sub_task_item_position).setDone(isChecked);
 
                     if (isChecked) {
                         checked_sub_tasks_count++;
                     } else if (checked_sub_tasks_count > 0) {
                         checked_sub_tasks_count--;
                     }
-                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(todo_item_position).getSubTasksCount()));
+                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(workTaskList.get(todo_item_position).getSubTasksCount()));
 
                     setSubTasksCompleteOrNot(sub_tasks_image);
                 }
@@ -207,7 +207,7 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
     @Override
     public int getItemCount()
     {
-        return toDoList.size();
+        return workTaskList.size();
     }
 
     @Override
@@ -218,7 +218,7 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
 
     public void setSubTasksCompleteOrNot(ImageView sub_tasks_image)
     {
-        if(checked_sub_tasks_count == toDoList.get(todo_item_position).getSubTasksCount())
+        if(checked_sub_tasks_count == workTaskList.get(todo_item_position).getSubTasksCount())
         {
             sub_tasks_image.setBackgroundResource(R.drawable.ic_sub_tasks_full);
         }
@@ -233,23 +233,23 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         switch (v.getId())
         {
             case R.id.sub_tasks_expand:
-                toDoViewHolder.expand(toDoViewHolder.cardView);
+                workTaskViewHolder.expand(workTaskViewHolder.cardView);
                 break;
 
             case R.id.sub_tasks_collaps:
-                toDoViewHolder.collapse(toDoViewHolder.cardView);
+                workTaskViewHolder.collapse(workTaskViewHolder.cardView);
                 break;
         }
     }
 
-    public static class ToDoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class WorkTaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         CardView cardView;
 
         //Top
-        TextView todo_task;
-        TextView todo_type;
-        TextView todo_date;
+        TextView work_task_task;
+        TextView work_task_type;
+        TextView work_task_date;
 
         //Sub Tasks
         TextView sub_task_task;
@@ -293,17 +293,17 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
 
         EventActivity activity;
 
-        public ToDoViewHolder(View itemView)
+        public WorkTaskViewHolder(View itemView)
         {
             super(itemView);
             itemView.setOnClickListener(this);
 
             cardView = (CardView)itemView.findViewById(R.id.cardView);
 
-            //ToDo (top)
-            todo_task = (TextView)itemView.findViewById(R.id.todo_task);
-            todo_type = (TextView)itemView.findViewById(R.id.todo_type);
-            todo_date = (TextView)itemView.findViewById(R.id.todo_date);
+            //Work task (top)
+            work_task_task = (TextView)itemView.findViewById(R.id.work_task_task);
+            work_task_type = (TextView)itemView.findViewById(R.id.work_task_type);
+            work_task_date = (TextView)itemView.findViewById(R.id.work_task_date);
 
             //Comment
             coment = (TextView)itemView.findViewById(R.id.coment);
