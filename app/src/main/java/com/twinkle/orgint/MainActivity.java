@@ -401,12 +401,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id)
             {
-                if (position == 0)
+
+                Intent intent;
+
+               switch (position)
                 {
-                    Intent intent = new Intent(getApplicationContext(), AddingActivity.class);
+                    case 0:
+                    //ToDo: make forResult().
+                     intent = new Intent(getApplicationContext(), AddingActivity.class);
+                    intent.putExtra("type", "ToDo");
                     startActivity(intent);
 
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        break;
+
+                    case 1:
+                        intent = new Intent(getApplicationContext(), AddingActivity.class);
+                        intent.putExtra("type", "Work Task");
+                        startActivity(intent);
+
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        break;
+
+                    case 2:
+                        intent = new Intent(getApplicationContext(), AddingActivity.class);
+                        intent.putExtra("type", "Schedule");
+                        startActivity(intent);
+
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        break;
+
+                    case 3:
+                        intent = new Intent(getApplicationContext(), AddingActivity.class);
+                        intent.putExtra("type", "Birthday");
+                        startActivity(intent);
+
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        break;
                 }
             }
         });

@@ -162,6 +162,8 @@ public class WorkTaskFragment extends EventFragment
             td1.getSub_tasks().add(sub_task);
         }
 
+        td1.setInterest(interest);
+
         workTaskList.add(td1);
     }
 }

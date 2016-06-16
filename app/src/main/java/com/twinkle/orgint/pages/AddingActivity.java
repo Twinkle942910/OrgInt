@@ -72,6 +72,9 @@ public class AddingActivity extends AppCompatActivity
     //Sub_tasks validation
     private boolean[] isValid;
 
+    //Task type
+    private String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -86,6 +89,8 @@ public class AddingActivity extends AppCompatActivity
         initDateTimePicker();
         initTitleAndComment();
         initInterest();
+
+        initSendingType();
     }
 
     //init Toolbar
@@ -156,10 +161,10 @@ public class AddingActivity extends AppCompatActivity
         final String title = task_title.getText().toString();
         boolean choice = true;
 
-        validateAllSubTasks();
-
-        if(isValid != null)
+        if(checkForSubTasks())
         {
+            validateAllSubTasks();
+
             for (boolean anIsValid : isValid)
             {
                 if (!anIsValid)
@@ -228,6 +233,31 @@ public class AddingActivity extends AppCompatActivity
         return false;
     }
 
+    private void initSendingType()
+    {
+        Intent eventType = getIntent();
+        type = eventType.getStringExtra("type");
+
+        switch (type)
+        {
+            case "ToDo":
+                this.setTitle("New " + type + " Task");
+                break;
+
+            case "Work Task":
+                this.setTitle("New " + type);
+                break;
+
+            case "Schedule":
+                this.setTitle("New " + type);
+                break;
+
+            case "Birthday":
+                this.setTitle("New " + type);
+                break;
+        }
+    }
+
     private void sendingData()
     {
         Intent intent = new Intent(getApplicationContext(), EventActivity.class);
@@ -258,7 +288,7 @@ public class AddingActivity extends AppCompatActivity
         intent.putExtra("comment", comment.getText().toString());
         intent.putExtra("interest", interest.getText().toString());
 
-        intent.putExtra("type", "ToDo");
+        intent.putExtra("type", type);
 
         startActivity(intent);
         this.finish();

@@ -164,6 +164,8 @@ public class BirthdayFragment extends EventFragment
             birthday.getSub_tasks().add(sub_task);
         }
 
+        birthday.setInterest(interest);
+
         birthdayList.add(birthday);
     }
 }
