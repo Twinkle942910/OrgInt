@@ -1,6 +1,7 @@
 package com.twinkle.orgint.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
 import com.twinkle.orgint.database.Schedule;
+import com.twinkle.orgint.database.Sub_schedule;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +30,12 @@ public class ShedulesFragment extends AbstractTabFragment
     private ScheduleRecycleAdapter adapter;
     private List<Schedule> schedules;
 
+    private String day;
 
+    private String[] titles;
+    private String[] times;
+    private String[] comments;
+    private String[] interests;
 
     public static ShedulesFragment newInstance(int page, Context context)
     {
@@ -155,8 +162,75 @@ public class ShedulesFragment extends AbstractTabFragment
 
             schedules.add(scheduleDay);
         }
+
+        dataFromAdding();
+
+        Intent addingData = getActivity().getIntent();
+
+        String callingFrom = addingData.getStringExtra("calling");
+
+        if ("From Adding Activity".equals(callingFrom))
+        {
+            switch (this.day) {
+                case "Monday":
+
+                    List<Sub_schedule> sub_schedules = new ArrayList<>();
+
+                    for (int i = 0; i < titles.length; i++) {
+                        Sub_schedule ss = new Sub_schedule();
+                        ss.setType("Schedule");
+                        ss.setTask(titles[i]);
+                        ss.setTime(times[i]);
+
+                        //ToDo: Add later!
+                        // ss.setComment(comments[i]);
+                        //ss.setInteres(interests[i]);
+
+                        sub_schedules.add(ss);
+                    }
+
+                    schedules.get(0).setSub_schedules(sub_schedules);
+                    break;
+
+                case "Tuesday":
+
+                    break;
+
+                case "Wednesday":
+
+                    break;
+
+                case "Thursday":
+
+                    break;
+
+                case "Friday":
+
+                    break;
+
+                case "Saturday":
+
+                    break;
+
+                case "Sunday":
+
+                    break;
+            }
+        }
     }
 
+    private void dataFromAdding()
+    {
+        Intent addingData = getActivity().getIntent();
+
+        day = addingData.getStringExtra("day");
+
+        titles = addingData.getStringArrayExtra("title");
+        times = addingData.getStringArrayExtra("time");
+        comments = addingData.getStringArrayExtra("comment");
+        interests = addingData.getStringArrayExtra("interest");
+
+    }
 
 
 

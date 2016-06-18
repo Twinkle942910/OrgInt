@@ -60,6 +60,16 @@
         <item>Not Urgent - Not Important</item>
     </string-array>
 
+    <string-array name="day_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
     <string name="title_comment">Comment</string>
 
     <string name="adding_page_date_title">Date</string>

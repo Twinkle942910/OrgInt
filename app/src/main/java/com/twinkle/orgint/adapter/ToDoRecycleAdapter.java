@@ -188,7 +188,8 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             child_sub_task_isdone.setChecked(toDoList.get(todo_item_position).getSub_task(i).isDone());
             child_sub_task_isdone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                {
                     toDoList.get(todo_item_position).getSub_task(sub_task_item_position).setDone(isChecked);
 
                     if (isChecked) {

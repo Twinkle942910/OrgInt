@@ -76,4 +76,13 @@ public class Schedule
        return sub_schedules.size();
     }
 
+    public List<Sub_schedule> getSub_schedules()
+    {
+        return sub_schedules;
+    }
+
+    public void setSub_schedules(List<Sub_schedule> sub_schedules)
+    {
+        this.sub_schedules = sub_schedules;
+    }
 }
