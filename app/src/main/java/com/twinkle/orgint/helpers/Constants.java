@@ -16,5 +16,7 @@ public class Constants
 
     //Request from interests
     public static final int REQUEST_CODE_INTEREST = 3;
+    //Request from adding
+    public static final int REQUEST_CODE_ADDING_SCHEDULE = 9;
 
 }

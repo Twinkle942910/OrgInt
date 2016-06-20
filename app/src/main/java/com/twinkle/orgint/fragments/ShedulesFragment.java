@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
 import com.twinkle.orgint.database.Schedule;
 import com.twinkle.orgint.database.Sub_schedule;
+import com.twinkle.orgint.helpers.ActivityDataCommunicator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ShedulesFragment extends AbstractTabFragment
+public class ShedulesFragment extends AbstractTabFragment implements ActivityDataCommunicator
 {
     public static final String SHEDULES_PAGE = "SHEDULES_PAGE";
     public static final int LAYOUT = R.layout.fragment_shedules;
@@ -37,6 +39,10 @@ public class ShedulesFragment extends AbstractTabFragment
     private String[] comments;
     private String[] interests;
 
+    private Intent scheduleAddData;
+    private boolean isDataBaseData = true;
+    private List<Sub_schedule> sub_schedules;
+
     public static ShedulesFragment newInstance(int page, Context context)
     {
         Bundle args = new Bundle();
@@ -51,6 +57,14 @@ public class ShedulesFragment extends AbstractTabFragment
     }
 
     @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        context = getActivity();
+        ((MainActivity)context).fragmentCommunicator = this;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -62,17 +76,31 @@ public class ShedulesFragment extends AbstractTabFragment
     {
         view = inflater.inflate(LAYOUT, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
+        RecyclerView  recyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
         LinearLayoutManager llm = new LinearLayoutManager(context);
 
         recyclerView.setLayoutManager(llm);
 
-        initializeData();
+        initWeek();
 
-        adapter = new ScheduleRecycleAdapter(schedules, context);
+        sub_schedules = new ArrayList<>();
+
+        if (isDataBaseData)
+        {
+            initializeData();
+        }
+                                                        //context, maybe?
+        adapter = new ScheduleRecycleAdapter(schedules, getActivity());
         recyclerView.setAdapter(adapter);
 
+        isDataForAdapter(isDataBaseData);
+
         return view;
+    }
+
+    private void isDataForAdapter(boolean isData)
+    {
+        ((MainActivity)getActivity()).adapterCommunicator.isAddingSubSchedule(isData);
     }
 
     public void addShedule()
@@ -84,21 +112,19 @@ public class ShedulesFragment extends AbstractTabFragment
         startActivity(intent);*/
     }
 
-    private void initializeData()
+    private void initWeek()
     {
         schedules = new ArrayList<>();
 
         // Get Current Date
-        final Calendar c = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
 
-        int mYear = c.get(Calendar.YEAR);
-        int  mMonth = c.get(Calendar.MONTH);
-        int mDayoM = c.get(Calendar.DAY_OF_MONTH);
-
-        int day = c.get(Calendar.DAY_OF_WEEK);
+        int mYear = calendar.get(Calendar.YEAR);
+        int  mMonth = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
 
         String myFormatDate = "LLLL d, yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate, Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormatDate, Locale.US);
 
         int dayMonday = 0;
 
@@ -106,7 +132,7 @@ public class ShedulesFragment extends AbstractTabFragment
         {
             // Current day is Monday
             case Calendar.MONDAY:
-                dayMonday = mDayoM;
+                dayMonday = 0;
                 break;
 
             // Current day is Tuesday
@@ -140,9 +166,14 @@ public class ShedulesFragment extends AbstractTabFragment
                 break;
         }
 
-        c.set(Calendar.YEAR, mYear);
-        c.set(Calendar.MONTH, mMonth);
+        calendar.set(Calendar.YEAR, mYear);
+        calendar.set(Calendar.MONTH, mMonth);
 
+        setDays(calendar, dateFormat, dayMonday);
+    }
+
+    private void setDays(Calendar c, SimpleDateFormat sdf, int dayMonday)
+    {
         for(int i = 0; i < 7; i++)
         {
             if(i == 0)
@@ -162,77 +193,105 @@ public class ShedulesFragment extends AbstractTabFragment
 
             schedules.add(scheduleDay);
         }
+    }
 
-        dataFromAdding();
+    private void initializeData()
+    {
+        sub_schedules = new ArrayList<>();
 
-        Intent addingData = getActivity().getIntent();
 
-        String callingFrom = addingData.getStringExtra("calling");
+            Sub_schedule ss = new Sub_schedule();
+            ss.setType("Schedule");
+            ss.setTask("Lab ");
+            ss.setTime("13:01");
 
-        if ("From Adding Activity".equals(callingFrom))
+        Sub_schedule ss1 = new Sub_schedule();
+        ss1.setType("Schedule");
+        ss1.setTask("DB ");
+        ss1.setTime("14:15");
+
+        Sub_schedule ss2 = new Sub_schedule();
+        ss2.setType("Schedule");
+        ss2.setTask("System Analysis ");
+        ss2.setTime("15:50");
+
+            sub_schedules.add(ss);
+            sub_schedules.add(ss1);
+            sub_schedules.add(ss2);
+
+        schedules.get(0).setSub_schedules(sub_schedules);
+
+       // ((MainActivity)getActivity()).setUpdatePermission(true);
+        //((MainActivity)getActivity()).adapterCommunicator.isAddingSubSchedule(true);
+    }
+
+    public void setData()
+    {
+        day = scheduleAddData.getStringExtra("day");
+
+        titles = scheduleAddData.getStringArrayExtra("title");
+        times = scheduleAddData.getStringArrayExtra("time");
+        comments = scheduleAddData.getStringArrayExtra("comment");
+        interests = scheduleAddData.getStringArrayExtra("interest");
+
+        setSubSchedules();
+    }
+
+
+    private void setSubSchedules()
+    {
+        switch (this.day)
         {
-            switch (this.day) {
-                case "Monday":
+            case "Monday":
 
-                    List<Sub_schedule> sub_schedules = new ArrayList<>();
+                for (int i = 0; i < titles.length; i++)
+                {
+                    Sub_schedule ss = new Sub_schedule();
+                    ss.setType("Schedule");
+                    ss.setTask(titles[i]);
+                    ss.setTime(times[i]);
 
-                    for (int i = 0; i < titles.length; i++) {
-                        Sub_schedule ss = new Sub_schedule();
-                        ss.setType("Schedule");
-                        ss.setTask(titles[i]);
-                        ss.setTime(times[i]);
+                    //ToDo: Add later!
+                    // ss.setComment(comments[i]);
+                    //ss.setInteres(interests[i]);
 
-                        //ToDo: Add later!
-                        // ss.setComment(comments[i]);
-                        //ss.setInteres(interests[i]);
+                    sub_schedules.add(ss);
+                }
 
-                        sub_schedules.add(ss);
-                    }
+                schedules.get(0).setSub_schedules(sub_schedules);
+                break;
 
-                    schedules.get(0).setSub_schedules(sub_schedules);
-                    break;
+            case "Tuesday":
 
-                case "Tuesday":
+                break;
 
-                    break;
+            case "Wednesday":
 
-                case "Wednesday":
+                break;
 
-                    break;
+            case "Thursday":
 
-                case "Thursday":
+                break;
 
-                    break;
+            case "Friday":
 
-                case "Friday":
+                break;
 
-                    break;
+            case "Saturday":
 
-                case "Saturday":
+                break;
 
-                    break;
+            case "Sunday":
 
-                case "Sunday":
-
-                    break;
-            }
+                break;
         }
     }
 
-    private void dataFromAdding()
+    @Override
+    public void passDataToFragment(Intent data)
     {
-        Intent addingData = getActivity().getIntent();
-
-        day = addingData.getStringExtra("day");
-
-        titles = addingData.getStringArrayExtra("title");
-        times = addingData.getStringArrayExtra("time");
-        comments = addingData.getStringArrayExtra("comment");
-        interests = addingData.getStringArrayExtra("interest");
-
+        scheduleAddData = data;
+        setData();
     }
-
-
-
 }
 

@@ -1,5 +1,6 @@
 package com.twinkle.orgint.fragments;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
@@ -192,8 +194,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
 
     private void sendingData()
     {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("calling", "From Adding Activity");
+        Intent intent = new Intent();
 
         //Added data
         intent.putExtra("day", day);
@@ -235,7 +236,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
 
         intent.putExtra("type", type);
 
-        startActivity(intent);
+        getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
 

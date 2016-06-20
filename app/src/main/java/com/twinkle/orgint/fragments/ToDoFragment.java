@@ -109,17 +109,21 @@ public class ToDoFragment extends EventFragment
         lst1.add(st2);
         lst1.add(st3);
 
-        ToDo td1 = new ToDo(lst1);
+        for (int i=0; i<7; i++)
+        {
+            ToDo td1 = new ToDo(lst1);
 
-        td1.setTask("Погуляти з друзями");
-        td1.setType("ToDo");
-        td1.setDate("June 9,");
-        td1.setTime("19:00 pm");
+            td1.setTask("Lol " + i);
+            td1.setType("ToDo");
+            td1.setDate("June " + i);
+            td1.setTime("19:0" + i);
 
-        td1.setComment("Lol");
-        td1.setInterest("Study");
+            td1.setComment("Lol" + i);
+            td1.setInterest("Study " + i);
 
-        todoList.add(td1);
+            todoList.add(td1);
+        }
+
     }
 
     private void initializeData()

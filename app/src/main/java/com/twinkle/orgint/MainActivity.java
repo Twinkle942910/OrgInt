@@ -19,11 +19,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.twinkle.orgint.adapter.AddingTaskBottomSheetAdapter;
 import com.twinkle.orgint.adapter.TabPagerFragmentAdapter;
 import com.twinkle.orgint.fragments.LinksFragment;
 import com.twinkle.orgint.fragments.PlaningFragment;
+import com.twinkle.orgint.helpers.ActivityDataCommunicator;
+import com.twinkle.orgint.helpers.AdapterCommunicator;
 import com.twinkle.orgint.helpers.Constants;
 import com.twinkle.orgint.pages.AddingActivity;
 import com.twinkle.orgint.pages.EventActivity;
@@ -49,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomSheetBehavior sheetBehavior;
     private Integer[] bottomItems = {R.drawable.ic_playlist_add, R.drawable.ic_build, R.drawable.ic_today, R.drawable.ic_card_giftcard};
     private ArrayAdapter<Integer> bottomSheetAdapter;
+
+    public AdapterCommunicator adapterCommunicator;
+    public ActivityDataCommunicator fragmentCommunicator;
+
+    private boolean scheduleSubTasksAddingPermission = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -195,6 +203,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     //
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == Constants.REQUEST_CODE_ADDING_SCHEDULE)
+            {
+                sendDataToScheduleFragment(data);
+                updateScheduleAdapterItems();
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Error! Different result codes", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //init Toolbar
     private void initToolbar()
     {
@@ -233,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View view)
                 {
-                  //  ((ShedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
+                    //  ((ShedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
                     sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     fab.hide();
                 }
@@ -269,17 +294,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     {
                         case Constants.TAB_ONE:
 
-                                fab.show();
-                                fab2.hide();
-                                fab3.hide();
+                            fab.show();
+                            fab2.hide();
+                            fab3.hide();
 
                             break;
 
                         case Constants.TAB_TWO:
 
-                                fab.hide();
-                                fab2.show();
-                                fab3.hide();
+                            fab.hide();
+                            fab2.show();
+                            fab3.hide();
 
                             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
@@ -287,9 +312,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         case Constants.TAB_THREE:
 
-                                fab.hide();
-                                fab2.hide();
-                                fab3.show();
+                            fab.hide();
+                            fab2.hide();
+                            fab3.show();
 
                             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
@@ -297,9 +322,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         default:
 
-                                fab.show();
-                                fab2.hide();
-                                fab3.hide();
+                            fab.show();
+                            fab2.hide();
+                            fab3.hide();
 
                             break;
                     }
@@ -404,15 +429,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Intent intent;
 
-               switch (position)
+                switch (position)
                 {
                     case 0:
-                    //ToDo: make forResult().
-                     intent = new Intent(getApplicationContext(), AddingActivity.class);
-                    intent.putExtra("type", "ToDo");
-                    startActivity(intent);
+                        //ToDo: make forResult().
+                        intent = new Intent(getApplicationContext(), AddingActivity.class);
+                        intent.putExtra("type", "ToDo");
+                        startActivity(intent);
 
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
 
                     case 1:
@@ -426,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 2:
                         intent = new Intent(getApplicationContext(), AddingActivity.class);
                         intent.putExtra("type", "Schedule");
-                        startActivity(intent);
+                        startActivityForResult(intent, Constants.REQUEST_CODE_ADDING_SCHEDULE);
 
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
@@ -447,10 +472,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
+        if (resourceId > 0)
+        {
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
     }
+
+    private void updateScheduleAdapterItems()
+    {
+        if(adapterCommunicator != null)
+        {
+            adapterCommunicator.isAddingSubSchedule(scheduleSubTasksAddingPermission);
+            adapterCommunicator.updateDataSet();
+        }
+    }
+
+    private void sendDataToScheduleFragment(Intent data)
+    {
+        if(fragmentCommunicator != null)
+        {
+            fragmentCommunicator.passDataToFragment(data);
+        }
+    }
+
+   /* public void setUpdatePermission(boolean permission)
+    {
+        scheduleSubTasksAddingPermission = permission;
+    }*/
 
 }

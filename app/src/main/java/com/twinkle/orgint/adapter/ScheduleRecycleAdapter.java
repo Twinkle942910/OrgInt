@@ -16,42 +16,65 @@ import android.widget.TextView;
 import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.database.Schedule;
+import com.twinkle.orgint.helpers.AdapterCommunicator;
 
 import java.util.List;
 
-public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycleAdapter. ScheduleViewHolder>
+public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycleAdapter. ScheduleViewHolder> implements AdapterCommunicator
 {
     List<Schedule> schedules;
     Context context;
+
+    //interface via which we communicate to hosting Activity
+   // private ActivityCommunicator activityCommunicator;
+
+    private boolean isAdding = false;
+    private boolean addingView = false;
 
     public ScheduleRecycleAdapter(List<Schedule> schedules, Context context)
     {
         this.schedules = schedules;
         this.context = context;
+
+      //  activityCommunicator =(ActivityCommunicator)context;
+        ((MainActivity)context).adapterCommunicator = this;
     }
 
     @Override
     public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shedule_card, parent, false);
-        ScheduleViewHolder svh = new  ScheduleViewHolder(view);
-        svh.setActivity((MainActivity) context);
-        return svh;
+        ScheduleViewHolder viewHolder = new  ScheduleViewHolder(view);
+        viewHolder.setActivity((MainActivity) context);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ScheduleViewHolder holder, int position)
     {
-        holder.schedule_day.setText(schedules.get(position).getDay());
-        holder.schedule_type.setText(schedules.get(position).getType());
-        holder.schedule_date.setText(schedules.get(position).getDate());
+        //Set top data of schedule
+        initScheduleTop(holder, position);
 
+        if (isAdding)
+        {
+            if(addingView)
+            {
+                removeSchedules(holder);
+            }
+            //Set sub schedules
+            addSubSchedule(holder, position);
+            isAdding = false;
+        }
+    }
+
+    private void addSubSchedule(ScheduleViewHolder holder, int position)
+    {
         int sub_schedules_count = 0;
         int sub_todo_count = 0;
         int sub_work_tasks_count = 0;
         int sub_birthdays_count = 0;
 
-        for (int i=0; i < schedules.get(position).getSubSchedulesCount(); i++)
+        for (int i = 0; i < schedules.get(position).getSubSchedulesCount(); i++)
         {
             String sub_taskType = schedules.get(position).getSub_schedule(i).getType();
 
@@ -64,7 +87,6 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             int sub_task_image = R.drawable.ic_shedule;
 
             holder.addSubSchedule(sub_taskType);
-
 
             switch (sub_taskType)
             {
@@ -93,30 +115,40 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
                     break;
             }
 
-            if (thisChild != null)
-            {
+            if (thisChild != null) {
                 child_sub_schedule_time = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_time);
                 child_sub_schedule_task = (TextView) thisChild.findViewById(R.id.schedule_card_sub_task_task);
                 child_sub_schedule_image = (ImageView) thisChild.findViewById(R.id.sub_schedule_icon);
             }
 
-            if (child_sub_schedule_time != null)
-            {
+            if (child_sub_schedule_time != null) {
                 child_sub_schedule_time.setText(schedules.get(position).getSub_schedule(i).getTime());
             }
 
-            if (child_sub_schedule_task != null)
-            {
+            if (child_sub_schedule_task != null) {
                 child_sub_schedule_task.setText(schedules.get(position).getSub_schedule(i).getTask());
             }
 
-            if (child_sub_schedule_image != null)
-            {
+            if (child_sub_schedule_image != null) {
                 child_sub_schedule_image.setBackgroundResource(sub_task_image);
             }
+
+            // activityCommunicator.passDataToActivity(true);
         }
 
-        //Sub tasks counters init
+        //init counters of sub schedules
+        initCounters(holder, sub_schedules_count, sub_todo_count, sub_work_tasks_count, sub_birthdays_count);
+    }
+
+    private void initScheduleTop(ScheduleViewHolder holder, int position)
+    {
+        holder.schedule_day.setText(schedules.get(position).getDay());
+        holder.schedule_type.setText(schedules.get(position).getType());
+        holder.schedule_date.setText(schedules.get(position).getDate());
+    }
+
+    private void initCounters(ScheduleViewHolder holder, int sub_schedules_count, int sub_todo_count, int sub_work_tasks_count, int sub_birthdays_count)
+    {
         holder.sub_schedules_count_txt.setText(Integer.toString(sub_schedules_count));
         holder.sub_todo_count_txt.setText(Integer.toString(sub_todo_count));
         holder.sub_work_task_count_txt.setText(Integer.toString(sub_work_tasks_count));
@@ -133,6 +165,38 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     public void onAttachedToRecyclerView(RecyclerView recyclerView)
     {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public void addItem(Schedule dataObj, int index)
+    {
+        schedules.add(dataObj);
+        notifyItemInserted(index);
+    }
+
+    public void deleteItem(int index)
+    {
+        schedules.remove(index);
+        notifyItemRemoved(index);
+    }
+
+    @Override
+    public void updateDataSet()
+    {
+      //  addSubSchedule(thisHolders.get(index), thisHolders.get(index).getAdapterPosition());
+     //   bindViewHolder(thisHolders.get(index), thisHolders.get(index).getAdapterPosition());
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void isAddingSubSchedule(boolean isAdding)
+    {
+        this.isAdding = isAdding;
+        addingView = isAdding;
+    }
+
+    private void removeSchedules(ScheduleViewHolder holder)
+    {
+        holder.scheduleLayout.removeAllViews();
     }
 
     public static class  ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -183,6 +247,11 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             subScheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_lay);
             subScheduleCountLayout = (RelativeLayout)itemView.findViewById(R.id.sub_tasks_counter_lay);
 
+            scheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_schedule_layout);
+            todoLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_todo_layout);
+            work_tasksLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_work_task_layout);
+            bithdaysLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_birthday_layout);
+
             //sub tasks counters
             sub_schedules_count_txt = (TextView)itemView.findViewById(R.id.sub_schedules_count_txt);
             sub_todo_count_txt = (TextView)itemView.findViewById(R.id.sub_todo_count_txt);
@@ -208,19 +277,11 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         public  void addSubSchedule(String type)
         {
             LayoutInflater layoutInflater = (LayoutInflater) activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-           // View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
-            //View view3 = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_schedule, parent, false);
-
             View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
 
             sub_schedule_time = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_time);
             sub_schedule_task = (TextView) subScheduleView.findViewById(R.id.schedule_card_sub_task_task);
             sub_schedule_image = (ImageView) subScheduleView.findViewById(R.id.sub_schedule_icon);
-
-            scheduleLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_schedule_layout);
-            todoLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_todo_layout);
-            work_tasksLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_work_task_layout);
-            bithdaysLayout = (LinearLayout)itemView.findViewById(R.id.sub_tasks_birthday_layout);
 
             switch (type)
             {
