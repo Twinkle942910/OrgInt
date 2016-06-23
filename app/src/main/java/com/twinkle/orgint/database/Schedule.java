@@ -71,6 +71,11 @@ public class Schedule
         return sub_schedules.get(position);
     }
 
+    public void setSub_schedule(Sub_schedule sub_schedule)
+    {
+        sub_schedules.add(sub_schedule);
+    }
+
     public int getSubSchedulesCount()
     {
        return sub_schedules.size();
@@ -85,4 +90,6 @@ public class Schedule
     {
         this.sub_schedules = sub_schedules;
     }
+
+
 }

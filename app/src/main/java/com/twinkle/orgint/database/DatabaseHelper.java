@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.twinkle.orgint.R;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
 {
@@ -20,25 +22,30 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
     //version number.
     private static final int DATABASE_VERSION = 1;
 
+    public DatabaseTableCreator scheduleCreator;
+    public DatabaseTableCreator subScheduleCreator;
+
     @Override
     public void onCreate(SQLiteDatabase db)
     {
         //All necessary tables you like to create will create here
 
+        //Schedule table create
+        scheduleCreator.create(db);
+
         //table create
         String DATABASE_CREATE_SCRIPT = "create table "
-                + Schedule_Tab.TABLE + " (" + Schedule_Tab.ID + " integer primary key autoincrement, "
-                + Schedule_Tab.TITLE  + " text not null, "
-                + Schedule_Tab.IMAGE  + " integer not null, "
-                + Schedule_Tab.URGENT_IMPORTANT_COUNT  + " integer not null, "
-                + Schedule_Tab.NOT_URGENT_IMPORTANT_COUNT  + " integer not null, "
-                + Schedule_Tab.URGENT_NOT_IMPORTANT_COUNT  + " integer not null, "
-                + Schedule_Tab.NOT_URGENT_NOT_IMPORTANT_COUNT  + " integer not null);";
+                + Sub_schedule.TABLE + " (" + Sub_schedule.ID + " integer primary key autoincrement, "
+                + Sub_schedule.SCHEDULE_ID  + " integer not null, "
+                + Sub_schedule.TIME  + " text not null, "
+                + Sub_schedule.TYPE  + " text not null, "
+                + Sub_schedule.COMMENT  + " text not null, "
+                + Sub_schedule.TASK  + " text not null, "
+                + Sub_schedule.INTEREST  + " text not null)";
 
         db.execSQL(DATABASE_CREATE_SCRIPT);
 
-        //Inserting data to Schedule_Tab
-        initializeScheduleTabsData(db);
+        initWeek(db);
     }
 
     //Called when version of app updated
@@ -50,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
 
         // Deleting old table and creating new
         // Drop older table if existed, all data will be gone!!!
-        db.execSQL("DROP TABLE IF IT EXISTS " + Schedule_Tab.TABLE);
+        db.execSQL("DROP TABLE IF IT EXISTS " + Schedule.TABLE);
 
         // Creating new (again)
         onCreate(db);
@@ -71,63 +78,97 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
         super(context, name, factory, version, errorHandler);
     }
 
-    private void initializeScheduleTabsData(SQLiteDatabase db)
+    private void initWeek(SQLiteDatabase db)
     {
-        Schedule_Tab schedules_tab_shedules = new Schedule_Tab();
-        Schedule_Tab schedules_tab_todo = new Schedule_Tab();
-        Schedule_Tab schedules_tab_work_tasks = new Schedule_Tab();
-        Schedule_Tab schedules_tab_birthdays = new Schedule_Tab();
+        // Get Current Date
+        final Calendar calendar = Calendar.getInstance();
 
-        schedules_tab_shedules.setTitle("Schedule");
-        schedules_tab_shedules.setImage(R.drawable.schedules);
-        schedules_tab_shedules.setUrgent_important_count(3);
-        schedules_tab_shedules.setNot_urgent_important_count(2);
-        schedules_tab_shedules.setUrgent_not_important_count(1);
-        schedules_tab_shedules.setNot_urgent_not_important_count(1);
+        int mYear = calendar.get(Calendar.YEAR);
+        int  mMonth = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-        schedules_tab_todo.setTitle("ToDo");
-        schedules_tab_todo.setImage(R.drawable.todo);
-        schedules_tab_todo.setUrgent_important_count(3);
-        schedules_tab_todo.setNot_urgent_important_count(3);
-        schedules_tab_todo.setUrgent_not_important_count(2);
-        schedules_tab_todo.setNot_urgent_not_important_count(1);
+        String myFormatDate = "LLLL d, yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormatDate, Locale.US);
 
-        schedules_tab_work_tasks.setTitle("Work_Tasks");
-        schedules_tab_work_tasks.setImage(R.drawable.work_t);
-        schedules_tab_work_tasks.setUrgent_important_count(1);
-        schedules_tab_work_tasks.setNot_urgent_important_count(3);
-        schedules_tab_work_tasks.setUrgent_not_important_count(2);
-        schedules_tab_work_tasks.setNot_urgent_not_important_count(1);
+        int dayMonday = 0;
 
-        schedules_tab_birthdays.setTitle("Birthdays");
-        schedules_tab_birthdays.setImage(R.drawable.birthdays);
-        schedules_tab_birthdays.setUrgent_important_count(1);
-        schedules_tab_birthdays.setNot_urgent_important_count(1);
-        schedules_tab_birthdays.setUrgent_not_important_count(3);
-        schedules_tab_birthdays.setNot_urgent_not_important_count(1);
+        switch (day)
+        {
+            // Current day is Monday
+            case Calendar.MONDAY:
+                dayMonday = 0;
+                break;
 
-        insertSchedule_TabData(schedules_tab_shedules, db);
-        insertSchedule_TabData(schedules_tab_todo, db);
-        insertSchedule_TabData(schedules_tab_work_tasks, db);
-        insertSchedule_TabData(schedules_tab_birthdays, db);
+            // Current day is Tuesday
+            case Calendar.TUESDAY:
+                dayMonday =  - 1;
+                break;
 
-        Log.w("SQLite", "Initializing Data");
+            // Current day is Wednesday
+            case Calendar.WEDNESDAY:
+                dayMonday =  - 2;
+                break;
+
+            // Current day is Thursday
+            case Calendar.THURSDAY:
+                dayMonday =  - 3;
+                break;
+
+            // Current day is Friday
+            case Calendar.FRIDAY:
+                dayMonday =  - 4;
+                break;
+
+            // Current day is Saturday
+            case Calendar.SATURDAY:
+                dayMonday =  - 5;
+                break;
+
+            // Current day is Sunday
+            case Calendar.SUNDAY:
+                dayMonday =  - 6;
+                break;
+        }
+
+        calendar.set(Calendar.YEAR, mYear);
+        calendar.set(Calendar.MONTH, mMonth);
+
+        setDays(calendar, dateFormat, dayMonday, db);
     }
 
-    private void insertSchedule_TabData(Schedule_Tab schedule_tab, SQLiteDatabase db)
+    private void setDays(Calendar c, SimpleDateFormat sdf, int dayMonday, SQLiteDatabase db)
     {
-        ContentValues values = new ContentValues();
+        for(int i = 0; i < 7; i++)
+        {
+            if(i == 0)
+            {
+                c.add(Calendar.DAY_OF_MONTH, dayMonday);
+            }
+            else
+            {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+            }
 
-        values.put(Schedule_Tab.TITLE, schedule_tab.getTitle());
-        values.put(Schedule_Tab.IMAGE, schedule_tab.getImage());
-        values.put(Schedule_Tab.URGENT_IMPORTANT_COUNT, schedule_tab.getUrgent_important_count());
-        values.put(Schedule_Tab.NOT_URGENT_IMPORTANT_COUNT, schedule_tab.getNot_urgent_important_count());
-        values.put(Schedule_Tab.URGENT_NOT_IMPORTANT_COUNT, schedule_tab.getUrgent_not_important_count());
-        values.put(Schedule_Tab.NOT_URGENT_NOT_IMPORTANT_COUNT, schedule_tab.getNot_urgent_not_important_count());
+            Schedule scheduleDay = new Schedule();
 
-        db.insert(Schedule_Tab.TABLE, null, values);
+            scheduleDay.setDay(c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+            scheduleDay.setType("Schedule");
+            scheduleDay.setDate(sdf.format(c.getTime()));
 
-        Log.w("SQLite", "Inserting Data");
+            //schedulesDB.insert(scheduleDay);
+
+            insertScheduleData(scheduleDay, db);
+        }
     }
 
+    private void insertScheduleData(Schedule schedule, SQLiteDatabase db)
+     {
+           ContentValues values = new ContentValues();
+
+            values.put(Schedule.DAY, schedule.getDay());
+            values.put(Schedule.DATE, schedule.getDate());
+            values.put(Schedule.TYPE, schedule.getType());
+
+            db.insert(Schedule.TABLE, null, values);
+     }
 }

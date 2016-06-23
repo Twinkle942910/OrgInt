@@ -28,7 +28,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     //interface via which we communicate to hosting Activity
    // private ActivityCommunicator activityCommunicator;
 
-    private boolean isAdding = false;
+    private boolean isAdding = true;
     private boolean addingView = false;
 
     public ScheduleRecycleAdapter(List<Schedule> schedules, Context context)
@@ -55,16 +55,20 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         //Set top data of schedule
         initScheduleTop(holder, position);
 
-        if (isAdding)
-        {
-            if(addingView)
+            if (isAdding)
             {
-                removeSchedules(holder);
+                if (addingView)
+                {
+                    removeSchedules(holder);
+                    addingView = false;
+                }
+                //Set sub schedules
+                addSubSchedule(holder, position);
+
+                isAdding = false;
             }
-            //Set sub schedules
-            addSubSchedule(holder, position);
-            isAdding = false;
-        }
+
+
     }
 
     private void addSubSchedule(ScheduleViewHolder holder, int position)
@@ -134,6 +138,11 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             }
 
             // activityCommunicator.passDataToActivity(true);
+
+            if(holder.getAdapterPosition() == schedules.size() - 1)
+            {
+                isAdding = false;
+            }
         }
 
         //init counters of sub schedules
@@ -199,7 +208,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         holder.scheduleLayout.removeAllViews();
     }
 
-    public static class  ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         CardView cardView;
 
@@ -274,7 +283,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             }
         }
 
-        public  void addSubSchedule(String type)
+        public void addSubSchedule(String type)
         {
             LayoutInflater layoutInflater = (LayoutInflater) activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View subScheduleView = layoutInflater.inflate(R.layout.sub_schedule, null);
@@ -303,6 +312,8 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             }
 
            //subScheduleLayout.addView(subScheduleView);
+
+            //int pos = getAdapterPosition();
         }
 
         public void setActivity(MainActivity activity)
