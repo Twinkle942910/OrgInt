@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ShedulesFragment extends AbstractTabFragment implements ActivityDataCommunicator
+public class SchedulesFragment extends AbstractTabFragment implements ActivityDataCommunicator
 {
     public static final String SHEDULES_PAGE = "SHEDULES_PAGE";
     public static final int LAYOUT = R.layout.fragment_shedules;
@@ -45,15 +45,14 @@ public class ShedulesFragment extends AbstractTabFragment implements ActivityDat
     private String[] interests;
 
     private Intent scheduleAddData;
-    private boolean isDataBaseData = true;
     private List<Sub_schedule> sub_schedules;
 
-    public static ShedulesFragment newInstance(int page, Context context)
+    public static SchedulesFragment newInstance(int page, Context context)
     {
         Bundle args = new Bundle();
         args.putInt(SHEDULES_PAGE, page);
 
-        ShedulesFragment fragment = new ShedulesFragment();
+        SchedulesFragment fragment = new SchedulesFragment();
         fragment.setArguments(args);
         fragment.setContext(context);
         fragment.setTitle(context.getString(R.string.tab_shedules_name));
@@ -87,18 +86,11 @@ public class ShedulesFragment extends AbstractTabFragment implements ActivityDat
         recyclerView.setLayoutManager(llm);
 
         initWeek();
+        initializeData();
 
-        //sub_schedules = new ArrayList<>();
-
-        if (isDataBaseData)
-        {
-            initializeData();
-        }
                                                         //context, maybe?
         adapter = new ScheduleRecycleAdapter(schedules, getActivity());
         recyclerView.setAdapter(adapter);
-
-        isDataForAdapter(isDataBaseData);
 
         return view;
     }
@@ -187,11 +179,6 @@ public class ShedulesFragment extends AbstractTabFragment implements ActivityDat
 
             schedulesDB.update(scheduleDay);
         }
-    }
-
-    private void isDataForAdapter(boolean isData)
-    {
-        ((MainActivity)getActivity()).adapterCommunicator.isAddingSubSchedule(isData);
     }
 
     public void addShedule()
@@ -328,17 +315,81 @@ public class ShedulesFragment extends AbstractTabFragment implements ActivityDat
 
             case "Thursday":
 
+                for (int i = 0; i < titles.length; i++)
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+                    sub_schedule.setSchedule_ID(4);
+                    sub_schedule.setType("Schedule");
+                    sub_schedule.setTask(titles[i]);
+                    sub_schedule.setTime(times[i]);
+                    sub_schedule.setComment(comments[i]);
+                    sub_schedule.setInterest(interests[i]);
+
+                    sub_schedulesDB.insert(sub_schedule);
+                    sub_schedules.add(sub_schedule);
+
+                    schedules.get(3).setSub_schedule(sub_schedule);
+                }
+
                 break;
 
             case "Friday":
+
+                for (int i = 0; i < titles.length; i++)
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+                    sub_schedule.setSchedule_ID(5);
+                    sub_schedule.setType("Schedule");
+                    sub_schedule.setTask(titles[i]);
+                    sub_schedule.setTime(times[i]);
+                    sub_schedule.setComment(comments[i]);
+                    sub_schedule.setInterest(interests[i]);
+
+                    sub_schedulesDB.insert(sub_schedule);
+                    sub_schedules.add(sub_schedule);
+
+                    schedules.get(4).setSub_schedule(sub_schedule);
+                }
 
                 break;
 
             case "Saturday":
 
+                for (int i = 0; i < titles.length; i++)
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+                    sub_schedule.setSchedule_ID(6);
+                    sub_schedule.setType("Schedule");
+                    sub_schedule.setTask(titles[i]);
+                    sub_schedule.setTime(times[i]);
+                    sub_schedule.setComment(comments[i]);
+                    sub_schedule.setInterest(interests[i]);
+
+                    sub_schedulesDB.insert(sub_schedule);
+                    sub_schedules.add(sub_schedule);
+
+                    schedules.get(5).setSub_schedule(sub_schedule);
+                }
+
                 break;
 
             case "Sunday":
+
+                for (int i = 0; i < titles.length; i++)
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+                    sub_schedule.setSchedule_ID(7);
+                    sub_schedule.setType("Schedule");
+                    sub_schedule.setTask(titles[i]);
+                    sub_schedule.setTime(times[i]);
+                    sub_schedule.setComment(comments[i]);
+                    sub_schedule.setInterest(interests[i]);
+
+                    sub_schedulesDB.insert(sub_schedule);
+                    sub_schedules.add(sub_schedule);
+
+                    schedules.get(6).setSub_schedule(sub_schedule);
+                }
 
                 break;
         }

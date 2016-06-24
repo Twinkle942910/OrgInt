@@ -3,6 +3,7 @@ package com.twinkle.orgint.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +26,11 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     List<Schedule> schedules;
     Context context;
 
-    //interface via which we communicate to hosting Activity
-   // private ActivityCommunicator activityCommunicator;
-
-    private boolean isAdding = true;
-    private boolean addingView = false;
-
     public ScheduleRecycleAdapter(List<Schedule> schedules, Context context)
     {
         this.schedules = schedules;
         this.context = context;
 
-      //  activityCommunicator =(ActivityCommunicator)context;
         ((MainActivity)context).adapterCommunicator = this;
     }
 
@@ -52,33 +46,27 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     @Override
     public void onBindViewHolder(ScheduleViewHolder holder, int position)
     {
+        Log.d("RW", "onBindViewHolder,position=" + position);
+
         //Set top data of schedule
         initScheduleTop(holder, position);
 
-            if (isAdding)
-            {
-                if (addingView)
-                {
-                    removeSchedules(holder);
-                    addingView = false;
-                }
-                //Set sub schedules
-                addSubSchedule(holder, position);
-
-                isAdding = false;
-            }
-
-
+        //Set sub schedules
+        addSubSchedule(holder, position);
     }
 
     private void addSubSchedule(ScheduleViewHolder holder, int position)
     {
+        removeSchedules(holder);
+
         int sub_schedules_count = 0;
         int sub_todo_count = 0;
         int sub_work_tasks_count = 0;
         int sub_birthdays_count = 0;
 
-        for (int i = 0; i < schedules.get(position).getSubSchedulesCount(); i++)
+        int schedule_sub_schedules_count = schedules.get(position).getSubSchedulesCount();
+
+        for (int i = 0; i < schedule_sub_schedules_count; i++)
         {
             String sub_taskType = schedules.get(position).getSub_schedule(i).getType();
 
@@ -89,6 +77,14 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             ImageView child_sub_schedule_image = null;
 
             int sub_task_image = R.drawable.ic_shedule;
+
+          /*  if (isAdding)
+            {
+                holder.addSubSchedule(sub_taskType);
+                isAdding = false;
+
+                Log.d("Adding One RW", "onBindViewHolder,position=" + position);
+            }*/
 
             holder.addSubSchedule(sub_taskType);
 
@@ -136,13 +132,6 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
             if (child_sub_schedule_image != null) {
                 child_sub_schedule_image.setBackgroundResource(sub_task_image);
             }
-
-            // activityCommunicator.passDataToActivity(true);
-
-            if(holder.getAdapterPosition() == schedules.size() - 1)
-            {
-                isAdding = false;
-            }
         }
 
         //init counters of sub schedules
@@ -189,23 +178,18 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     }
 
     @Override
-    public void updateDataSet()
+    public void updateDataSet(int position)
     {
-      //  addSubSchedule(thisHolders.get(index), thisHolders.get(index).getAdapterPosition());
-     //   bindViewHolder(thisHolders.get(index), thisHolders.get(index).getAdapterPosition());
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void isAddingSubSchedule(boolean isAdding)
-    {
-        this.isAdding = isAdding;
-        addingView = isAdding;
+        notifyItemChanged(position);
+       // notifyDataSetChanged();
     }
 
     private void removeSchedules(ScheduleViewHolder holder)
     {
-        holder.scheduleLayout.removeAllViews();
+        if(holder.scheduleLayout.getChildCount() > 0)
+        {
+            holder.scheduleLayout.removeAllViews();
+        }
     }
 
     public static class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -240,7 +224,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
 
         MainActivity activity;
 
-        public  ScheduleViewHolder(View itemView)
+        public ScheduleViewHolder(View itemView)
         {
             super(itemView);
             itemView.setOnClickListener(this);

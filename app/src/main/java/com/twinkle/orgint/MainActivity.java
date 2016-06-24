@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public AdapterCommunicator adapterCommunicator;
     public ActivityDataCommunicator fragmentCommunicator;
 
-    private boolean scheduleSubTasksAddingPermission = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -211,7 +209,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(requestCode == Constants.REQUEST_CODE_ADDING_SCHEDULE)
             {
                 sendDataToScheduleFragment(data);
-                updateScheduleAdapterItems();
+
+                int position = 0;
+
+                switch (data.getStringExtra("day"))
+                {
+                    case "Monday":
+                         position = 0;
+                        break;
+
+                    case "Tuesday":
+                        position = 1;
+                        break;
+
+                    case "Wednesday":
+                        position = 2;
+                        break;
+
+                    case "Thursday":
+                        position = 3;
+                        break;
+
+                    case "Friday":
+                        position = 4;
+                        break;
+
+                    case "Saturday":
+                        position = 5;
+                        break;
+
+                    case "Sunday":
+                        position = 6;
+                        break;
+                }
+
+                updateScheduleAdapterItems(position);
             }
         }
         else
@@ -258,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View view)
                 {
-                    //  ((ShedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
+                    //  ((SchedulesFragment)adapter.getItem(Constants.TAB_ONE)).addShedule();
                     sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     fab.hide();
                 }
@@ -479,12 +511,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return result;
     }
 
-    private void updateScheduleAdapterItems()
+    private void updateScheduleAdapterItems(int position)
     {
         if(adapterCommunicator != null)
         {
-            adapterCommunicator.isAddingSubSchedule(scheduleSubTasksAddingPermission);
-            adapterCommunicator.updateDataSet();
+            adapterCommunicator.updateDataSet(position);
         }
     }
 
@@ -495,10 +526,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentCommunicator.passDataToFragment(data);
         }
     }
-
-   /* public void setUpdatePermission(boolean permission)
-    {
-        scheduleSubTasksAddingPermission = permission;
-    }*/
-
 }

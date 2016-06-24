@@ -90,6 +90,4 @@ public class Schedule
     {
         this.sub_schedules = sub_schedules;
     }
-
-
 }
