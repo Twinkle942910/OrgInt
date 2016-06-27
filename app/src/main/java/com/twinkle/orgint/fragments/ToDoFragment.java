@@ -2,17 +2,26 @@ package com.twinkle.orgint.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.ToDoRecycleAdapter;
+import com.twinkle.orgint.database.SubTaskDAO;
 import com.twinkle.orgint.database.Sub_task;
 import com.twinkle.orgint.database.ToDo;
+import com.twinkle.orgint.database.ToDoDAO;
+import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +32,10 @@ public class ToDoFragment extends EventFragment
 
     private ToDoRecycleAdapter adapter;
     private List<ToDo> todoList;
+    private List<Sub_task> subTaskList;
+
+    private ToDoDAO todoListDB;
+    private SubTaskDAO subTaskListDB;
 
     public static ToDoFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest)
     {
@@ -60,6 +73,16 @@ public class ToDoFragment extends EventFragment
 
         getActivity().setTitle(getActivity().getIntent().getStringExtra("type"));
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorToDoTypeDark));
+
+
+            ((EventActivity)getActivity()).getToolbar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorToDoType)));
+        }
+
         return view;
     }
 
@@ -73,6 +96,7 @@ public class ToDoFragment extends EventFragment
             recyclerView.setLayoutManager(llm);
         }
 
+        initLists();
         initializeData();
 
         adapter = new ToDoRecycleAdapter(todoList, getActivity());
@@ -83,47 +107,13 @@ public class ToDoFragment extends EventFragment
         }
     }
 
-    //init mock data
-    private void initializeMockData()
+    private void initLists()
     {
-        todoList = new ArrayList<>();
+        todoListDB = new ToDoDAO(getActivity());
+        subTaskListDB = new SubTaskDAO(getActivity());
 
-        Sub_task st1 = new Sub_task();
-
-        st1.setContent("1. Open box");
-        st1.setDone(false);
-
-        Sub_task st2 = new Sub_task();
-
-        st2.setContent("2. Check mistakes");
-        st2.setDone(false);
-
-        Sub_task st3 = new Sub_task();
-
-        st3.setContent("3. Repair");
-        st3.setDone(false);
-
-        List<Sub_task> lst1  = new ArrayList<>();
-
-        lst1.add(st1);
-        lst1.add(st2);
-        lst1.add(st3);
-
-        for (int i=0; i<7; i++)
-        {
-            ToDo td1 = new ToDo(lst1);
-
-            td1.setTask("Lol " + i);
-            td1.setType("ToDo");
-            td1.setDate("June " + i);
-            td1.setTime("19:0" + i);
-
-            td1.setComment("Lol" + i);
-            td1.setInterest("Study " + i);
-
-            todoList.add(td1);
-        }
-
+        todoList =  new ArrayList<>();
+        subTaskList =  new ArrayList<>();
     }
 
     private void initializeData()
@@ -141,33 +131,60 @@ public class ToDoFragment extends EventFragment
         }
     }
 
+    private void initializeMockData()
+    {
+        todoList.addAll(todoListDB.getToDoList());
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasks();
+    }
+
+    private void setSubTasks()
+    {
+        for (ToDo todo: todoList)
+        {
+            for (Sub_task sub_task: subTaskList)
+            {
+                    if (sub_task.getTodo_ID() == todo.getID())
+                    {
+                        todo.setSub_task(sub_task);
+                    }
+            }
+        }
+    }
+
     private void addToDoData()
     {
-        todoList = new ArrayList<>();
+       // ToDo toDo = new ToDo(sub_task_list);
+        ToDo toDo = new ToDo();
 
-        List<Sub_task> lst1 = new ArrayList<>();
+        toDo.setTask(title);
+        toDo.setType("ToDo");
+        toDo.setDate(date);
+        toDo.setTime(time);
 
-        ToDo td1 = new ToDo(lst1);
+        toDo.setComment(comment);
+        toDo.setInterest(interest);
 
-        td1.setTask(title);
-        td1.setType("ToDo");
-        td1.setDate(date);
-        td1.setTime(time);
+        todoListDB.insert(toDo);
+        todoList.addAll(todoListDB.getToDoList());
 
-        td1.setComment(comment);
-
-        for (String sub_task1 : sub_tasks)
+        for (String sub_task1 : this.sub_tasks)
         {
             Sub_task sub_task = new Sub_task();
 
+            sub_task.setTodo_ID(todoList.get(todoList.size() - 1).getID());
             sub_task.setContent(sub_task1);
             sub_task.setDone(false);
 
-            td1.getSub_tasks().add(sub_task);
+            //toDo.setSub_task(sub_task);
+
+            subTaskListDB.insert(sub_task);
         }
 
-        td1.setInterest(interest);
 
-        todoList.add(td1);
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasks();
     }
 }

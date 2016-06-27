@@ -7,22 +7,24 @@ public class Sub_task
 
     // Labels Table Columns names
     public static final String ID = "id";
+    public static final String TODO_ID = "todo_id";
     public static final String CONTENT = "content";
     public static final String ISDONE = "isDone";
 
     // property help us to keep data
-    private int schedule_ID;
+    private int sub_task_id;
+    private int todo_ID;
     private String content;
     private boolean isDone;
 
-    public int getSchedule_ID()
+    public int getID()
     {
-        return schedule_ID;
+        return sub_task_id;
     }
 
-    public void setSchedule_ID(int schedule_ID)
+    public void setID(int sub_schedule_ID)
     {
-        this.schedule_ID = schedule_ID;
+        this.sub_task_id = sub_schedule_ID;
     }
 
     public String getContent()
@@ -43,5 +45,13 @@ public class Sub_task
     public void setDone(boolean done)
     {
         isDone = done;
+    }
+
+    public int getTodo_ID() {
+        return todo_ID;
+    }
+
+    public void setTodo_ID(int todo_ID) {
+        this.todo_ID = todo_ID;
     }
 }

@@ -33,8 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
         //Schedule table create
         scheduleCreator.create(db);
 
-        //table create
-        String DATABASE_CREATE_SCRIPT = "create table "
+        //table sub_schedule create
+        String CREATE_SUB_SCHEDULE = "create table "
                 + Sub_schedule.TABLE + " (" + Sub_schedule.ID + " integer primary key autoincrement, "
                 + Sub_schedule.SCHEDULE_ID  + " integer not null, "
                 + Sub_schedule.TIME  + " text not null, "
@@ -43,7 +43,28 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
                 + Sub_schedule.TASK  + " text not null, "
                 + Sub_schedule.INTEREST  + " text not null)";
 
-        db.execSQL(DATABASE_CREATE_SCRIPT);
+
+        //table todo create
+        String CREATE_TODO = "create table "
+                + ToDo.TABLE + " (" + ToDo.ID + " integer primary key autoincrement, "
+                + ToDo.TASK  + " text not null, "
+                + ToDo.TYPE  + " text not null, "
+                + ToDo.DATE  + " text not null, "
+                + ToDo.TIME  + " text not null, "
+                + ToDo.COMMENT  + " text not null, "
+                + ToDo.INTEREST  + " text not null)";
+
+        //table sub task create
+        String CREATE_SUB_TASK = "create table "
+                + Sub_task.TABLE + " (" + Sub_task.ID + " integer primary key autoincrement, "
+                + Sub_task.TODO_ID  + " int not null, "
+                + Sub_task.CONTENT  + " text not null, "
+                + Sub_task.ISDONE  + " text not null)";
+
+
+        db.execSQL(CREATE_SUB_SCHEDULE);
+        db.execSQL(CREATE_TODO);
+        db.execSQL(CREATE_SUB_TASK);
 
         initWeek(db);
     }

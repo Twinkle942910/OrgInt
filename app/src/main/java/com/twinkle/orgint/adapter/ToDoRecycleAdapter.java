@@ -14,15 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twinkle.orgint.R;
+import com.twinkle.orgint.database.Sub_task;
 import com.twinkle.orgint.database.ToDo;
 import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.List;
 
-public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.ToDoViewHolder> implements View.OnClickListener
+public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.ToDoViewHolder>
 {
     ToDoViewHolder toDoViewHolder;
     List<ToDo> toDoList;
@@ -57,9 +57,23 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         //Set top ToDo text
         setToDoTopText(holder, position);
 
+        final ToDoViewHolder thisHolder = holder;
+
         //Set listeners to expand and collapse buttons
-        holder.expand_button.setOnClickListener(this);
-        holder.collapse_button.setOnClickListener(this);
+        holder.expand_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    thisHolder.expand(thisHolder.cardView);
+                }
+
+        });
+        holder.collapse_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                thisHolder.collapse(thisHolder.cardView);
+            }
+        });
 
         //If there's no sub tasks and comments
         if(isSubTasksAndCommentAndInterest(position))
@@ -116,6 +130,8 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         //setting full image if all sub tasks isDone
         setSubTasksCompleteOrNot(sub_tasks_image, position);
 
+        checked_sub_tasks_count = 0;
+
         //Sub tasks counters init(setting)
         sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(position).getSubTasksCount()));
     }
@@ -155,12 +171,14 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
     {
         holder.todo_task.setText(toDoList.get(position).getTask());
         holder.todo_type.setText(toDoList.get(position).getType());
-        holder.todo_date.setText(toDoList.get(position).getDate() + " " + toDoList.get(position).getTime());
+        holder.todo_date.setText(toDoList.get(position).getDate() + ", " + toDoList.get(position).getTime());
     }
 
     //Adding sub tasks and setting values
     private void addSubTask(ToDoViewHolder holder, final TextView sub_tasks_count_text, final ImageView sub_tasks_image, final int position)
     {
+        removeTasks(holder);
+
         //Adding sub tasks
         for (int i = 0; i < toDoList.get(position).getSubTasksCount(); i++)
         {
@@ -183,22 +201,42 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             //in some cases, it will prevent unwanted situations
             child_sub_task_isdone.setOnCheckedChangeListener(null);
             child_sub_task_isdone.setChecked(toDoList.get(position).getSub_task(i).isDone());
+
             child_sub_task_isdone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
                 {
-                    toDoList.get(position).getSub_task(sub_task_item_position).setDone(isChecked);
 
-                    if (isChecked) {
-                        checked_sub_tasks_count++;
-                    } else if (checked_sub_tasks_count > 0) {
-                        checked_sub_tasks_count--;
+                    for (Sub_task sub_task : toDoList.get(position).getSub_tasks())
+                    {
+                        if(isChecked)
+                        {
+                            sub_task.setDone(isChecked);
+                        }
+
+                        if(sub_task.isDone())
+                        {
+                            checked_sub_tasks_count++;
+                        }
                     }
-                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(position).getSubTasksCount()));
 
+                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(position).getSubTasksCount()));
                     setSubTasksCompleteOrNot(sub_tasks_image, position);
+
+                    checked_sub_tasks_count = 0;
                 }
             });
+        }
+    }
+
+    private void removeTasks(ToDoViewHolder holder)
+    {
+        if(holder.subTasksLayout.getChildCount() > 0)
+        {
+            holder.subTasksLayout.removeAllViews();
         }
     }
 
@@ -222,21 +260,6 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         }
         else{
             sub_tasks_image.setBackgroundResource(R.drawable.ic_sub_tasks_empty);
-        }
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.sub_tasks_expand:
-                toDoViewHolder.expand(toDoViewHolder.cardView);
-                break;
-
-            case R.id.sub_tasks_collaps:
-                toDoViewHolder.collapse(toDoViewHolder.cardView);
-                break;
         }
     }
 
@@ -291,6 +314,8 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
 
         EventActivity activity;
 
+        int checked_sub_tasks_count;
+
         public ToDoViewHolder(View itemView)
         {
             super(itemView);
@@ -338,6 +363,8 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             //Interest
             //Image
             interest_icon = (ImageView) itemView.findViewById(R.id.interest_icon);
+
+            checked_sub_tasks_count = 0;
         }
 
         @Override

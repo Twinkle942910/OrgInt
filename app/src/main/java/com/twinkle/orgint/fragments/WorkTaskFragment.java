@@ -2,17 +2,22 @@ package com.twinkle.orgint.fragments;
 
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.WorkTaskRecycleAdapter;
 import com.twinkle.orgint.database.Sub_task;
 import com.twinkle.orgint.database.WorkTask;
+import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +64,17 @@ public class WorkTaskFragment extends EventFragment
         initToDoList();
 
         getActivity().setTitle(getActivity().getIntent().getStringExtra("type"));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorWorkTaskTypeDark));
+
+
+            ((EventActivity)getActivity()).getToolbar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorWorkTaskType)));
+        }
 
         return view;
     }

@@ -19,9 +19,19 @@
 
     <color name="colorGrey">#bdbdbd</color>
 
+    <color name="colorToDoTypeDark">#be4040</color>
+    <color name="colorWorkTaskTypeDark">#519fc2</color>
+    <color name="colorBirthdayTypeDark">#3da75d</color>
+
     <color name="colorScheduleType">#3a99f7</color>
     <color name="colorToDoType">#f55656</color>
     <color name="colorWorkTaskType">#61bfea</color>
     <color name="colorBirthdayType">#49ca70</color>
+
+
+    <color name="colorUICategory">#99cc67</color>
+    <color name="colorNUICategory">#30ccff</color>
+    <color name="colorUNICategory">#ff9934</color>
+    <color name="colorNUNICategory">#ff6634</color>
 
 </resources>

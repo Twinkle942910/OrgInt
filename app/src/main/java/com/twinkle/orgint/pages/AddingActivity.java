@@ -200,6 +200,8 @@ public class AddingActivity extends AppCompatActivity
 
     public  void addSubTask(View view)
     {
+        //ToDo: work on it! For simple and schedule
+     //   simpleEvent.onFragmentClick(view);
         scheduleEvent.onFragmentClick(view);
     }
 

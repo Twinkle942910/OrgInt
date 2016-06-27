@@ -17,6 +17,7 @@ import com.twinkle.orgint.database.ScheduleDAO;
 import com.twinkle.orgint.database.SubScheduleDAO;
 import com.twinkle.orgint.database.Sub_schedule;
 import com.twinkle.orgint.helpers.ActivityDataCommunicator;
+import com.twinkle.orgint.helpers.Day;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -199,6 +200,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
 
         schedules = schedulesDB.getScheduleList();
         sub_schedules = sub_schedulesDB.getSubScheduleList();
+
+
 
         for (Sub_schedule sub_schedule : sub_schedules)
         {

@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         if(adapterCommunicator != null)
         {
-            adapterCommunicator.updateDataSet(position);
+            adapterCommunicator.updateItem(position);
         }
     }
 

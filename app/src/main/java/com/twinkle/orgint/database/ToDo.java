@@ -19,7 +19,7 @@ public class ToDo
     public static final String INTEREST = "interest";
 
     // property help us to keep data
-    private int schedule_ID;
+    private int todo_ID;
     private String task;
     private String type;
     private String date;
@@ -39,12 +39,12 @@ public class ToDo
         this.sub_tasks = new ArrayList<>();
     }
 
-    public int getSchedule_ID() {
-        return schedule_ID;
+    public int getID() {
+        return todo_ID;
     }
 
-    public void setSchedule_ID(int schedule_ID) {
-        this.schedule_ID = schedule_ID;
+    public void setID(int schedule_ID) {
+        this.todo_ID = schedule_ID;
     }
 
     public String getTask() {
@@ -89,6 +89,11 @@ public class ToDo
 
     public Sub_task getSub_task(int position) {
         return sub_tasks.get(position);
+    }
+
+    public void setSub_task(Sub_task sub_task)
+    {
+       sub_tasks.add(sub_task);
     }
 
     public List<Sub_task> getSub_tasks() {

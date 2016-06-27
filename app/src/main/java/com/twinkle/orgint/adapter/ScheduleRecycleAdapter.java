@@ -178,7 +178,7 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     }
 
     @Override
-    public void updateDataSet(int position)
+    public void updateItem(int position)
     {
         notifyItemChanged(position);
        // notifyDataSetChanged();

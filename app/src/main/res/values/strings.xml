@@ -134,4 +134,8 @@
     <string name="birthday_card_mock_interest_title">Interest</string>
     <string name="birthday_card_mock_interest_contain">Friends</string>
 
+    <!-- Planning card -->
+    <string name="planning_card_mock_title">Urgent Important</string>
+
+
 </resources>

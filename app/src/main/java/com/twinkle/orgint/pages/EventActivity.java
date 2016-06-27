@@ -20,6 +20,10 @@ public class EventActivity extends AppCompatActivity
 
     private Toolbar toolbar;
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     String category;
     String title;
     String date;
