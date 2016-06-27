@@ -290,7 +290,8 @@ public class SimpleEventAddingFragment extends Fragment implements FragmentClick
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth)
                     {
-                        String myFormatDate = "EEEE, LLLL d";
+                        //String myFormatDate = "EEEE, LLLL d";
+                        String myFormatDate = "LLLL d, yyyy";
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate, Locale.US);
 
                         c.set(Calendar.YEAR, year);

@@ -19,7 +19,7 @@ public class WorkTask
     public static final String INTEREST = "interest";
 
     // property help us to keep data
-    private int schedule_ID;
+    private int workTask_ID;
     private String task;
     private String type;
     private String date;
@@ -29,22 +29,17 @@ public class WorkTask
 
     private List<Sub_task> sub_tasks;
 
-    public WorkTask(List<Sub_task> sub_tasks) {
-        this.sub_tasks = new ArrayList<>();
-        this.sub_tasks = sub_tasks;
-    }
-
     public WorkTask()
     {
         this.sub_tasks = new ArrayList<>();
     }
 
-    public int getSchedule_ID() {
-        return schedule_ID;
+    public int getID() {
+        return workTask_ID;
     }
 
-    public void setSchedule_ID(int schedule_ID) {
-        this.schedule_ID = schedule_ID;
+    public void setID(int workTask_ID) {
+        this.workTask_ID = workTask_ID;
     }
 
     public String getTask() {
@@ -109,5 +104,9 @@ public class WorkTask
 
     public void setInterest(String interest) {
         this.interest = interest;
+    }
+
+    public void setSub_task(Sub_task sub_task) {
+        sub_tasks.add(sub_task);
     }
 }

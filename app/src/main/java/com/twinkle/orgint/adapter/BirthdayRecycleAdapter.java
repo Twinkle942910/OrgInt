@@ -27,7 +27,6 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
     List<Birthday> birthdayList;
     Context context;
 
-    private int todo_item_position;
     private int sub_task_item_position;
     private int checked_sub_tasks_count;
 
@@ -55,35 +54,47 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
         final ImageView sub_tasks_image = holder.sub_tasks_icon;
 
         //Set top Work task text
-        setToDoTopText(holder);
+        setToDoTopText(holder, position);
+
+        final BirthdayViewHolder thisHolder = holder;
 
         //Set listeners to expand and collapse buttons
-        holder.expand_button.setOnClickListener(this);
-        holder.collapse_button.setOnClickListener(this);
+        holder.expand_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                thisHolder.expand(thisHolder.cardView);
+            }
 
-        //Get position of work task item
-        todo_item_position = holder.getAdapterPosition();
+        });
+        holder.collapse_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                thisHolder.collapse(thisHolder.cardView);
+            }
+        });
+
 
         //If there's no sub tasks and comments
-        if(isSubTasksAndCommentAndInterest())
+        if(isSubTasksAndCommentAndInterest(position))
         {
             holder.subTasksAndComentLayout.setVisibility(View.GONE);
             holder.subTasksAndComentCountLayout.setVisibility(View.GONE);
         }
         else
         //If there's no sub_tasks
-        if(isSubTasks())
+        if(isSubTasks(position))
         {
             holder.subTasksLayout.setVisibility(View.GONE);
             holder.sub_tasks_title.setVisibility(View.GONE);
         }
         else
         {
-            addSubTask(holder, sub_tasks_count_text, sub_tasks_image);
+            addSubTask(holder, sub_tasks_count_text, sub_tasks_image, position);
         }
 
         //If there's no comment
-        if(isComment())
+        if(isComment(position))
         {
             holder.commentLayout.setVisibility(View.GONE);
             holder.comment_count.setText(Integer.toString(0));
@@ -91,7 +102,7 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
         }
         else
         {
-            if(isSubTasks())
+            if(isSubTasks(position))
             {
                 holder.divider.setVisibility(View.GONE);
             }
@@ -100,7 +111,7 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
         }
 
         //If there's no interest
-        if(isInterest())
+        if(isInterest(position))
         {
             holder.interest_icon.setVisibility(View.GONE);
             holder.interestLayout.setVisibility(View.GONE);
@@ -108,7 +119,7 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
         }
         else
         {
-            if(isSubTasks() && isComment())
+            if(isSubTasks(position) && isComment(position))
             {
                 holder.divider_com_int.setVisibility(View.GONE);
             }
@@ -117,55 +128,57 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
 
 
         //setting full image if all sub tasks isDone
-        setSubTasksCompleteOrNot(sub_tasks_image);
+        setSubTasksCompleteOrNot(sub_tasks_image, position);
 
         //Sub tasks counters init(setting)
         sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(birthdayList.get(position).getSubTasksCount()));
     }
 
     //Checks if there is comment
-    private boolean isComment()
+    private boolean isComment(int position)
     {
-        return "".equals(birthdayList.get(todo_item_position).getComment());
+        return "".equals(birthdayList.get(position).getComment());
     }
 
     //Checks if there are syb tasks
-    private boolean isSubTasks()
+    private boolean isSubTasks(int position)
     {
-        return birthdayList.get(todo_item_position).getSub_tasks().isEmpty();
+        return birthdayList.get(position).getSub_tasks().isEmpty();
     }
 
     //Checks if there is interest
-    private boolean isInterest()
+    private boolean isInterest(int position)
     {
-        return "".equals(birthdayList.get(todo_item_position).getInterest());
+        return "".equals(birthdayList.get(position).getInterest());
     }
 
     //Checks if sub tasks and comment are empty
-    private boolean isSubTasksAndComment()
+    private boolean isSubTasksAndComment(int position)
     {
-        return isSubTasks() && isComment();
+        return isSubTasks(position) && isComment(position);
     }
 
     //Checks if sub tasks, comment and interest are empty
-    private boolean isSubTasksAndCommentAndInterest()
+    private boolean isSubTasksAndCommentAndInterest(int position)
     {
-        return isSubTasksAndComment() && isInterest();
+        return isSubTasksAndComment(position) && isInterest(position);
     }
 
     //ToDo top text setting
-    private void setToDoTopText(BirthdayViewHolder holder)
+    private void setToDoTopText(BirthdayViewHolder holder, int position)
     {
-        holder.birthday_task.setText(birthdayList.get(todo_item_position).getTask());
-        holder.birthday_type.setText(birthdayList.get(todo_item_position).getType());
-        holder.birthday_date.setText(birthdayList.get(todo_item_position).getDate() + " " + birthdayList.get(todo_item_position).getTime());
+        holder.birthday_task.setText(birthdayList.get(position).getTask());
+        holder.birthday_type.setText(birthdayList.get(position).getType());
+        holder.birthday_date.setText(birthdayList.get(position).getDate() + " " + birthdayList.get(position).getTime());
     }
 
     //Adding sub tasks and setting values
-    private void addSubTask(BirthdayViewHolder holder, final TextView sub_tasks_count_text, final ImageView sub_tasks_image)
+    private void addSubTask(BirthdayViewHolder holder, final TextView sub_tasks_count_text, final ImageView sub_tasks_image, final int position)
     {
+        removeTasks(holder);
+
         //Adding sub tasks
-        for (int i = 0; i < birthdayList.get(todo_item_position).getSubTasksCount(); i++)
+        for (int i = 0; i < birthdayList.get(position).getSubTasksCount(); i++)
         {
             //get position of sub_task
             sub_task_item_position = i;
@@ -181,26 +194,34 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
             CheckBox child_sub_task_isdone = (CheckBox) thisChild.findViewById(R.id.sub_task_checkBox);
 
             //Setting sub_task views
-            child_sub_task_task.setText(birthdayList.get(todo_item_position).getSub_task(i).getContent());
+            child_sub_task_task.setText(birthdayList.get(position).getSub_task(i).getContent());
 
             //in some cases, it will prevent unwanted situations
             child_sub_task_isdone.setOnCheckedChangeListener(null);
-            child_sub_task_isdone.setChecked(birthdayList.get(todo_item_position).getSub_task(i).isDone());
+            child_sub_task_isdone.setChecked(birthdayList.get(position).getSub_task(i).isDone());
             child_sub_task_isdone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    birthdayList.get(todo_item_position).getSub_task(sub_task_item_position).setDone(isChecked);
+                    birthdayList.get(position).getSub_task(sub_task_item_position).setDone(isChecked);
 
                     if (isChecked) {
                         checked_sub_tasks_count++;
                     } else if (checked_sub_tasks_count > 0) {
                         checked_sub_tasks_count--;
                     }
-                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(birthdayList.get(todo_item_position).getSubTasksCount()));
+                    sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(birthdayList.get(position).getSubTasksCount()));
 
-                    setSubTasksCompleteOrNot(sub_tasks_image);
+                    setSubTasksCompleteOrNot(sub_tasks_image, position);
                 }
             });
+        }
+    }
+
+    private void removeTasks(BirthdayViewHolder holder)
+    {
+        if(holder.subTasksLayout.getChildCount() > 0)
+        {
+            holder.subTasksLayout.removeAllViews();
         }
     }
 
@@ -216,9 +237,9 @@ public class BirthdayRecycleAdapter extends RecyclerView.Adapter<BirthdayRecycle
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public void setSubTasksCompleteOrNot(ImageView sub_tasks_image)
+    public void setSubTasksCompleteOrNot(ImageView sub_tasks_image, int position)
     {
-        if(checked_sub_tasks_count == birthdayList.get(todo_item_position).getSubTasksCount())
+        if(checked_sub_tasks_count == birthdayList.get(position).getSubTasksCount())
         {
             sub_tasks_image.setBackgroundResource(R.drawable.ic_sub_tasks_full);
         }

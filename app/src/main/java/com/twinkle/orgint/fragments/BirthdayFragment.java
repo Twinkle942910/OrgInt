@@ -15,10 +15,12 @@ import android.view.WindowManager;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.BirthdayRecycleAdapter;
-import com.twinkle.orgint.adapter.WorkTaskRecycleAdapter;
 import com.twinkle.orgint.database.Birthday;
+import com.twinkle.orgint.database.BirthdayDAO;
+import com.twinkle.orgint.database.SubTaskDAO;
 import com.twinkle.orgint.database.Sub_task;
 import com.twinkle.orgint.database.WorkTask;
+import com.twinkle.orgint.database.WorkTaskDAO;
 import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.ArrayList;
@@ -29,7 +31,12 @@ public class BirthdayFragment extends EventFragment
     public static final int LAYOUT = R.layout.fragment_birthday;
 
     private BirthdayRecycleAdapter adapter;
+
     private List<Birthday> birthdayList;
+    private List<Sub_task> subTaskList;
+
+    private BirthdayDAO birthdayListDB;
+    private SubTaskDAO subTaskListDB;
 
     public static BirthdayFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest)
     {
@@ -91,6 +98,7 @@ public class BirthdayFragment extends EventFragment
             recyclerView.setLayoutManager(llm);
         }
 
+        initLists();
         initializeData();
 
         adapter = new BirthdayRecycleAdapter(birthdayList, getActivity());
@@ -101,43 +109,13 @@ public class BirthdayFragment extends EventFragment
         }
     }
 
-    //init mock data
-    private void initializeMockData()
+    private void initLists()
     {
-        birthdayList = new ArrayList<>();
+        birthdayListDB = new BirthdayDAO(getActivity());
+        subTaskListDB = new SubTaskDAO(getActivity());
 
-        Sub_task st1 = new Sub_task();
-
-        st1.setContent("1. Buy present");
-        st1.setDone(false);
-
-        Sub_task st2 = new Sub_task();
-
-        st2.setContent("2. Write card");
-        st2.setDone(false);
-
-        Sub_task st3 = new Sub_task();
-
-        st3.setContent("3. Think what to wear");
-        st3.setDone(false);
-
-        List<Sub_task> lst1  = new ArrayList<>();
-
-        lst1.add(st1);
-        lst1.add(st2);
-        lst1.add(st3);
-
-        Birthday birthday = new Birthday(lst1);
-
-        birthday.setTask("Congratulate someone");
-        birthday.setType("Birthday");
-        birthday.setDate("June 17,");
-        birthday.setTime("18:00 pm");
-
-        birthday.setComment("think about what to buy");
-        birthday.setInterest("Friends");
-
-        birthdayList.add(birthday);
+        birthdayList =  new ArrayList<>();
+        subTaskList =  new ArrayList<>();
     }
 
     private void initializeData()
@@ -155,13 +133,32 @@ public class BirthdayFragment extends EventFragment
         }
     }
 
+    //init mock data
+    private void initializeMockData()
+    {
+        birthdayList.addAll(birthdayListDB.getBirthdayList());
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasks();
+    }
+
+    private void setSubTasks()
+    {
+        for (Birthday birthday: birthdayList)
+        {
+            for (Sub_task sub_task: subTaskList)
+            {
+                if (sub_task.getBirthday_id() == birthday.getID())
+                {
+                    birthday.setSub_task(sub_task);
+                }
+            }
+        }
+    }
+
     private void addToDoData()
     {
-        birthdayList = new ArrayList<>();
-
-        List<Sub_task> lst1 = new ArrayList<>();
-
-        Birthday birthday = new Birthday(lst1);
+        Birthday birthday = new Birthday();
 
         birthday.setTask(title);
         birthday.setType("Birthday");
@@ -169,19 +166,25 @@ public class BirthdayFragment extends EventFragment
         birthday.setTime(time);
 
         birthday.setComment(comment);
+        birthday.setInterest(interest);
+
+        birthdayListDB.insert(birthday);
+        birthdayList.addAll(birthdayListDB.getBirthdayList());
 
         for (String sub_task1 : sub_tasks)
         {
             Sub_task sub_task = new Sub_task();
 
+            sub_task.setBirthday_id(birthdayList.get(birthdayList.size() - 1).getID());
             sub_task.setContent(sub_task1);
             sub_task.setDone(false);
 
-            birthday.getSub_tasks().add(sub_task);
+           // birthday.getSub_tasks().add(sub_task);
+
+            subTaskListDB.insert(sub_task);
         }
 
-        birthday.setInterest(interest);
-
-        birthdayList.add(birthday);
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+        setSubTasks();
     }
 }

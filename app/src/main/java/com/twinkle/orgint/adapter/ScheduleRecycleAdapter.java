@@ -58,6 +58,9 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
     private void addSubSchedule(ScheduleViewHolder holder, int position)
     {
         removeSchedules(holder);
+        removeToDos(holder);
+        removeWorkTasks(holder);
+        removeBirthdays(holder);
 
         int sub_schedules_count = 0;
         int sub_todo_count = 0;
@@ -189,6 +192,30 @@ public class ScheduleRecycleAdapter extends RecyclerView.Adapter<ScheduleRecycle
         if(holder.scheduleLayout.getChildCount() > 0)
         {
             holder.scheduleLayout.removeAllViews();
+        }
+    }
+
+    private void removeToDos(ScheduleViewHolder holder)
+    {
+        if(holder.todoLayout.getChildCount() > 0)
+        {
+            holder.todoLayout.removeAllViews();
+        }
+    }
+
+    private void removeWorkTasks(ScheduleViewHolder holder)
+    {
+        if(holder.work_tasksLayout.getChildCount() > 0)
+        {
+            holder.work_tasksLayout.removeAllViews();
+        }
+    }
+
+    private void removeBirthdays(ScheduleViewHolder holder)
+    {
+        if(holder.bithdaysLayout.getChildCount() > 0)
+        {
+            holder.bithdaysLayout.removeAllViews();
         }
     }
 

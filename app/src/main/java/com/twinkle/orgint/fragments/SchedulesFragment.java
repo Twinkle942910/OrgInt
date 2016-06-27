@@ -12,10 +12,18 @@ import android.view.ViewGroup;
 import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.ScheduleRecycleAdapter;
+import com.twinkle.orgint.database.Birthday;
+import com.twinkle.orgint.database.BirthdayDAO;
 import com.twinkle.orgint.database.Schedule;
 import com.twinkle.orgint.database.ScheduleDAO;
 import com.twinkle.orgint.database.SubScheduleDAO;
+import com.twinkle.orgint.database.SubTaskDAO;
 import com.twinkle.orgint.database.Sub_schedule;
+import com.twinkle.orgint.database.Sub_task;
+import com.twinkle.orgint.database.ToDo;
+import com.twinkle.orgint.database.ToDoDAO;
+import com.twinkle.orgint.database.WorkTask;
+import com.twinkle.orgint.database.WorkTaskDAO;
 import com.twinkle.orgint.helpers.ActivityDataCommunicator;
 import com.twinkle.orgint.helpers.Day;
 
@@ -37,6 +45,13 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
 
     private ScheduleDAO schedulesDB;
     private SubScheduleDAO sub_schedulesDB;
+
+    private ToDoDAO todoListDB;
+    private SubTaskDAO subTaskListDB;
+
+    private WorkTaskDAO workTaskListDB;
+
+    private BirthdayDAO birthdayListDB;
 
     private String day;
 
@@ -239,6 +254,11 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
 
             }
         }
+
+
+        setToDos();
+        setWorkTasks();
+        setBirthdays();
     }
 
     public void setData()
@@ -251,6 +271,151 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
         interests = scheduleAddData.getStringArrayExtra("interest");
 
         setSubSchedules();
+    }
+
+    private void setToDos()
+    {
+        todoListDB = new ToDoDAO(getActivity());
+        subTaskListDB = new SubTaskDAO(getActivity());
+
+        List<ToDo> todoList = new ArrayList<>();
+        List<Sub_task> subTaskList = new ArrayList<>();
+
+        todoList.addAll(todoListDB.getToDoList());
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasks(todoList, subTaskList);
+
+        for (Schedule schedule_day: schedules)
+        {
+            for (ToDo todo : todoList)
+            {
+                if(todo.getDate().equals(schedule_day.getDate()))
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+
+                    sub_schedule.setSchedule_ID(schedule_day.getSchedule_ID());
+                    sub_schedule.setType("ToDo");
+                    sub_schedule.setTask(todo.getTask());
+                    sub_schedule.setTime(todo.getTime());
+                    sub_schedule.setComment(todo.getComment());
+                    sub_schedule.setInterest(todo.getInterest());
+
+                    schedule_day.setSub_schedule(sub_schedule);
+                }
+            }
+        }
+    }
+
+    private void setWorkTasks()
+    {
+        workTaskListDB = new WorkTaskDAO(getActivity());
+        subTaskListDB = new SubTaskDAO(getActivity());
+
+        List<WorkTask> workTaskList = new ArrayList<>();
+        List<Sub_task> subTaskList = new ArrayList<>();
+
+        workTaskList.addAll(workTaskListDB.getWorkTaskList());
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasksWorkT(workTaskList, subTaskList);
+
+        for (Schedule schedule_day: schedules)
+        {
+            for (WorkTask workTask : workTaskList)
+            {
+                if(workTask.getDate().equals(schedule_day.getDate()))
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+
+                    sub_schedule.setSchedule_ID(schedule_day.getSchedule_ID());
+                    sub_schedule.setType("Work Task");
+                    sub_schedule.setTask(workTask.getTask());
+                    sub_schedule.setTime(workTask.getTime());
+                    sub_schedule.setComment(workTask.getComment());
+                    sub_schedule.setInterest(workTask.getInterest());
+
+                    schedule_day.setSub_schedule(sub_schedule);
+                }
+            }
+        }
+    }
+
+    private void setBirthdays()
+    {
+        birthdayListDB = new BirthdayDAO(getActivity());
+        subTaskListDB = new SubTaskDAO(getActivity());
+
+        List<Birthday> birthdayList = new ArrayList<>();
+        List<Sub_task> subTaskList = new ArrayList<>();
+
+        birthdayList.addAll(birthdayListDB.getBirthdayList());
+        subTaskList.addAll(subTaskListDB.getSubTaskList());
+
+        setSubTasksBD(birthdayList, subTaskList);
+
+        for (Schedule schedule_day: schedules)
+        {
+            for (Birthday birthday : birthdayList)
+            {
+                if(birthday.getDate().equals(schedule_day.getDate()))
+                {
+                    Sub_schedule sub_schedule = new Sub_schedule();
+
+                    sub_schedule.setSchedule_ID(schedule_day.getSchedule_ID());
+                    sub_schedule.setType("Birthday");
+                    sub_schedule.setTask(birthday.getTask());
+                    sub_schedule.setTime(birthday.getTime());
+                    sub_schedule.setComment(birthday.getComment());
+                    sub_schedule.setInterest(birthday.getInterest());
+
+                    schedule_day.setSub_schedule(sub_schedule);
+                }
+            }
+        }
+    }
+
+    //ToDo: one method for all of them(Casting, abstract, pattern?)
+    private void setSubTasks(List<ToDo> todoList, List<Sub_task> subTaskList)
+    {
+        for (ToDo todo: todoList)
+        {
+            for (Sub_task sub_task: subTaskList)
+            {
+                if (sub_task.getTodo_ID() == todo.getID())
+                {
+                    todo.setSub_task(sub_task);
+                }
+            }
+        }
+    }
+
+    private void setSubTasksWorkT(List<WorkTask> workTaskList, List<Sub_task> subTaskList)
+    {
+        for (WorkTask workTask: workTaskList)
+        {
+            for (Sub_task sub_task: subTaskList)
+            {
+                if (sub_task.getWork_task_id() == workTask.getID())
+                {
+                    workTask.setSub_task(sub_task);
+                }
+            }
+        }
+    }
+
+    private void setSubTasksBD(List<Birthday> birthdayList, List<Sub_task> subTaskList)
+    {
+        for (Birthday birthday: birthdayList)
+        {
+            for (Sub_task sub_task: subTaskList)
+            {
+                if (sub_task.getBirthday_id() == birthday.getID())
+                {
+                    birthday.setSub_task(sub_task);
+                }
+            }
+        }
     }
 
 

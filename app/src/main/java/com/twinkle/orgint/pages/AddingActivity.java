@@ -145,6 +145,11 @@ public class AddingActivity extends AppCompatActivity
 
                 case "Work Task":
                     this.setTitle("New " + type);
+
+                    simpleEvent = SimpleEventAddingFragment.newInstance(type);
+                    fragmentTransaction.add(R.id.adding_container, simpleEvent, TAG_FRAGMENT);
+                    fragmentTransaction.commit();
+
                     break;
 
                 case "Schedule":
@@ -160,6 +165,11 @@ public class AddingActivity extends AppCompatActivity
 
                 case "Birthday":
                     this.setTitle("New " + type);
+
+                    simpleEvent = SimpleEventAddingFragment.newInstance(type);
+                    fragmentTransaction.add(R.id.adding_container, simpleEvent, TAG_FRAGMENT);
+                    fragmentTransaction.commit();
+
                     break;
             }
         }
@@ -201,8 +211,19 @@ public class AddingActivity extends AppCompatActivity
     public  void addSubTask(View view)
     {
         //ToDo: work on it! For simple and schedule
-     //   simpleEvent.onFragmentClick(view);
-        scheduleEvent.onFragmentClick(view);
+
+        switch (type)
+        {
+            case "ToDo":
+            case "Work Task":
+            case "Birthday":
+                simpleEvent.onFragmentClick(view);
+                break;
+
+            case "Schedule":
+                scheduleEvent.onFragmentClick(view);
+                break;
+        }
     }
 
 }

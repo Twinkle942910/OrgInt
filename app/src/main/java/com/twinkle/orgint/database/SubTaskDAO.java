@@ -30,6 +30,8 @@ public class SubTaskDAO
 
         //Adding values
         values.put(Sub_task.TODO_ID, sub_task.getTodo_ID());
+        values.put(Sub_task.WORK_TASK_ID, sub_task.getWork_task_id());
+        values.put(Sub_task.BIRTHDAY_ID, sub_task.getBirthday_id());
         values.put(Sub_task.CONTENT, sub_task.getContent());
         values.put(Sub_task.ISDONE, sub_task.isDone());
 
@@ -47,6 +49,8 @@ public class SubTaskDAO
 
         //Adding values
         values.put(Sub_task.TODO_ID, sub_task.getTodo_ID());
+        values.put(Sub_task.WORK_TASK_ID, sub_task.getWork_task_id());
+        values.put(Sub_task.BIRTHDAY_ID, sub_task.getBirthday_id());
         values.put(Sub_task.CONTENT, sub_task.getContent());
         values.put(Sub_task.ISDONE, sub_task.isDone());
 
@@ -71,6 +75,8 @@ public class SubTaskDAO
         String selectQuery =  "SELECT  " +
                 Sub_task.ID + "," +
                 Sub_task.TODO_ID + "," +
+                Sub_task.WORK_TASK_ID + "," +
+                Sub_task.BIRTHDAY_ID + "," +
                 Sub_task.CONTENT + "," +
                 Sub_task.ISDONE +
                 " FROM " + Sub_task.TABLE;
@@ -89,6 +95,8 @@ public class SubTaskDAO
 
                 sub_task.setID(cursor.getInt(cursor.getColumnIndex(Sub_task.ID)));
                 sub_task.setTodo_ID(cursor.getInt(cursor.getColumnIndex(Sub_task.TODO_ID)));
+                sub_task.setWork_task_id(cursor.getInt(cursor.getColumnIndex(Sub_task.WORK_TASK_ID)));
+                sub_task.setBirthday_id(cursor.getInt(cursor.getColumnIndex(Sub_task.BIRTHDAY_ID)));
                 sub_task.setContent(cursor.getString(cursor.getColumnIndex(Sub_task.CONTENT)));
                 sub_task.setDone(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Sub_task.ISDONE))));
 
@@ -109,6 +117,8 @@ public class SubTaskDAO
         String selectQuery =  "SELECT  " +
                 Sub_task.ID + "," +
                 Sub_task.TODO_ID + "," +
+                Sub_task.WORK_TASK_ID + "," +
+                Sub_task.BIRTHDAY_ID + "," +
                 Sub_task.CONTENT + "," +
                 Sub_task.ISDONE +
                 " FROM " + Sub_task.TABLE
@@ -125,6 +135,8 @@ public class SubTaskDAO
             {
                 sub_task.setID(cursor.getInt(cursor.getColumnIndex(Sub_task.ID)));
                 sub_task.setTodo_ID(cursor.getInt(cursor.getColumnIndex(Sub_task.TODO_ID)));
+                sub_task.setWork_task_id(cursor.getInt(cursor.getColumnIndex(Sub_task.WORK_TASK_ID)));
+                sub_task.setBirthday_id(cursor.getInt(cursor.getColumnIndex(Sub_task.BIRTHDAY_ID)));
                 sub_task.setContent(cursor.getString(cursor.getColumnIndex(Sub_task.CONTENT)));
                 sub_task.setDone(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Sub_task.ISDONE))));
 

@@ -57,14 +57,38 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
         //table sub task create
         String CREATE_SUB_TASK = "create table "
                 + Sub_task.TABLE + " (" + Sub_task.ID + " integer primary key autoincrement, "
-                + Sub_task.TODO_ID  + " int not null, "
+                + Sub_task.TODO_ID  + " int null, "
+                + Sub_task.WORK_TASK_ID  + " int null, "
+                + Sub_task.BIRTHDAY_ID  + " int null, "
                 + Sub_task.CONTENT  + " text not null, "
                 + Sub_task.ISDONE  + " text not null)";
+
+        //table work task create
+        String CREATE_WORK_TASK = "create table "
+                + WorkTask.TABLE + " (" + WorkTask.ID + " integer primary key autoincrement, "
+                + WorkTask.TASK  + " text not null, "
+                + WorkTask.TYPE  + " text not null, "
+                + WorkTask.DATE  + " text not null, "
+                + WorkTask.TIME  + " text not null, "
+                + WorkTask.COMMENT  + " text not null, "
+                + WorkTask.INTEREST  + " text not null)";
+
+        //table birthday create
+        String CREATE_BIRTHDAY = "create table "
+                + Birthday.TABLE + " (" + Birthday.ID + " integer primary key autoincrement, "
+                + Birthday.TASK  + " text not null, "
+                + Birthday.TYPE  + " text not null, "
+                + Birthday.DATE  + " text not null, "
+                + Birthday.TIME  + " text not null, "
+                + Birthday.COMMENT  + " text not null, "
+                + Birthday.INTEREST  + " text not null)";
 
 
         db.execSQL(CREATE_SUB_SCHEDULE);
         db.execSQL(CREATE_TODO);
         db.execSQL(CREATE_SUB_TASK);
+        db.execSQL(CREATE_WORK_TASK);
+        db.execSQL(CREATE_BIRTHDAY);
 
         initWeek(db);
     }
