@@ -42,17 +42,32 @@ public class InterestsRecycleAdapter extends RecyclerView.Adapter<InterestsRecyc
     {
         holder.interest_title.setText(interests.get(position).getTitle());
 
-        if(interests.get(position).isImportance())
+        int importance_value = interests.get(position).getImportance();
+
+      //  (importance_value > 0 && importance_value < 30) ? holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorNUNICategory)) ;
+
+        if(importance_value >= 0 && importance_value < 30)
         {
-            holder.interest_importance.setText("Important");
-            holder.interest_importance.setTextColor(context.getResources().getColor(R.color.colorInterestImportant));
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorNUNICategory));
         }
-        else {
-            holder.interest_importance.setText("Not Important");
-            holder.interest_importance.setTextColor(context.getResources().getColor(R.color.colorInterestNotImportant));
+        else if(importance_value > 30 && importance_value < 50)
+        {
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorUNICategory));
+        }
+        else if(importance_value > 50 && importance_value < 70)
+        {
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorNUICategory));
+        }
+        else if(importance_value > 70 && importance_value <= 100)
+        {
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorUICategory));
+        }
+        else
+        {
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorGrey));
         }
 
-
+        holder.interest_importance.setText(Integer.toString(importance_value) + "%");
     }
 
     @Override
@@ -80,7 +95,7 @@ public class InterestsRecycleAdapter extends RecyclerView.Adapter<InterestsRecyc
             super(itemView);
             itemView.setOnClickListener(this);
 
-            cardView = (CardView)itemView.findViewById(R.id.cardView);
+            cardView = (CardView)itemView.findViewById(R.id.interest_card);
 
             interest_title = (TextView)itemView.findViewById(R.id.interest_card_title);
             interest_importance = (TextView)itemView.findViewById(R.id.interest_card_importance);

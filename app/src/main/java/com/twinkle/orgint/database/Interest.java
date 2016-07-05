@@ -14,7 +14,7 @@ public class Interest
     // property help us to keep data
     private int interest_ID;
     private String title;
-    private boolean importance;
+    private int importance;
 
 
     public int getInterest_ID()
@@ -36,12 +36,12 @@ public class Interest
         this.title = title;
     }
 
-    public boolean isImportance()
+    public int getImportance()
     {
         return importance;
     }
 
-    public void setImportance(boolean importance)
+    public void setImportance(int importance)
     {
         this.importance = importance;
     }

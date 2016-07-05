@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.adapter.InterestsRecycleAdapter;
@@ -37,7 +40,7 @@ public class InterestsActivity extends AppCompatActivity
     private InterestsRecycleAdapter adapter;
 
     //Interest importance
-    private boolean importance = false;
+    private int importance = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,20 +113,36 @@ public class InterestsActivity extends AppCompatActivity
         dialogBuilder.setView(dialogView);
 
         final EditText interest_title = (EditText) dialogView.findViewById(R.id.interest_title);
-        final SwitchCompat interest_importance = (SwitchCompat) dialogView.findViewById(R.id.importance);
-
-        importance = false;
+        final SeekBar interest_importance = (SeekBar) dialogView.findViewById(R.id.importance);
+        final TextView interest_importance_text_value = (TextView) dialogView.findViewById(R.id.importance_value);
 
         dialogBuilder.setTitle("New Interest");
 
-        interest_importance.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        importance = 0;
+
+        interest_importance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser)
             {
-               importance = isChecked;
+                importance = progresValue;
+                interest_importance_text_value.setText(importance + "/" + seekBar.getMax());
+            }
+
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+               // interest_importance_text_value.setText(importance + "/" + seekBar.getMax());
             }
         });
+
 
         dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
         {
@@ -178,15 +197,15 @@ public class InterestsActivity extends AppCompatActivity
 
         Interest in1 = new Interest();
         in1.setTitle("Books");
-        in1.setImportance(true);
+        in1.setImportance(93);
 
         Interest in2 = new Interest();
         in2.setTitle("Study");
-        in2.setImportance(true);
+        in2.setImportance(12);
 
         Interest in3 = new Interest();
         in3.setTitle("Work");
-        in3.setImportance(true);
+        in3.setImportance(34);
 
         interests.add(in1);
         interests.add(in2);

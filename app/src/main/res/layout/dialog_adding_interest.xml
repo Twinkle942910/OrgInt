@@ -35,18 +35,45 @@
 
     </android.support.design.widget.TextInputLayout>
 
-  <android.support.v7.widget.SwitchCompat
-      android:id="@+id/importance"
-      android:paddingLeft="10dp"
-      android:paddingStart="10dp"
-      android:paddingEnd="10dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-      android:text="@string/interest_importance"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:textSize="18sp"
-      android:theme="@style/MySwitch"
-      android:textColor="@color/colorGrey" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Importance"
+            android:paddingLeft="10dp"
+            android:textSize="18sp"
+            android:paddingBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/importance_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="90dp"
+            android:text="0"
+            android:textSize="18sp"
+            android:paddingBottom="5dp" />
+
+            </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/importance"
+            android:layout_width="match_parent"
+            android:theme="@style/MySeekbarStyle"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>
