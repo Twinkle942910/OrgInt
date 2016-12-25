@@ -53,8 +53,10 @@ public class SimpleEventAddingFragment extends Fragment implements FragmentClick
     private EditText subTask;
     private List<String> sub_tasks;
 
-    //Task interest
-    private EditText interest;
+    //Task importance
+    private EditText importance;
+
+    private int importance_value;
 
     //Task coment
     private EditText comment;
@@ -96,7 +98,7 @@ public class SimpleEventAddingFragment extends Fragment implements FragmentClick
         spinner_category = (Spinner) view.findViewById(R.id.categories_spinner);
         task_date = (EditText) view.findViewById(R.id.in_date);
         task_time = (EditText) view.findViewById(R.id.in_time);
-        interest = (EditText) view.findViewById(R.id.interest);
+        importance = (EditText) view.findViewById(R.id.importance);
         task_title = (EditText) view.findViewById(R.id.task_name);
         comment = (EditText) view.findViewById(R.id.comment);
 
@@ -226,7 +228,9 @@ public class SimpleEventAddingFragment extends Fragment implements FragmentClick
 
         intent.putExtra("sub_tasks", subTasks_array);
         intent.putExtra("comment", comment.getText().toString());
-        intent.putExtra("interest", interest.getText().toString());
+        intent.putExtra("importance", importance.getText().toString());
+
+        intent.putExtra("importance_value", importance_value);
 
         intent.putExtra("type", type);
 
@@ -404,9 +408,13 @@ public class SimpleEventAddingFragment extends Fragment implements FragmentClick
         }
     }
 
-    public void setInterest(String interest)
+    public void setImportance(String importance)
     {
-        this.interest.setText(interest);
+        this.importance.setText(importance);
+    }
+
+    public void setImportance_value(int importance_value) {
+        this.importance_value = importance_value;
     }
 
 }

@@ -13,7 +13,8 @@ public class EventFragment extends Fragment
     protected static final String ARGUMENT_TIME = "time";
     protected static final String ARGUMENT_SUB_TASKS = "sub_tasks";
     protected static final String ARGUMENT_COMMENT = "comment";
-    protected static final String ARGUMENT_INTEREST = "interest";
+    protected static final String ARGUMENT_IMPORTANCE = "importance";
+    protected static final String ARGUMENT_IMPORTANCE_VALUE = "importance_value";
 
     //Event data
     protected String category;
@@ -22,7 +23,8 @@ public class EventFragment extends Fragment
     protected String time;
     protected String[] sub_tasks;
     protected String comment;
-    protected String interest;
+    protected String importance;
+    protected int importance_value;
 
     //Resources
     protected Context context;

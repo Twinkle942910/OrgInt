@@ -221,7 +221,7 @@
                         android:text ="@string/birthday_card_mock_interest_title"/>
 
                     <TextView
-                        android:id="@+id/interest"
+                        android:id="@+id/importance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"

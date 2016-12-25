@@ -34,7 +34,8 @@ public class WorkTaskDAO
         values.put(WorkTask.DATE, workTask.getDate());
         values.put(WorkTask.TIME, workTask.getTime());
         values.put(WorkTask.COMMENT, workTask.getComment());
-        values.put(WorkTask.INTEREST, workTask.getInterest());
+        values.put(WorkTask.IMPORTANCE, workTask.getImportance());
+        values.put(WorkTask.IMPORTANCE_VALUE, workTask.getImportance_value());
 
 
         // Inserting Row
@@ -55,7 +56,8 @@ public class WorkTaskDAO
         values.put(WorkTask.DATE, workTask.getDate());
         values.put(WorkTask.TIME, workTask.getTime());
         values.put(WorkTask.COMMENT, workTask.getComment());
-        values.put(WorkTask.INTEREST, workTask.getInterest());
+        values.put(WorkTask.IMPORTANCE, workTask.getImportance());
+        values.put(WorkTask.IMPORTANCE_VALUE, workTask.getImportance_value());
 
         // It's a good practice to use parameter ?, instead of concatenate string
         db.update(WorkTask.TABLE, values, WorkTask.ID + "= ?", new String[] { String.valueOf(workTask.getID()) });
@@ -82,7 +84,8 @@ public class WorkTaskDAO
                 WorkTask.DATE + "," +
                 WorkTask.TIME + "," +
                 WorkTask.COMMENT + "," +
-                WorkTask.INTEREST +
+                WorkTask.IMPORTANCE + "," +
+                WorkTask.IMPORTANCE_VALUE +
                 " FROM " + WorkTask.TABLE;
 
         //Schedule schedule = new Schedule();
@@ -103,7 +106,8 @@ public class WorkTaskDAO
                 workTask.setDate(cursor.getString(cursor.getColumnIndex(WorkTask.DATE)));
                 workTask.setTime(cursor.getString(cursor.getColumnIndex(WorkTask.TIME)));
                 workTask.setComment(cursor.getString(cursor.getColumnIndex(WorkTask.COMMENT)));
-                workTask.setInterest(cursor.getString(cursor.getColumnIndex(WorkTask.INTEREST)));
+                workTask.setImportance(cursor.getString(cursor.getColumnIndex(WorkTask.IMPORTANCE)));
+                workTask.setImportance_value(cursor.getInt(cursor.getColumnIndex(WorkTask.IMPORTANCE_VALUE)));
 
                 workTaskList.add(workTask);
 
@@ -126,7 +130,8 @@ public class WorkTaskDAO
                 WorkTask.DATE + "," +
                 WorkTask.TIME + "," +
                 WorkTask.COMMENT + "," +
-                WorkTask.INTEREST +
+                WorkTask.IMPORTANCE + "," +
+                WorkTask.IMPORTANCE_VALUE +
                 " FROM " + WorkTask.TABLE
                 + " WHERE " +
                 ToDo.ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
@@ -145,7 +150,8 @@ public class WorkTaskDAO
                 workTask.setDate(cursor.getString(cursor.getColumnIndex(WorkTask.DATE)));
                 workTask.setTime(cursor.getString(cursor.getColumnIndex(WorkTask.TIME)));
                 workTask.setComment(cursor.getString(cursor.getColumnIndex(WorkTask.COMMENT)));
-                workTask.setInterest(cursor.getString(cursor.getColumnIndex(WorkTask.INTEREST)));
+                workTask.setImportance(cursor.getString(cursor.getColumnIndex(WorkTask.IMPORTANCE)));
+                workTask.setImportance_value(cursor.getInt(cursor.getColumnIndex(WorkTask.IMPORTANCE_VALUE)));
 
             } while (cursor.moveToNext());
         }

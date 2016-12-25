@@ -35,7 +35,7 @@ public class ToDoFragment extends EventFragment
     private ToDoDAO todoListDB;
     private SubTaskDAO subTaskListDB;
 
-    public static ToDoFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest)
+    public static ToDoFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest, int importance_value)
     {
         final Bundle args = new Bundle();
 
@@ -45,7 +45,8 @@ public class ToDoFragment extends EventFragment
         args.putString(ARGUMENT_TIME, time);
         args.putStringArray(ARGUMENT_SUB_TASKS, sub_tasks);
         args.putString(ARGUMENT_COMMENT, comment);
-        args.putString(ARGUMENT_INTEREST, interest);
+        args.putString(ARGUMENT_IMPORTANCE, interest);
+        args.putString(ARGUMENT_IMPORTANCE_VALUE, Integer.toString(importance_value));
 
         final ToDoFragment fragment = new ToDoFragment();
         fragment.setArguments(args);
@@ -65,7 +66,8 @@ public class ToDoFragment extends EventFragment
         time = args.getString(ARGUMENT_TIME);
         sub_tasks = args.getStringArray(ARGUMENT_SUB_TASKS);
         comment = args.getString(ARGUMENT_COMMENT);
-        interest = args.getString(ARGUMENT_INTEREST);
+        importance = args.getString(ARGUMENT_IMPORTANCE);
+        importance_value = Integer.parseInt(args.getString(ARGUMENT_IMPORTANCE_VALUE));
 
         initToDoList();
 
@@ -162,7 +164,9 @@ public class ToDoFragment extends EventFragment
         toDo.setTime(time);
 
         toDo.setComment(comment);
-        toDo.setInterest(interest);
+        toDo.setImportance(importance);
+
+        toDo.setImportance_value(importance_value);
 
         todoListDB.insert(toDo);
         todoList.addAll(todoListDB.getToDoList());

@@ -16,12 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.twinkle.orgint.MainActivity;
 import com.twinkle.orgint.R;
 import com.twinkle.orgint.helpers.Constants;
-import com.twinkle.orgint.pages.EventActivity;
 import com.twinkle.orgint.pages.InterestsActivity;
 
 import java.text.SimpleDateFormat;
@@ -51,16 +48,19 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
     //Task coment
     private EditText comment;
 
-    //Task interest
-    private EditText interest_edit;
+    //Task importance
+    private EditText importance_edit;
 
-    private String interest;
+    private String importance;
+
+    private int importance_value;
 
     //Sub Schedules
     private List<String> titles;
     private List<String> times;
     private List<String> comments;
-    private List<String> interests;
+    private List<String> importances;
+    private List<String> importance_values;
 
     private int mHour, mMinute;
 
@@ -203,6 +203,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
         String[] scheduleTimes;
         String[] scheduleComments;
         String[] scheduleInterests;
+        String[] scheduleImportance_values;
 
         if(checkForSubTasks())
         {
@@ -211,14 +212,16 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
             scheduleTitles = new String[titles.size()];
             scheduleTimes = new String[times.size()];
             scheduleComments = new String[comments.size()];
-            scheduleInterests = new String[interests.size()];
+            scheduleInterests = new String[importances.size()];
+            scheduleImportance_values = new String[importance_values.size()];
 
             for (int i = 0; i < scheduleTitles.length; i++)
             {
                 scheduleTitles[i] = titles.get(i);
                 scheduleTimes[i] = times.get(i);
                 scheduleComments[i] = comments.get(i);
-                scheduleInterests[i] = interests.get(i);
+                scheduleInterests[i] = importances.get(i);
+                scheduleImportance_values[i] = importance_values.get(i);
             }
         }
         else
@@ -227,12 +230,15 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
             scheduleTimes = new String[0];
             scheduleComments = new String[0];
             scheduleInterests = new String[0];
+            scheduleImportance_values = new String[0];
         }
 
         intent.putExtra("title", scheduleTitles);
         intent.putExtra("time", scheduleTimes);
         intent.putExtra("comment", scheduleComments);
-        intent.putExtra("interest", scheduleInterests);
+        intent.putExtra("importance", scheduleInterests);
+
+        intent.putExtra("importance_value", scheduleImportance_values);
 
         intent.putExtra("type", type);
 
@@ -299,12 +305,12 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
         intent.putExtra("red_code", "From adding activity");
         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_INTEREST);
 
-        interest_edit = interest;
+        importance_edit = interest;
     }
 
     public void setInterestText()
     {
-        interest_edit.setText(this.interest);
+        importance_edit.setText(this.importance);
     }
 
     public void addSubSchedule()
@@ -329,7 +335,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
 
         comment = (EditText)addView.findViewById(R.id.comment);
 
-        final EditText interest = (EditText)addView.findViewById(R.id.interest);
+        final EditText interest = (EditText)addView.findViewById(R.id.importance);
 
         final View.OnClickListener interestPickListener = new View.OnClickListener()
         {
@@ -377,7 +383,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
         titles = new ArrayList<>();
         times = new ArrayList<>();
         comments = new ArrayList<>();
-        interests = new ArrayList<>();
+        importances = new ArrayList<>();
 
         for(int i=0; i<childCount; i++)
         {
@@ -386,7 +392,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
             EditText childTitle = (EditText) thisChild.findViewById(R.id.title);
             EditText childTime = (EditText) thisChild.findViewById(R.id.time);
             EditText childComment = (EditText) thisChild.findViewById(R.id.comment);
-            EditText childInterest = (EditText) thisChild.findViewById(R.id.interest);
+            EditText childInterest = (EditText) thisChild.findViewById(R.id.importance);
 
             String contentTitle = childTitle.getText().toString();
             String contentTime = childTime.getText().toString();
@@ -396,7 +402,7 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
             titles.add(contentTitle);
             times.add(contentTime);
             comments.add(contentComment);
-            interests.add(contentInterest);
+            importances.add(contentInterest);
         }
     }
 
@@ -411,9 +417,14 @@ public class ScheduleEventAddingFragment extends Fragment implements FragmentCli
         }
     }
 
-    public void setInterest(String interest)
+    public void setImportance(String importance)
     {
-        this.interest = interest;
+        this.importance = importance;
+    }
+
+    public void setImportance_value(int importance_value)
+    {
+        this.importance_value = importance_value;
     }
 
 }

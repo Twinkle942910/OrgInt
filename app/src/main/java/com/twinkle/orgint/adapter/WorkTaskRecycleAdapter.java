@@ -109,7 +109,7 @@ public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycle
             holder.comment_count.setText(Integer.toString(1));
         }
 
-        //If there's no interest
+        //If there's no importance
         if(isInterest(position))
         {
             holder.interest_icon.setVisibility(View.GONE);
@@ -122,7 +122,7 @@ public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycle
             {
                 holder.divider_com_int.setVisibility(View.GONE);
             }
-            holder.interest.setText(workTaskList.get(position).getInterest());
+            holder.interest.setText(workTaskList.get(position).getImportance());
         }
 
 
@@ -145,10 +145,10 @@ public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycle
         return workTaskList.get(position).getSub_tasks().isEmpty();
     }
 
-    //Checks if there is interest
+    //Checks if there is importance
     private boolean isInterest(int position)
     {
-        return "".equals(workTaskList.get(position).getInterest());
+        return "".equals(workTaskList.get(position).getImportance());
     }
 
     //Checks if sub tasks and comment are empty
@@ -157,7 +157,7 @@ public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycle
         return isSubTasks(position) && isComment(position);
     }
 
-    //Checks if sub tasks, comment and interest are empty
+    //Checks if sub tasks, comment and importance are empty
     private boolean isSubTasksAndCommentAndInterest(int position)
     {
         return isSubTasksAndComment(position) && isInterest(position);
@@ -329,7 +329,7 @@ public class WorkTaskRecycleAdapter extends RecyclerView.Adapter<WorkTaskRecycle
             coment = (TextView)itemView.findViewById(R.id.coment);
 
             //Interest
-            interest = (TextView)itemView.findViewById(R.id.interest);
+            interest = (TextView)itemView.findViewById(R.id.importance);
 
             //containers
             subTasksLayout = (LinearLayout) itemView.findViewById(R.id.sub_tasks_layout);

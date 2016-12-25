@@ -182,7 +182,7 @@
                 <EditText
                     android:layout_width="@dimen/edit_text_line_width"
                     android:layout_height="wrap_content"
-                    android:id="@+id/interest"
+                    android:id="@+id/importance"
                     android:inputType="textNoSuggestions"
                     style="@style/StyledTilEditText"
                     android:text="@string/adding_page_interest_mock"

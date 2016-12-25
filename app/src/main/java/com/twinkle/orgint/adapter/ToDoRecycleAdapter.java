@@ -75,13 +75,6 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             }
         });
 
-        //If there's no sub tasks and comments
-        if(isSubTasksAndCommentAndInterest(position))
-        {
-            holder.subTasksAndComentLayout.setVisibility(View.GONE);
-            holder.subTasksAndComentCountLayout.setVisibility(View.GONE);
-        }
-        else
         //If there's no sub_tasks
         if(isSubTasks(position))
         {
@@ -99,6 +92,7 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             holder.commentLayout.setVisibility(View.GONE);
             holder.comment_count.setText(Integer.toString(0));
             holder.divider.setVisibility(View.GONE);
+            holder.divider_com_int.setVisibility(View.GONE);
         }
         else
         {
@@ -110,22 +104,8 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
             holder.comment_count.setText(Integer.toString(1));
         }
 
-        //If there's no interest
-        if(isInterest(position))
-        {
-            holder.interest_icon.setVisibility(View.GONE);
-            holder.interestLayout.setVisibility(View.GONE);
-            holder.divider_com_int.setVisibility(View.GONE);
-        }
-        else
-        {
-            if(isSubTasks(position) && isComment(position))
-            {
-                holder.divider_com_int.setVisibility(View.GONE);
-            }
-            holder.interest.setText(toDoList.get(position).getInterest());
-        }
-
+        //setting importance and importance value
+        setImportanceValues(holder, position);
 
         //setting full image if all sub tasks isDone
         setSubTasksCompleteOrNot(sub_tasks_image, position);
@@ -134,6 +114,21 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
 
         //Sub tasks counters init(setting)
         sub_tasks_count_text.setText(Integer.toString(checked_sub_tasks_count) + "/" + Integer.toString(toDoList.get(position).getSubTasksCount()));
+    }
+
+    private void setImportanceValues(ToDoViewHolder holder, int position) {
+        int importance_value = toDoList.get(position).getImportance_value();
+
+        if(importance_value > 50)
+        {
+            holder.importance.setText("Important");
+        }
+        else
+        {
+            holder.importance.setText("Not Important");
+        }
+
+        holder.importance_value.setText(Integer.toString(importance_value));
     }
 
     //Checks if there is comment
@@ -148,29 +143,11 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         return toDoList.get(position).getSub_tasks().isEmpty();
     }
 
-    //Checks if there is interest
-    private boolean isInterest(int position)
-    {
-        return "".equals(toDoList.get(position).getInterest());
-    }
-
-    //Checks if sub tasks and comment are empty
-    private boolean isSubTasksAndComment(int position)
-    {
-        return isSubTasks(position) && isComment(position);
-    }
-
-    //Checks if sub tasks, comment and interest are empty
-    private boolean isSubTasksAndCommentAndInterest(int position)
-    {
-        return isSubTasksAndComment(position) && isInterest(position);
-    }
-
     //ToDo top text setting
     private void setToDoTopText(ToDoViewHolder holder, int position)
     {
         holder.todo_task.setText(toDoList.get(position).getTask());
-        holder.todo_type.setText(toDoList.get(position).getType());
+        holder.todo_type.setText(toDoList.get(position).getImportance());
         holder.todo_date.setText(toDoList.get(position).getDate() + ", " + toDoList.get(position).getTime());
     }
 
@@ -290,7 +267,15 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
         TextView coment;
 
         //Interest
-        TextView interest;
+        TextView importance;
+        TextView importance_value;
+
+        View importance_bar;
+
+        //Duration
+        TextView start_time;
+        TextView end_time;
+        TextView duration;
 
         //Sub tasks container
         LinearLayout subTasksLayout;
@@ -325,14 +310,22 @@ public class ToDoRecycleAdapter extends RecyclerView.Adapter<ToDoRecycleAdapter.
 
             //ToDo (top)
             todo_task = (TextView)itemView.findViewById(R.id.todo_task);
-            todo_type = (TextView)itemView.findViewById(R.id.todo_type);
+            todo_type = (TextView)itemView.findViewById(R.id.interest_type);
             todo_date = (TextView)itemView.findViewById(R.id.todo_date);
 
             //Comment
             coment = (TextView)itemView.findViewById(R.id.coment);
 
             //Interest
-            interest = (TextView)itemView.findViewById(R.id.interest);
+            importance = (TextView)itemView.findViewById(R.id.importance);
+            importance_value = (TextView)itemView.findViewById(R.id.importance_value);
+
+            importance_bar = itemView.findViewById(R.id.importance_bar);
+
+            //Duration
+            start_time = (TextView)itemView.findViewById(R.id.start_time_value);
+            end_time = (TextView)itemView.findViewById(R.id.end_value);
+            duration = (TextView)itemView.findViewById(R.id.duration_time_value);
 
             //containers
             subTasksLayout = (LinearLayout) itemView.findViewById(R.id.sub_tasks_layout);

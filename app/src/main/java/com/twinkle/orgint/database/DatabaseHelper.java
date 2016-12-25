@@ -41,8 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
                 + Sub_schedule.TYPE  + " text not null, "
                 + Sub_schedule.COMMENT  + " text not null, "
                 + Sub_schedule.TASK  + " text not null, "
-                + Sub_schedule.INTEREST  + " text not null)";
-
+                + Sub_schedule.IMPORTANCE + " text not null, "
+                + Sub_schedule.IMPORTANCE_VALUE + " integer not null)";
 
         //table todo create
         String CREATE_TODO = "create table "
@@ -52,7 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
                 + ToDo.DATE  + " text not null, "
                 + ToDo.TIME  + " text not null, "
                 + ToDo.COMMENT  + " text not null, "
-                + ToDo.INTEREST  + " text not null)";
+                + ToDo.IMPORTANCE + " text not null, "
+                + ToDo.IMPORTANCE_VALUE + " integer not null)";
 
         //table sub task create
         String CREATE_SUB_TASK = "create table "
@@ -71,7 +72,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
                 + WorkTask.DATE  + " text not null, "
                 + WorkTask.TIME  + " text not null, "
                 + WorkTask.COMMENT  + " text not null, "
-                + WorkTask.INTEREST  + " text not null)";
+                + WorkTask.IMPORTANCE + " text not null, "
+                + WorkTask.IMPORTANCE_VALUE + " integer not null)";
 
         //table birthday create
         String CREATE_BIRTHDAY = "create table "
@@ -81,8 +83,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns
                 + Birthday.DATE  + " text not null, "
                 + Birthday.TIME  + " text not null, "
                 + Birthday.COMMENT  + " text not null, "
-                + Birthday.INTEREST  + " text not null)";
-
+                + Birthday.IMPORTANCE + " text not null, "
+                + Birthday.IMPORTANCE_VALUE + " integer not null)";
 
         db.execSQL(CREATE_SUB_SCHEDULE);
         db.execSQL(CREATE_TODO);

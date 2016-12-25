@@ -34,7 +34,8 @@ public class BirthdayDAO
         values.put(Birthday.DATE, birthday.getDate());
         values.put(Birthday.TIME, birthday.getTime());
         values.put(Birthday.COMMENT, birthday.getComment());
-        values.put(Birthday.INTEREST, birthday.getInterest());
+        values.put(Birthday.IMPORTANCE, birthday.getImportance());
+        values.put(Birthday.IMPORTANCE_VALUE, birthday.getImportance_value());
 
 
         // Inserting Row
@@ -55,7 +56,8 @@ public class BirthdayDAO
         values.put(Birthday.DATE, birthday.getDate());
         values.put(Birthday.TIME, birthday.getTime());
         values.put(Birthday.COMMENT, birthday.getComment());
-        values.put(Birthday.INTEREST, birthday.getInterest());
+        values.put(Birthday.IMPORTANCE, birthday.getImportance());
+        values.put(Birthday.IMPORTANCE_VALUE, birthday.getImportance_value());
 
         // It's a good practice to use parameter ?, instead of concatenate string
         db.update(Birthday.TABLE, values, Birthday.ID + "= ?", new String[] { String.valueOf(birthday.getID()) });
@@ -82,7 +84,8 @@ public class BirthdayDAO
                 Birthday.DATE + "," +
                 Birthday.TIME + "," +
                 Birthday.COMMENT + "," +
-                Birthday.INTEREST +
+                Birthday.IMPORTANCE + "," +
+                Birthday.IMPORTANCE_VALUE +
                 " FROM " + Birthday.TABLE;
 
         //Schedule schedule = new Schedule();
@@ -103,7 +106,8 @@ public class BirthdayDAO
                 birthday.setDate(cursor.getString(cursor.getColumnIndex(Birthday.DATE)));
                 birthday.setTime(cursor.getString(cursor.getColumnIndex(Birthday.TIME)));
                 birthday.setComment(cursor.getString(cursor.getColumnIndex(Birthday.COMMENT)));
-                birthday.setInterest(cursor.getString(cursor.getColumnIndex(Birthday.INTEREST)));
+                birthday.setImportance(cursor.getString(cursor.getColumnIndex(Birthday.IMPORTANCE)));
+                birthday.setImportance_value(cursor.getInt(cursor.getColumnIndex(Birthday.IMPORTANCE_VALUE)));
 
                 birthdayList.add(birthday);
 
@@ -126,7 +130,8 @@ public class BirthdayDAO
                 Birthday.DATE + "," +
                 Birthday.TIME + "," +
                 Birthday.COMMENT + "," +
-                Birthday.INTEREST +
+                Birthday.IMPORTANCE + "," +
+                Birthday.IMPORTANCE_VALUE +
                 " FROM " + Birthday.TABLE
                 + " WHERE " +
                 Birthday.ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
@@ -145,7 +150,8 @@ public class BirthdayDAO
                 birthday.setDate(cursor.getString(cursor.getColumnIndex(Birthday.DATE)));
                 birthday.setTime(cursor.getString(cursor.getColumnIndex(Birthday.TIME)));
                 birthday.setComment(cursor.getString(cursor.getColumnIndex(Birthday.COMMENT)));
-                birthday.setInterest(cursor.getString(cursor.getColumnIndex(Birthday.INTEREST)));
+                birthday.setImportance(cursor.getString(cursor.getColumnIndex(Birthday.IMPORTANCE)));
+                birthday.setImportance_value(cursor.getInt(cursor.getColumnIndex(Birthday.IMPORTANCE_VALUE)));
 
             } while (cursor.moveToNext());
         }

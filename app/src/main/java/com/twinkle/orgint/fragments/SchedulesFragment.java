@@ -25,7 +25,6 @@ import com.twinkle.orgint.database.ToDoDAO;
 import com.twinkle.orgint.database.WorkTask;
 import com.twinkle.orgint.database.WorkTaskDAO;
 import com.twinkle.orgint.helpers.ActivityDataCommunicator;
-import com.twinkle.orgint.helpers.Day;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +57,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
     private String[] titles;
     private String[] times;
     private String[] comments;
-    private String[] interests;
+    private String[] importances;
+    private int[] importance_values;
 
     private Intent scheduleAddData;
     private List<Sub_schedule> sub_schedules;
@@ -268,7 +268,10 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
         titles = scheduleAddData.getStringArrayExtra("title");
         times = scheduleAddData.getStringArrayExtra("time");
         comments = scheduleAddData.getStringArrayExtra("comment");
-        interests = scheduleAddData.getStringArrayExtra("interest");
+        importances = scheduleAddData.getStringArrayExtra("importance");
+        importance_values = scheduleAddData.getIntArrayExtra("importance_value");
+
+        //ToDo: Get importance values from adding Activity (ScheduleEventAddingFragment)
 
         setSubSchedules();
     }
@@ -299,7 +302,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(todo.getTask());
                     sub_schedule.setTime(todo.getTime());
                     sub_schedule.setComment(todo.getComment());
-                    sub_schedule.setInterest(todo.getInterest());
+                    sub_schedule.setImportance(todo.getImportance());
+                    sub_schedule.setImportance_value(todo.getImportance_value());
 
                     schedule_day.setSub_schedule(sub_schedule);
                 }
@@ -333,7 +337,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(workTask.getTask());
                     sub_schedule.setTime(workTask.getTime());
                     sub_schedule.setComment(workTask.getComment());
-                    sub_schedule.setInterest(workTask.getInterest());
+                    sub_schedule.setImportance(workTask.getImportance());
+                    sub_schedule.setImportance_value(workTask.getImportance_value());
 
                     schedule_day.setSub_schedule(sub_schedule);
                 }
@@ -367,7 +372,9 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(birthday.getTask());
                     sub_schedule.setTime(birthday.getTime());
                     sub_schedule.setComment(birthday.getComment());
-                    sub_schedule.setInterest(birthday.getInterest());
+                    sub_schedule.setImportance(birthday.getImportance());
+                    sub_schedule.setImportance(birthday.getImportance());
+                    sub_schedule.setImportance_value(birthday.getImportance_value());
 
                     schedule_day.setSub_schedule(sub_schedule);
                 }
@@ -433,7 +440,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -452,7 +460,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -471,7 +480,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -491,7 +501,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -511,7 +522,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -531,7 +543,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);
@@ -551,7 +564,8 @@ public class SchedulesFragment extends AbstractTabFragment implements ActivityDa
                     sub_schedule.setTask(titles[i]);
                     sub_schedule.setTime(times[i]);
                     sub_schedule.setComment(comments[i]);
-                    sub_schedule.setInterest(interests[i]);
+                    sub_schedule.setImportance(importances[i]);
+                    sub_schedule.setImportance_value(importance_values[i]);
 
                     sub_schedulesDB.insert(sub_schedule);
                     sub_schedules.add(sub_schedule);

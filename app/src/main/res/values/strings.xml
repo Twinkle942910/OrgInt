@@ -97,16 +97,28 @@
     <string name="sub_task_content">null</string>
 
     <!-- ToDo card -->
-    <string name="todo_card_mock_title">Buy stuff</string>
     <string name="todo_card_mock_type">ToDo</string>
-    <string name="todo_card_mock_date_time">June 9, 10:23 am</string>
+
+    <string name="todo_card_mock_title">Buy stuff</string>
+    <string name="todo_card_mock_interest_type">Study</string>
+    <string name="todo_card_mock_time">10:23</string>
+    <string name="todo_card_mock_date">June 9, 2016</string>
     <string name="todo_card_mock_sub_tasks_count">0/3</string>
     <string name="todo_card_mock_sub_tasks_title">Sub Tasks</string>
     <string name="todo_card_mock_comment_title">Comment</string>
     <string name="todo_card_mock_comment_contain">Looooooooooooooool</string>
     <string name="todo_card_comment_count_mock">0</string>
-    <string name="todo_card_mock_interest_title">Interest</string>
-    <string name="todo_card_mock_interest_contain">Study</string>
+    <string name="todo_card_mock_importance_title">Importance</string>
+    <string name="todo_card_mock_importance_contain">Important</string>
+    <string name="todo_card_mock_importance_value">70%</string>
+
+    <string name="todo_card_mock_duration_title">Duration</string>
+    <string name="todo_card_mock_start_time_title">Start Time</string>
+    <string name="todo_card_mock_end_time_title">End Time</string>
+    <string name="todo_card_mock_duration_time_title">Duration</string>
+    <string name="todo_card_mock_start_time_value">10:23</string>
+    <string name="todo_card_mock_end_time_value">11:23</string>
+    <string name="todo_card_mock_duration_time_value">1 hour</string>
 
     <!-- Work task card -->
     <string name="work_card_mock_type">Work Task</string>

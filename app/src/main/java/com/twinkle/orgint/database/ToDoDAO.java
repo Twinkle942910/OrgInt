@@ -30,7 +30,8 @@ public class ToDoDAO implements DatabaseTableCreator
                 + ToDo.DATE  + " text not null, "
                 + ToDo.TIME  + " text not null, "
                 + ToDo.COMMENT  + " text not null, "
-                + ToDo.INTEREST  + " text not null)";
+                + ToDo.IMPORTANCE + " text not null, "
+                + ToDo.IMPORTANCE_VALUE + " integer not null)";
 
         db.execSQL(DATABASE_CREATE_SCRIPT);
     }
@@ -52,7 +53,8 @@ public class ToDoDAO implements DatabaseTableCreator
         values.put(ToDo.DATE, todo.getDate());
         values.put(ToDo.TIME, todo.getTime());
         values.put(ToDo.COMMENT, todo.getComment());
-        values.put(ToDo.INTEREST, todo.getInterest());
+        values.put(ToDo.IMPORTANCE, todo.getImportance());
+        values.put(ToDo.IMPORTANCE_VALUE, todo.getImportance_value());
 
 
         // Inserting Row
@@ -74,7 +76,8 @@ public class ToDoDAO implements DatabaseTableCreator
         values.put(ToDo.DATE, todo.getDate());
         values.put(ToDo.TIME, todo.getTime());
         values.put(ToDo.COMMENT, todo.getComment());
-        values.put(ToDo.INTEREST, todo.getInterest());
+        values.put(ToDo.IMPORTANCE, todo.getImportance());
+        values.put(ToDo.IMPORTANCE_VALUE, todo.getImportance_value());
 
         // It's a good practice to use parameter ?, instead of concatenate string
         db.update(ToDo.TABLE, values, ToDo.ID + "= ?", new String[] { String.valueOf(todo.getID()) });
@@ -103,7 +106,8 @@ public class ToDoDAO implements DatabaseTableCreator
                 ToDo.DATE + "," +
                 ToDo.TIME + "," +
                 ToDo.COMMENT + "," +
-                ToDo.INTEREST +
+                ToDo.IMPORTANCE + "," +
+                ToDo.IMPORTANCE_VALUE +
                 " FROM " + ToDo.TABLE;
 
         //Schedule schedule = new Schedule();
@@ -125,7 +129,8 @@ public class ToDoDAO implements DatabaseTableCreator
                 todo.setDate(cursor.getString(cursor.getColumnIndex(ToDo.DATE)));
                 todo.setTime(cursor.getString(cursor.getColumnIndex(ToDo.TIME)));
                 todo.setComment(cursor.getString(cursor.getColumnIndex(ToDo.COMMENT)));
-                todo.setInterest(cursor.getString(cursor.getColumnIndex(ToDo.INTEREST)));
+                todo.setImportance(cursor.getString(cursor.getColumnIndex(ToDo.IMPORTANCE)));
+                todo.setImportance_value(cursor.getInt(cursor.getColumnIndex(ToDo.IMPORTANCE_VALUE)));
 
                 todoList.add(todo);
 
@@ -149,7 +154,8 @@ public class ToDoDAO implements DatabaseTableCreator
                 ToDo.DATE + "," +
                 ToDo.TIME + "," +
                 ToDo.COMMENT + "," +
-                ToDo.INTEREST +
+                ToDo.IMPORTANCE + "," +
+                ToDo.IMPORTANCE_VALUE +
                 " FROM " + ToDo.TABLE
                 + " WHERE " +
                 ToDo.ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
@@ -168,7 +174,8 @@ public class ToDoDAO implements DatabaseTableCreator
                 todo.setDate(cursor.getString(cursor.getColumnIndex(ToDo.DATE)));
                 todo.setTime(cursor.getString(cursor.getColumnIndex(ToDo.TIME)));
                 todo.setComment(cursor.getString(cursor.getColumnIndex(ToDo.COMMENT)));
-                todo.setInterest(cursor.getString(cursor.getColumnIndex(ToDo.INTEREST)));
+                todo.setImportance(cursor.getString(cursor.getColumnIndex(ToDo.IMPORTANCE)));
+                todo.setImportance_value(cursor.getInt(cursor.getColumnIndex(ToDo.IMPORTANCE_VALUE)));
 
             } while (cursor.moveToNext());
         }

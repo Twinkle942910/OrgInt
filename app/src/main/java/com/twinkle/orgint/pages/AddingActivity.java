@@ -187,11 +187,13 @@ public class AddingActivity extends AppCompatActivity
                     case "ToDo":
                     case "Work Task":
                     case "Birthday":
-                        simpleEvent.setInterest(data.getStringExtra("interest_title"));
+                        simpleEvent.setImportance(data.getStringExtra("importance"));
+                        simpleEvent.setImportance_value(Integer.parseInt(data.getStringExtra("importance_value")));
                         break;
 
                     case "Schedule":
-                        scheduleEvent.setInterest(data.getStringExtra("interest_title"));
+                        scheduleEvent.setImportance(data.getStringExtra("importance"));
+                        scheduleEvent.setImportance_value(Integer.parseInt(data.getStringExtra("importance_value")));
                         scheduleEvent.setInterestText();
                         break;
                 }

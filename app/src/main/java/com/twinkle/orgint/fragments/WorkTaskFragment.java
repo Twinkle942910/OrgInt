@@ -36,7 +36,7 @@ public class WorkTaskFragment extends EventFragment
     private WorkTaskDAO workTaskListDB;
     private SubTaskDAO subTaskListDB;
 
-    public static WorkTaskFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest)
+    public static WorkTaskFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String importance, int importance_value)
     {
         final Bundle args = new Bundle();
 
@@ -46,7 +46,9 @@ public class WorkTaskFragment extends EventFragment
         args.putString(ARGUMENT_TIME, time);
         args.putStringArray(ARGUMENT_SUB_TASKS, sub_tasks);
         args.putString(ARGUMENT_COMMENT, comment);
-        args.putString(ARGUMENT_INTEREST, interest);
+        args.putString(ARGUMENT_IMPORTANCE, importance);
+        args.putString(ARGUMENT_IMPORTANCE_VALUE, Integer.toString(importance_value));
+
 
         final WorkTaskFragment fragment = new WorkTaskFragment();
         fragment.setArguments(args);
@@ -66,7 +68,8 @@ public class WorkTaskFragment extends EventFragment
         time = args.getString(ARGUMENT_TIME);
         sub_tasks = args.getStringArray(ARGUMENT_SUB_TASKS);
         comment = args.getString(ARGUMENT_COMMENT);
-        interest = args.getString(ARGUMENT_INTEREST);
+        importance = args.getString(ARGUMENT_IMPORTANCE);
+        importance_value = Integer.parseInt(args.getString(ARGUMENT_IMPORTANCE_VALUE));
 
         initWorkTaskList();
 
@@ -164,7 +167,8 @@ public class WorkTaskFragment extends EventFragment
         workTask.setTime(time);
 
         workTask.setComment(comment);
-        workTask.setInterest(interest);
+        workTask.setImportance(importance);
+        workTask.setImportance_value(importance_value);
 
         workTaskListDB.insert(workTask);
         workTaskList.addAll(workTaskListDB.getWorkTaskList());

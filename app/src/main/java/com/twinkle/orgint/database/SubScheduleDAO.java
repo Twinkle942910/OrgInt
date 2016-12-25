@@ -22,7 +22,7 @@ public class SubScheduleDAO implements DatabaseTableCreator
     @Override
     public void create(SQLiteDatabase db)
     {
-        //table create
+       /* //table create
         String DATABASE_CREATE_SCRIPT = "create table "
                 + Sub_schedule.TABLE + " (" + Sub_schedule.ID + " integer primary key autoincrement, "
                 + Sub_schedule.SCHEDULE_ID  + " integer not null, "
@@ -30,9 +30,10 @@ public class SubScheduleDAO implements DatabaseTableCreator
                 + Sub_schedule.TYPE  + " text not null, "
                 + Sub_schedule.COMMENT  + " text not null, "
                 + Sub_schedule.TASK  + " text not null, "
-                + Sub_schedule.INTEREST  + " text not null)";
+                + Sub_schedule.IMPORTANCE + " text not null, "
+                + Sub_schedule.IMPORTANCE_VALUE + " integer not null)";
 
-        db.execSQL(DATABASE_CREATE_SCRIPT);
+        db.execSQL(DATABASE_CREATE_SCRIPT);*/
     }
 
     //Adding data to Sub Shedule Table
@@ -52,7 +53,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
         values.put(Sub_schedule.TYPE, sub_schedule.getType());
         values.put(Sub_schedule.TASK, sub_schedule.getTask());
         values.put(Sub_schedule.COMMENT, sub_schedule.getComment());
-        values.put(Sub_schedule.INTEREST, sub_schedule.getInterest());
+        values.put(Sub_schedule.IMPORTANCE, sub_schedule.getImportance());
+        values.put(Sub_schedule.IMPORTANCE_VALUE, sub_schedule.getImportance_value());
 
         // Inserting Row
         long sub_schedule_Id = db.insert(Sub_schedule.TABLE, null, values);
@@ -73,7 +75,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
         values.put(Sub_schedule.TYPE, sub_schedule.getType());
         values.put(Sub_schedule.TASK, sub_schedule.getTask());
         values.put(Sub_schedule.COMMENT, sub_schedule.getComment());
-        values.put(Sub_schedule.INTEREST, sub_schedule.getInterest());
+        values.put(Sub_schedule.IMPORTANCE, sub_schedule.getImportance());
+        values.put(Sub_schedule.IMPORTANCE_VALUE, sub_schedule.getImportance_value());
 
         // It's a good practice to use parameter ?, instead of concatenate string
         db.update(Sub_schedule.TABLE, values, Sub_schedule.ID + "= ?", new String[] { String.valueOf(sub_schedule.getSub_schedule_ID()) });
@@ -102,7 +105,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
                 Sub_schedule.TYPE + "," +
                 Sub_schedule.TASK + "," +
                 Sub_schedule.COMMENT + "," +
-                Sub_schedule.INTEREST +
+                Sub_schedule.IMPORTANCE + "," +
+                Sub_schedule.IMPORTANCE_VALUE +
                 " FROM " + Sub_schedule.TABLE;
 
         //Schedule schedule = new Schedule();
@@ -124,7 +128,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
                 sub_schedule.setType(cursor.getString(cursor.getColumnIndex(Sub_schedule.TYPE)));
                 sub_schedule.setTask(cursor.getString(cursor.getColumnIndex(Sub_schedule.TASK)));
                 sub_schedule.setComment(cursor.getString(cursor.getColumnIndex(Sub_schedule.COMMENT)));
-                sub_schedule.setInterest(cursor.getString(cursor.getColumnIndex(Sub_schedule.INTEREST)));
+                sub_schedule.setImportance(cursor.getString(cursor.getColumnIndex(Sub_schedule.IMPORTANCE)));
+                sub_schedule.setImportance_value(cursor.getInt(cursor.getColumnIndex(Sub_schedule.IMPORTANCE_VALUE)));
 
                 sub_scheduleList.add(sub_schedule);
 
@@ -148,7 +153,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
                 Sub_schedule.TYPE + "," +
                 Sub_schedule.TASK + "," +
                 Sub_schedule.COMMENT + "," +
-                Sub_schedule.INTEREST +
+                Sub_schedule.IMPORTANCE + "," +
+                Sub_schedule.IMPORTANCE_VALUE +
                 " FROM " + Sub_schedule.TABLE
                 + " WHERE " +
                 Sub_schedule.ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
@@ -167,7 +173,8 @@ public class SubScheduleDAO implements DatabaseTableCreator
                 sub_schedule.setType(cursor.getString(cursor.getColumnIndex(Sub_schedule.TYPE)));
                 sub_schedule.setTask(cursor.getString(cursor.getColumnIndex(Sub_schedule.TASK)));
                 sub_schedule.setComment(cursor.getString(cursor.getColumnIndex(Sub_schedule.COMMENT)));
-                sub_schedule.setInterest(cursor.getString(cursor.getColumnIndex(Sub_schedule.INTEREST)));
+                sub_schedule.setImportance(cursor.getString(cursor.getColumnIndex(Sub_schedule.IMPORTANCE)));
+                sub_schedule.setImportance_value(cursor.getInt(cursor.getColumnIndex(Sub_schedule.IMPORTANCE_VALUE)));
 
             } while (cursor.moveToNext());
         }

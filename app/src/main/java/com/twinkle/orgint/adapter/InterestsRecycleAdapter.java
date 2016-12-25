@@ -102,6 +102,13 @@ public class InterestsRecycleAdapter extends RecyclerView.Adapter<InterestsRecyc
 
         }
 
+        public String removePercent(String str) {
+            if (str != null && str.length() > 0 && str.charAt(str.length()-1)=='%') {
+                str = str.substring(0, str.length()-1);
+            }
+            return str;
+        }
+
         @Override
         public void onClick(View v)
         {
@@ -114,7 +121,9 @@ public class InterestsRecycleAdapter extends RecyclerView.Adapter<InterestsRecyc
             if("From adding activity".equals(red_code))
             {
                 Intent intent = new Intent();
-                intent.putExtra("interest_title", interest_title.getText().toString());
+                intent.putExtra("importance", interest_title.getText().toString());
+                String importance_value = removePercent(interest_importance.getText().toString());
+                intent.putExtra("importance_value", importance_value);
                 activity.setResult(Activity.RESULT_OK, intent);
                 activity.finish();
             }

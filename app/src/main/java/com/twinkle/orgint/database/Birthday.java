@@ -16,7 +16,9 @@ public class Birthday
     public static final String TIME = "time";
 
     public static final String COMMENT = "comment";
-    public static final String INTEREST = "interest";
+    public static final String IMPORTANCE = "importance";
+
+    public static final String IMPORTANCE_VALUE = "importance_value";
 
     // property help us to keep data
     private int birthday_ID;
@@ -25,7 +27,8 @@ public class Birthday
     private String date;
     private String time;
     private String comment = "";
-    private String interest = "";
+    private String importance = "";
+    private int importance_value;
 
     private List<Sub_task> sub_tasks;
 
@@ -103,11 +106,19 @@ public class Birthday
         return sub_tasks.size();
     }
 
-    public String getInterest() {
-        return interest;
+    public String getImportance() {
+        return importance;
     }
 
-    public void setInterest(String interest) {
-        this.interest = interest;
+    public void setImportance(String importance) {
+        this.importance = importance;
+    }
+
+    public int getImportance_value() {
+        return importance_value;
+    }
+
+    public void setImportance_value(int importance_value) {
+        this.importance_value = importance_value;
     }
 }

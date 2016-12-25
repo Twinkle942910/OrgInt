@@ -30,7 +30,8 @@ public class EventActivity extends AppCompatActivity
     String time;
     String[] sub_tasks;
     String comment;
-    String interest;
+    String importance;
+    int importance_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,7 +91,7 @@ public class EventActivity extends AppCompatActivity
             if ("ToDo".equals(fragment_type))
             {
                // ToDoFragment todo_fragment = new ToDoFragment();
-                final ToDoFragment todo_fragment = ToDoFragment.newInstance(category,title,date,time, sub_tasks, comment, interest);
+                final ToDoFragment todo_fragment = ToDoFragment.newInstance(category,title,date,time, sub_tasks, comment, importance, importance_value);
 
                 fragmentTransaction.add(R.id.event_container, todo_fragment, TAG_FRAGMENT);
                 fragmentTransaction.commit();
@@ -98,14 +99,14 @@ public class EventActivity extends AppCompatActivity
             else if ("Work Task".equals(fragment_type))
             {
               //  WorkTaskFragment work_task_fragment = new WorkTaskFragment();
-                final WorkTaskFragment work_task_fragment = WorkTaskFragment.newInstance(category,title,date,time, sub_tasks, comment, interest);
+                final WorkTaskFragment work_task_fragment = WorkTaskFragment.newInstance(category,title,date,time, sub_tasks, comment, importance, importance_value);
 
                 fragmentTransaction.add(R.id.event_container, work_task_fragment, TAG_FRAGMENT);
                 fragmentTransaction.commit();
             }
             else if("Birthday".equals(fragment_type))
             {
-                final BirthdayFragment birthday_fragment = BirthdayFragment.newInstance(category,title,date,time, sub_tasks, comment, interest);
+                final BirthdayFragment birthday_fragment = BirthdayFragment.newInstance(category,title,date,time, sub_tasks, comment, importance, importance_value);
 
                 fragmentTransaction.add(R.id.event_container, birthday_fragment, TAG_FRAGMENT);
                 fragmentTransaction.commit();
@@ -124,6 +125,8 @@ public class EventActivity extends AppCompatActivity
 
         sub_tasks = dataFormAdding.getStringArrayExtra("sub_tasks");
         comment = dataFormAdding.getStringExtra("comment");
-        interest = dataFormAdding.getStringExtra("interest");
+        importance = dataFormAdding.getStringExtra("importance");
+
+        importance_value = dataFormAdding.getIntExtra("importance_value", 0);
     }
 }

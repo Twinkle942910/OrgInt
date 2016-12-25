@@ -19,8 +19,6 @@ import com.twinkle.orgint.database.Birthday;
 import com.twinkle.orgint.database.BirthdayDAO;
 import com.twinkle.orgint.database.SubTaskDAO;
 import com.twinkle.orgint.database.Sub_task;
-import com.twinkle.orgint.database.WorkTask;
-import com.twinkle.orgint.database.WorkTaskDAO;
 import com.twinkle.orgint.pages.EventActivity;
 
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ public class BirthdayFragment extends EventFragment
     private BirthdayDAO birthdayListDB;
     private SubTaskDAO subTaskListDB;
 
-    public static BirthdayFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String interest)
+    public static BirthdayFragment newInstance(String category, String title, String date, String time, String[] sub_tasks, String comment, String importance, int importance_value)
     {
         final Bundle args = new Bundle();
 
@@ -48,7 +46,8 @@ public class BirthdayFragment extends EventFragment
         args.putString(ARGUMENT_TIME, time);
         args.putStringArray(ARGUMENT_SUB_TASKS, sub_tasks);
         args.putString(ARGUMENT_COMMENT, comment);
-        args.putString(ARGUMENT_INTEREST, interest);
+        args.putString(ARGUMENT_IMPORTANCE, importance);
+        args.putString(ARGUMENT_IMPORTANCE_VALUE, Integer.toString(importance_value));
 
         final BirthdayFragment fragment = new BirthdayFragment();
         fragment.setArguments(args);
@@ -68,7 +67,8 @@ public class BirthdayFragment extends EventFragment
         time = args.getString(ARGUMENT_TIME);
         sub_tasks = args.getStringArray(ARGUMENT_SUB_TASKS);
         comment = args.getString(ARGUMENT_COMMENT);
-        interest = args.getString(ARGUMENT_INTEREST);
+        importance = args.getString(ARGUMENT_IMPORTANCE);
+        importance_value = Integer.parseInt(args.getString(ARGUMENT_IMPORTANCE_VALUE));
 
         initToDoList();
 
@@ -166,7 +166,8 @@ public class BirthdayFragment extends EventFragment
         birthday.setTime(time);
 
         birthday.setComment(comment);
-        birthday.setInterest(interest);
+        birthday.setImportance(importance);
+        birthday.setImportance_value(importance_value);
 
         birthdayListDB.insert(birthday);
         birthdayList.addAll(birthdayListDB.getBirthdayList());

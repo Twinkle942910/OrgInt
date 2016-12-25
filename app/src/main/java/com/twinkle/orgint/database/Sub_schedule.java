@@ -12,7 +12,8 @@ public class Sub_schedule
     public static final String TYPE = "type";
     public static final String TASK = "task";
     public static final String COMMENT = "comment";
-    public static final String INTEREST = "interest";
+    public static final String IMPORTANCE = "importance";
+    public static final String IMPORTANCE_VALUE = "importance_value";
 
     // property help us to keep data
     private int sub_schedule_ID;
@@ -21,7 +22,8 @@ public class Sub_schedule
     private String type;
     private String task;
     private String comment;
-    private String interest;
+    private String importance;
+    private int importance_value;
 
     public int getSub_schedule_ID() {
         return sub_schedule_ID;
@@ -71,11 +73,19 @@ public class Sub_schedule
         this.comment = comment;
     }
 
-    public String getInterest() {
-        return interest;
+    public String getImportance() {
+        return importance;
     }
 
-    public void setInterest(String interest) {
-        this.interest = interest;
+    public void setImportance(String importance) {
+        this.importance = importance;
+    }
+
+    public int getImportance_value() {
+        return importance_value;
+    }
+
+    public void setImportance_value(int importance_value) {
+        this.importance_value = importance_value;
     }
 }
